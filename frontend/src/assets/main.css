@@ -1,0 +1,42 @@
+@import "./base.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --blue: #2c3c8c;
+  --light-blue: #c5d1ff;
+}
+
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+@font-face {
+  font-family: "Squirk";
+  src: url("./fonts/Squirk.ttf");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "Chainwhacks";
+  src: url("./fonts/Chainwhacks.ttf");
+  font-weight: normal;
+}
+
+body {
+  background-image: url("src/assets/images/backgroundblue.png");
+  background-size: 100%;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
