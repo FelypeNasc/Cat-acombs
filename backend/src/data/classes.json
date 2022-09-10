@@ -1,0 +1,42 @@
+{
+  "warrior": {
+    "id": 1,
+    "name": "Warrior",
+    "description": "Resistente e robusto, um guerreiro que faria de tudo por um sachê",
+    "stats": {
+      "HP": 100,
+      "attack": 10
+    },
+    "skills": [1]
+  },
+  "ranger": {
+    "id": 2,
+    "name": "Ranger",
+    "description": "Sorrateiro e mortal, tem o andar mais leve dentre todos os gatos",
+    "stats": {
+      "HP": 50,
+      "attack": 16
+    },
+    "skills": [1]
+  },
+  "mage": {
+    "id": 3,
+    "name": "Mage",
+    "description": "Poderoso e implacável, capaz de lançar feitiços devastadores em quem encostar em sua bola de lã",
+    "stats": {
+      "HP": 60,
+      "attack": 12
+    },
+    "skills": [1]
+  },
+  "bard": {
+    "id": 4,
+    "name": "Bard",
+    "description": "Gracioso, um gato gentil e amigável que faria amizade até com um cachorro",
+    "stats": {
+      "HP": 80,
+      "attack": 6
+    },
+    "skills": [1]
+  }
+}
