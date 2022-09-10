@@ -1,22 +1,51 @@
 <template>
-  <div class="noselect">
-      <img src="src/assets/images/logo2.svg" />
-    <h1 class="subtitle">EM BUSCA DOS SACHÊS</h1>
-    <h2 class="click-continue">CLIQUE PARA CONTINUAR</h2>
+  <div @click="openCard" class="noselect">
+    <img src="src/assets/images/logo.svg" />
+    <h1>EM BUSCA DOS SACHES</h1>
+    <h2 class="pointer">CLIQUE PARA CONTINUAR</h2>
+    <CardNickname
+      v-if="showCard"
+      @confirm="confirm"
+      @close="close"
+    ></CardNickname>
   </div>
 </template>
 <script>
-export default {};
+import CardNickname from "../components/CardNickname.vue";
+export default {
+  components: {
+    CardNickname,
+  },
+  data() {
+    return {
+      showCard: null,
+    };
+  },
+  methods: {
+    openCard() {
+      this.showCard = true;
+    },
+    confirm(nickname) {
+      console.log(nickname);
+      this.showCard = false;
+    },
+    close() {
+      console.log(1);
+      this.showCard = false;
+    },
+  },
+};
 </script>
 <style>
 body {
+  background-image: url("src/assets/images/backgroundblue.png");
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
 }
 img {
-  width: 40%;
+  width: 624px;
 }
 div {
   display: flex;
@@ -26,11 +55,12 @@ div {
 }
 h1 {
   font-family: "Chainwhacks";
-  text-align:center;
 }
 h2 {
   margin-top: 20vw;
   font-family: "Squirk";
-  text-align: center;
+}
+.pointer {
+  cursor: pointer;
 }
 </style>

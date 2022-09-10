@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { v4 as uuidv4 } from "uuid";
+/* import { v4 as uuidv4 } from "uuid";
 const ws = new WebSocket("ws://localhost:8080");
 ws.onopen = function () {
   console.log("conexão aberta");
@@ -68,7 +68,7 @@ const login = () => {
   };
   localStorage.setItem("browserSession", browserSession);
   ws.send(JSON.stringify(msg));
-};
+}; */
 </script>
 <style scoped>
 #app {
