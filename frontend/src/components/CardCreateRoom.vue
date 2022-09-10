@@ -1,7 +1,6 @@
 <template>
   <div
-    class="fixed inset-0 bg-black bg-opacity-50 pin z-50 overflow-auto bg-smoke-black flex w-full m-auto"
-    @click.self="close"
+    class="fixed inset-0 bg-gray-600 bg-opacity-50 pin z-50 overflow-auto bg-smoke-black flex w-full m-auto"
   >
     <div
       class="bg-white p-8 sm:w-7/12 md:w-6/12 lg:w-5/12 h-48 rounded-lg card-shadow"
@@ -29,9 +28,6 @@ export default {
     confirm() {
       const nickname = this.nickname;
       this.$emit("confirm", nickname);
-    },
-    close() {
-      this.$emit("close");
     },
   },
 };

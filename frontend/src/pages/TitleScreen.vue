@@ -1,8 +1,8 @@
 <template>
-  <div @click="openCard" class="noselect">
+  <div class="noselect">
     <img src="src/assets/images/logo.svg" />
     <h1>EM BUSCA DOS SACHES</h1>
-    <h2 class="pointer">CLIQUE PARA CONTINUAR</h2>
+    <h2 class="pointer" @click="openCard">CLIQUE PARA CONTINUAR</h2>
     <CardNickname
       v-if="showCard"
       @confirm="confirm"
@@ -18,7 +18,7 @@ export default {
   },
   data() {
     return {
-      showCard: null,
+      showCard: false,
     };
   },
   methods: {
@@ -28,10 +28,12 @@ export default {
     confirm(nickname) {
       console.log(nickname);
       this.showCard = false;
+      console.log(this.showCard);
     },
     close() {
       console.log(1);
       this.showCard = false;
+      console.log(this.showCard);
     },
   },
 };
