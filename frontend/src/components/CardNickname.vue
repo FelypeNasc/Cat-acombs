@@ -3,15 +3,18 @@
     class="fixed inset-0 bg-gray-600 bg-opacity-50 pin z-50 overflow-auto bg-smoke-black flex w-full m-auto"
   >
     <div
-      class="bg-white p-8 sm:w-7/12 md:w-6/12 lg:w-5/12 h-48 rounded-lg card-shadow"
+      class="bg-white p-2 lg:w-3/12 xl:w-3/12 2xl:w-2/12 h-48 rounded-lg card-shadow"
     >
-      <h1>Nickname</h1>
+      <h2 class="text-2xl">Nickname</h2>
       <input
         v-model="nickname"
         type="text"
-        class="card-input-brackground rounded-sm max-w-min"
+        class="card-input-background rounded-md w-11/12"
       />
-      <button class="btn-confirm-color w-4/12 rounded-md m-5" @click="confirm">
+      <button
+        class="btn-confirm-color w-6/12 rounded-md m-5 p-0.5 text-2xl"
+        @click="confirm"
+      >
         OK!
       </button>
     </div>
@@ -33,7 +36,11 @@ export default {
 };
 </script>
 <style scoped>
-.card-input-brackground {
+input:focus {
+  color: red;
+}
+
+.card-input-background {
   background: #c7cde2;
   max-width: 100%;
 }

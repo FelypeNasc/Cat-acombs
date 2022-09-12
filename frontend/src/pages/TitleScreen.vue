@@ -1,8 +1,10 @@
 <template>
-  <div @click="openCard" class="noselect">
-    <img src="src/assets/images/logo.svg" />
-    <h1>EM BUSCA DOS SACHES</h1>
-    <h2 class="pointer">CLIQUE PARA CONTINUAR</h2>
+  <div @click="openCard" class="noselect pointer">
+    <div class>
+      <img src="src/assets/images/logo.svg" class="w-6/12" />
+      <h2 class="text-3xl mt-2 tracking-wider">E o ataque dos dogmaníacos</h2>
+    </div>
+    <h3 class="text-xl">CLIQUE PARA CONTINUAR</h3>
     <CardNickname
       v-if="showCard"
       @confirm="confirm"
@@ -53,10 +55,10 @@ div {
   align-items: center;
   justify-content: center;
 }
-h1 {
+h2 {
   font-family: "Chainwhacks";
 }
-h2 {
+h3 {
   margin-top: 20vw;
   font-family: "Squirk";
 }
