@@ -1,8 +1,8 @@
 <template>
-  <div @click="openCard" class="noselect pointer">
+  <div @click="openCard" class="noselect">
     <div class>
       <img src="src/assets/images/logo.svg" class="w-6/12" />
-      <h2 class="text-3xl mt-2 tracking-wider">E o ataque dos dogmaníacos</h2>
+      <h2 class="text-3xl mt-2 tracking-wider">'E O ATAQUE DOS DOGMANÍACOS'</h2>
     </div>
     <h3 class="text-xl">CLIQUE PARA CONTINUAR</h3>
     <CardNickname
