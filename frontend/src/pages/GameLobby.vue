@@ -1,6 +1,14 @@
 <template>
-  <div>
-    <h1>Hello World</h1>
+  <div class="flex flex-col justify-center content-center">
+    <div>
+      <img src="../assets/images/logo.svg" alt="Catacombs logo" />
+      <h2>Game Lobby</h2>
+    </div>
+    <div>
+      <div id="rooms-control"></div>
+      <div id="rooms-container"></div>
+      <div id="pages-control"></div>
+    </div>
     <button @click="openCard">Criar Sala</button>
     <button @click="openConfig">Config</button>
 
