@@ -9,7 +9,7 @@
       <input
         v-model="nickname"
         type="text"
-        class="card-input-background rounded-md w-11/12"
+        class="card-input-background rounded-md w-11/12 h-3/12 p-2 text-lg"
       />
       <ButtonComponent text="Ok!" mode="dark" />
     </div>

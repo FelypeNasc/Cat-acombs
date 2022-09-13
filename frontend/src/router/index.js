@@ -37,6 +37,11 @@ const router = new VueRouter({
       name: "characters",
       component: () => import("../pages/CharacterSelector.vue"),
     },
+    {
+      path: "/test",
+      name: "test",
+      component: () => import("../pages/TestPage.vue"),
+    },
   ],
 });
 
