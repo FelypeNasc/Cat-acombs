@@ -63,4 +63,22 @@ export default {
   color: white;
   box-shadow: 0 2px var(--dark-blue);
 }
+
+.red {
+  background-color: var(--red);
+  color: white;
+  box-shadow: 0 4px var(--dark-red);
+  transition: 0.1s;
+}
+
+.red:hover {
+  background-color: var(--light-red);
+  color: white;
+}
+
+.red:active {
+  background-color: var(--red);
+  color: var(--light-red);
+  box-shadow: 0 2px var(--dark-red);
+}
 </style>

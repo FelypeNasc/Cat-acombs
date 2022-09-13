@@ -7,6 +7,9 @@
   --dark-blue: #1a2661;
   --blue: #2c3c8c;
   --light-blue: #c5d1ff;
+  --dark-red: #8d0e0e;
+  --red: #c91414;
+  --light-red: #dd6969;
 }
 
 #app {
