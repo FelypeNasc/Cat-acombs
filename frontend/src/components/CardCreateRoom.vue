@@ -1,19 +1,34 @@
 <template>
   <div
     class="fixed inset-0 bg-gray-600 bg-opacity-50 pin z-50 overflow-auto bg-smoke-black flex w-full m-auto"
+    @click.self="close"
   >
     <div
-      class="bg-white p-8 sm:w-7/12 md:w-6/12 lg:w-5/12 h-48 rounded-lg card-shadow"
+      class="bg-white flex flex-col min-h-min content-between justify-between max-h-96 p-8 md:w-5/12 lg:w-4/12 xl:w-3/12 rounded-lg card-shadow"
     >
-      <h1>Nickname</h1>
-      <input
-        v-model="nickname"
-        type="text"
-        class="card-input-brackground rounded-sm max-w-min"
-      />
-      <button class="btn-confirm-color w-4/12 rounded-md m-5" @click="confirm">
-        OK!
-      </button>
+      <div class="flex flex-col justify-center content-center text-center">
+        <h2>Nome da Sala</h2>
+        <input
+          v-model="roomData.name"
+          type="text"
+          class="card-input-brackground rounded-md max-w-min"
+        />
+      </div>
+      <div
+        class="flex flex-col justify-center content-center text-center mb-10"
+      >
+        <h2>Senha</h2>
+        <input
+          v-model="roomData.password"
+          type="password"
+          class="card-input-brackground rounded-md max-w-min"
+        />
+      </div>
+      <div class="flex justify-center mt-5 content-center">
+        <button class="btn-confirm-color w-6/12 rounded-md" @click="confirm">
+          OK!
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -21,13 +36,16 @@
 export default {
   data() {
     return {
-      nickname: "",
+      roomData: {},
     };
   },
   methods: {
     confirm() {
-      const nickname = this.nickname;
-      this.$emit("confirm", nickname);
+      const roomData = this.roomData;
+      this.$emit("confirm", roomData);
+    },
+    close() {
+      this.$emit("close");
     },
   },
 };
