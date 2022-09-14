@@ -4,12 +4,14 @@
     @click.self="close"
   >
     <div
-      class="bg-white flex flex-col justify-center content-center p-8 sm:w-7/12 md:w-6/12 lg:w-5/12 h-48 rounded-lg card-shadow"
+      class="bg-white flex flex-col justify-center content-center p-8 sm:w-5/12 md:w-4/12 lg:w-3/12 h-48 rounded-lg card-shadow"
     >
       <VolumeComponent></VolumeComponent>
-      <button class="btn-confirm-color w-4/12 rounded-md m-5" @click="confirm">
-        OK!
-      </button>
+      <div class="flex justify-center content-center mt-10">
+        <button class="btn-confirm-color w-6/12 rounded-md" @click="confirm">
+          OK!
+        </button>
+      </div>
     </div>
   </div>
 </template>

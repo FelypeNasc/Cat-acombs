@@ -1,6 +1,9 @@
 <template>
-  <div class="volume">
-    <div class="windowsSlider">
+  <div class="volume flex-col">
+    <div>
+      <h2 class="text-center">Volume: {{ percent }}</h2>
+    </div>
+    <div class="windowsSlider mt-5 flex-col justify-center content-center">
       <input
         v-model="percent"
         type="range"
@@ -13,7 +16,6 @@
         :style="{ width: percent + '%' }"
       ></div>
     </div>
-    <h1>{{ percent }}</h1>
   </div>
 </template>
 
@@ -36,7 +38,7 @@ h1 {
 }
 .windowsSlider {
   height: 5px;
-  width: 250px;
+  width: 100%;
   border-radius: 5px;
   /*   transform: scale(2); */
   background: #00000060;
