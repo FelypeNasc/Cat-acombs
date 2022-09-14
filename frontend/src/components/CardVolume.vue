@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed inset-0 justify-center contet-center bg-black bg-opacity-50 pin z-50 overflow-auto bg-smoke-black flex h-full w-full m-auto"
+    class="fixed inset-0 justify-center contet-center items-center bg-black bg-opacity-50 pin z-50 overflow-auto bg-smoke-black flex h-full w-full m-auto"
     @click.self="close"
   >
     <div
@@ -8,18 +8,18 @@
     >
       <VolumeComponent></VolumeComponent>
       <div class="flex justify-center content-center mt-10">
-        <button class="btn-confirm-color w-6/12 rounded-md" @click="confirm">
-          OK!
-        </button>
+        <ButtonComponent text="Sair" mode="red"></ButtonComponent>
       </div>
     </div>
   </div>
 </template>
 <script>
 import VolumeComponent from "../components/VolumeComponent.vue";
+import ButtonComponent from "../components/ButtonComponent.vue";
 export default {
   components: {
     VolumeComponent,
+    ButtonComponent,
   },
   data() {
     return {};

@@ -4,21 +4,20 @@
     @click.self="close"
   >
     <div
-      class="bg-white p-8 sm:w-7/12 md:w-6/12 lg:w-5/12 h-48 rounded-lg card-shadow"
+      class="bg-white p-2 lg:w-3/12 xl:w-3/12 2xl:w-2/12 h-48 rounded-lg card-shadow flex flex-col justify-center items-center"
     >
-      <h1>Nickname</h1>
+      <h2 class="text-2xl">Nickname</h2>
       <input
         v-model="nickname"
         type="text"
-        class="card-input-brackground rounded-sm max-w-min"
+        class="card-input-background rounded-md w-11/12 h-3/12 p-2 text-lg"
       />
-      <button class="btn-confirm-color w-4/12 rounded-md m-5" @click="confirm">
-        OK!
-      </button>
+      <ButtonComponent text="Ok!" mode="dark" />
     </div>
   </div>
 </template>
 <script>
+import ButtonComponent from "./ButtonComponent.vue";
 export default {
   data() {
     return {
@@ -34,25 +33,34 @@ export default {
       this.$emit("close");
     },
   },
+  components: { ButtonComponent },
 };
 </script>
 <style scoped>
-.card-input-brackground {
+input:focus {
+  border-color: var(--blue);
+}
+
+.card-input-background {
   background: #c7cde2;
   max-width: 100%;
 }
 .card-shadow {
   font-family: "Squirk";
   font-size: 1.7rem;
-  box-shadow: 0 5px #2c3c8c;
-  color: #2c3c8c;
+  box-shadow: 0 5px var(--blue);
+  color: var(--blue);
 }
 .btn-confirm-color {
-  background-color: #2c3c8c;
+  background-color: var(--blue);
   color: white;
-  box-shadow: 0 5px #1a2661;
+  box-shadow: 0 5px var(--dark-blue);
+  transition: 0.1s;
 }
+
 .btn-confirm-color:active {
-  box-shadow: 0 2px #1a2661;
+  background-color: var(--light-blue);
+  color: var(--blue);
+  box-shadow: 0 2px var(--dark-blue);
 }
 </style>

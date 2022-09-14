@@ -1,28 +1,33 @@
 <template>
   <button
-    v-bind:class="buttonColor"
-    class="font-squirk w-6/12 rounded-md m-5 p-0.5 text-2xl"
+    v-bind:class="[buttonColor, buttonShape]"
+    class="font-squirk h-11 w-11 rounded-md m-5 p-0.5 text-2xl flex justify-center items-center"
     @click="onclick"
   >
-    {{ text }}
+    <div class="w-10/12 h-10/12">
+      <slot></slot>
+    </div>
   </button>
 </template>
 
 <script>
 export default {
   props: {
-    text: {
-      type: String,
-      default: "Confirmar",
-    },
     mode: {
       type: String,
       default: "light",
+    },
+    shape: {
+      type: String,
+      default: "square",
     },
   },
   computed: {
     buttonColor() {
       return this.mode;
+    },
+    buttonShape() {
+      return this.shape;
     },
   },
   methods: {
@@ -34,6 +39,18 @@ export default {
 </script>
 
 <style scoped>
+.square {
+  height: 2.75rem;
+  width: 2.75rem;
+  border-radius: 0.375rem;
+}
+
+.circle {
+  height: 2.75rem;
+  width: 2.75rem;
+  border-radius: 2rem;
+}
+
 .light {
   background-color: white;
   color: var(--blue);
@@ -68,23 +85,5 @@ export default {
   background-color: var(--light-blue);
   color: white;
   box-shadow: 0 2px var(--dark-blue);
-}
-
-.red {
-  background-color: var(--red);
-  color: white;
-  box-shadow: 0 4px var(--dark-red);
-  transition: 0.1s;
-}
-
-.red:hover {
-  background-color: var(--light-red);
-  color: white;
-}
-
-.red:active {
-  background-color: var(--red);
-  color: var(--light-red);
-  box-shadow: 0 2px var(--dark-red);
 }
 </style>

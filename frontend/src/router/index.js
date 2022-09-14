@@ -28,14 +28,19 @@ const router = new VueRouter({
       component: () => import("../pages/GameLobby.vue"),
     },
     {
-      path: "/history",
-      name: "history",
-      component: () => import("../pages/HistoryScreen.vue"),
+      path: "/story",
+      name: "story",
+      component: () => import("../pages/StoryScreen.vue"),
     },
     {
       path: "/characters",
       name: "characters",
       component: () => import("../pages/CharacterSelector.vue"),
+    },
+    {
+      path: "/test",
+      name: "test",
+      component: () => import("../pages/TestPage.vue"),
     },
   ],
 });

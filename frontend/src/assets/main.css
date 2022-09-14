@@ -3,21 +3,9 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --dark-blue: #1a2661;
-  --blue: #2c3c8c;
-  --light-blue: #c5d1ff;
-}
-
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-}
-
 @font-face {
   font-family: "Squirk";
-  src: url("./fonts/Squirk.ttf");
+  src: url("./fonts/SquirkCustom.ttf");
   font-weight: normal;
 }
 
@@ -25,6 +13,22 @@
   font-family: "Chainwhacks";
   src: url("./fonts/Chainwhacks.ttf");
   font-weight: normal;
+}
+
+:root {
+  --dark-blue: #1a2661;
+  --blue: #2c3c8c;
+  --light-blue: #c5d1ff;
+  --dark-red: #8d0e0e;
+  --red: #c91414;
+  --light-red: #dd6969;
+}
+
+#app {
+  height: 100vh;
+  width: 100vw;
+  max-width: 1536px;
+  padding: 2rem;
 }
 
 body {
