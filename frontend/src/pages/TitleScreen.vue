@@ -1,15 +1,13 @@
 <template>
-  <div @click="openCard" class="noselect">
+  <div @click="openCard" class="noselect flex flex-col justify-around h-full">
     <div class>
       <img src="src/assets/images/logo.svg" class="w-6/12" />
-      <h2 class="text-3xl mt-2 tracking-wider">E O ATAQUE DOS DOGMANÍACOS</h2>
+      <h2 class="text-3xl mt-2 tracking-wider font-chainwhacks">
+        E O ATAQUE DOS DOGMANÍACOS
+      </h2>
     </div>
-    <h3 class="text-2xl">CLIQUE PARA CONTINUAR</h3>
-    <CardNickname
-      v-if="showCard"
-      @confirm="confirm"
-      @close="close"
-    ></CardNickname>
+    <h3 class="text-2xl font-squirk">CLIQUE PARA CONTINUAR</h3>
+    <CardNickname v-if="showCard" @confirm="confirm" @close="close" />
   </div>
 </template>
 <script>
@@ -54,15 +52,5 @@ div {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-}
-h2 {
-  font-family: "Chainwhacks";
-}
-h3 {
-  margin-top: 20vw;
-  font-family: "Squirk";
-}
-.pointer {
-  cursor: pointer;
 }
 </style>
