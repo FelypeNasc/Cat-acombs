@@ -12,10 +12,6 @@
 <script>
 export default {
   props: {
-    content: {
-      type: String,
-      default: "",
-    },
     mode: {
       type: String,
       default: "light",
@@ -31,6 +27,11 @@ export default {
     },
     buttonShape() {
       return this.shape;
+    },
+  },
+  methods: {
+    onclick() {
+      this.$emit("onclick");
     },
   },
 };

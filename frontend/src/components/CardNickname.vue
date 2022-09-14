@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed inset-0 bg-black bg-opacity-50 pin z-50 overflow-auto bg-smoke-black flex w-full m-auto"
+    class="fixed inset-0 justify-center contet-center items-center bg-black bg-opacity-50 pin z-50 overflow-auto bg-smoke-black flex h-full w-full m-auto"
     @click.self="close"
   >
     <div
@@ -10,15 +10,16 @@
       <input
         v-model="nickname"
         type="text"
-        class="card-input-background rounded-md w-11/12 h-3/12 p-2 text-lg"
+        class="card-input-background rounded-md mb-5 w-11/12 h-3/12 p-2 text-lg"
       />
-      <ButtonComponent text="Ok!" mode="dark" />
+      <ButtonComponent text="Ok!" mode="dark" @onclick="confirm" />
     </div>
   </div>
 </template>
 <script>
 import ButtonComponent from "./ButtonComponent.vue";
 export default {
+  components: { ButtonComponent },
   data() {
     return {
       nickname: "",
@@ -33,7 +34,6 @@ export default {
       this.$emit("close");
     },
   },
-  components: { ButtonComponent },
 };
 </script>
 <style scoped>

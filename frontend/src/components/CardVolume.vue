@@ -1,23 +1,25 @@
 <template>
   <div
-    class="fixed inset-0 justify-center contet-center bg-black bg-opacity-50 pin z-50 overflow-auto bg-smoke-black flex h-full w-full m-auto"
+    class="fixed inset-0 justify-center contet-center items-center bg-black bg-opacity-50 pin z-50 overflow-auto bg-smoke-black flex h-full w-full m-auto"
     @click.self="close"
   >
     <div
-      class="bg-white flex flex-col justify-center content-center p-8 sm:w-7/12 md:w-6/12 lg:w-5/12 h-48 rounded-lg card-shadow"
+      class="bg-white flex flex-col justify-center content-center p-8 sm:w-5/12 md:w-4/12 lg:w-3/12 h-48 rounded-lg card-shadow"
     >
       <VolumeComponent></VolumeComponent>
-      <button class="btn-confirm-color w-4/12 rounded-md m-5" @click="confirm">
-        OK!
-      </button>
+      <div class="flex justify-center content-center mt-10">
+        <ButtonComponent text="Sair" mode="red"></ButtonComponent>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import VolumeComponent from "../components/VolumeComponent.vue";
+import ButtonComponent from "../components/ButtonComponent.vue";
 export default {
   components: {
     VolumeComponent,
+    ButtonComponent,
   },
   data() {
     return {};

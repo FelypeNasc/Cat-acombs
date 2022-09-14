@@ -24,6 +24,11 @@ export default {
       return this.mode;
     },
   },
+  methods: {
+    onclick() {
+      this.$emit("onclick");
+    },
+  },
 };
 </script>
 
