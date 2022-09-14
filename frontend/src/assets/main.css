@@ -33,7 +33,10 @@
 
 body {
   background-image: url("src/assets/images/backgroundblue.png");
-  background-size: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
 }
 
 .noselect {

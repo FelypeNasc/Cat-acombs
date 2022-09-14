@@ -1,10 +1,10 @@
 <template>
   <button
     v-bind:class="[buttonColor, buttonShape]"
-    class="font-squirk h-11 w-11 rounded-md m-5 p-0.5 text-2xl flex justify-center items-center"
+    class="font-squirk h-11 w-11 rounded-md p-0.5 text-2xl flex justify-center items-center"
     @click="onclick"
   >
-    <div class="w-10/12 h-10/12">
+    <div class="w-10/12 h-10/12 flex justify-center align-center">
       <slot></slot>
     </div>
   </button>
