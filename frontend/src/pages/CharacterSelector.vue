@@ -24,7 +24,6 @@ export default {
 </script>
 <style scoped>
 .main {
-  background-image: url("src/assets/images/backgroundblue.png");
   height: 100vh;
 }
 .header {
