@@ -8,7 +8,7 @@
         <h2 class="font-squirk text-6xl stroke-black lobby-text">GAME LOBBY</h2>
       </div>
       <div class="w-1/3 flex justify-end items-center">
-        <MiniButtonComponent>
+        <MiniButtonComponent @onclick="toogleMenu">
           <img src="../assets/icons/settings-icon.svg" alt="settings icon" />
         </MiniButtonComponent>
       </div>
@@ -19,11 +19,15 @@
           <MiniButtonComponent>
             <img src="../assets/icons/refresh-icon.svg" alt="refresh icon" />
           </MiniButtonComponent>
-          <ButtonComponent text="Criar Sala" class="mx-5" />
+          <ButtonComponent
+            text="Criar Sala"
+            class="mx-5"
+            @onclick="toogleCreateRoom"
+          />
         </div>
         <table class="table-room">
           <tbody>
-            <tr v-for="(room, index) in rooms" v-bind:key="index">
+            <tr v-for="(room, index) in currentPageRooms" v-bind:key="index">
               <td v-if="index % 2 === 0">
                 <RoomComponent
                   :roomName="room.roomName"
@@ -63,17 +67,28 @@
         </div>
       </div>
     </div>
+    <CardCreateRoom
+      v-if="showCreateRoom"
+      @close="toogleCreateRoom"
+      @confirm="createNewRoom"
+    />
+    <CardMenu v-if="showMenu" @close="toogleMenu" @confirm="logout" />
   </div>
 </template>
 <script>
 import RoomComponent from "../components/RoomComponent.vue";
 import MiniButtonComponent from "../components/MiniButtonComponent.vue";
 import ButtonComponent from "../components/ButtonComponent.vue";
+import CardMenu from "../components/CardMenu.vue";
+import CardCreateRoom from "../components/CardCreateRoom.vue";
+
 export default {
   components: {
     RoomComponent,
     MiniButtonComponent,
     ButtonComponent,
+    CardMenu,
+    CardCreateRoom,
   },
   data() {
     return {
@@ -248,8 +263,180 @@ export default {
             },
           ],
         },
+        {
+          id: "11",
+          roomName: "OS BRABOS 11",
+          creatorName: "juao",
+          players: [
+            {
+              id: "1",
+              username: "juao",
+              class: "warrior",
+            },
+            {
+              id: "2",
+              username: "maria",
+              class: "warrior",
+            },
+          ],
+        },
+        {
+          id: "11",
+          roomName: "OS BRABOS 11",
+          creatorName: "juao",
+          players: [
+            {
+              id: "1",
+              username: "juao",
+              class: "warrior",
+            },
+            {
+              id: "2",
+              username: "maria",
+              class: "warrior",
+            },
+          ],
+        },
+        {
+          id: "11",
+          roomName: "OS BRABOS 11",
+          creatorName: "juao",
+          players: [
+            {
+              id: "1",
+              username: "juao",
+              class: "warrior",
+            },
+            {
+              id: "2",
+              username: "maria",
+              class: "warrior",
+            },
+          ],
+        },
+        {
+          id: "11",
+          roomName: "OS BRABOS 11",
+          creatorName: "juao",
+          players: [
+            {
+              id: "1",
+              username: "juao",
+              class: "warrior",
+            },
+            {
+              id: "2",
+              username: "maria",
+              class: "warrior",
+            },
+          ],
+        },
+        {
+          id: "11",
+          roomName: "OS BRABOS 11",
+          creatorName: "juao",
+          players: [
+            {
+              id: "1",
+              username: "juao",
+              class: "warrior",
+            },
+            {
+              id: "2",
+              username: "maria",
+              class: "warrior",
+            },
+          ],
+        },
+        {
+          id: "11",
+          roomName: "OS BRABOS 11",
+          creatorName: "juao",
+          players: [
+            {
+              id: "1",
+              username: "juao",
+              class: "warrior",
+            },
+            {
+              id: "2",
+              username: "maria",
+              class: "warrior",
+            },
+          ],
+        },
+        {
+          id: "11",
+          roomName: "OS BRABOS 11",
+          creatorName: "juao",
+          players: [
+            {
+              id: "1",
+              username: "juao",
+              class: "warrior",
+            },
+            {
+              id: "2",
+              username: "maria",
+              class: "warrior",
+            },
+          ],
+        },
+        {
+          id: "11",
+          roomName: "OS BRABOS 11",
+          creatorName: "juao",
+          players: [
+            {
+              id: "1",
+              username: "juao",
+              class: "warrior",
+            },
+            {
+              id: "2",
+              username: "maria",
+              class: "warrior",
+            },
+          ],
+        },
+        {
+          id: "11",
+          roomName: "OS BRABOS 11",
+          creatorName: "juao",
+          players: [
+            {
+              id: "1",
+              username: "juao",
+              class: "warrior",
+            },
+            {
+              id: "2",
+              username: "maria",
+              class: "warrior",
+            },
+          ],
+        },
+        {
+          id: "11",
+          roomName: "OS BRABOS 11",
+          creatorName: "juao",
+          players: [
+            {
+              id: "1",
+              username: "juao",
+              class: "warrior",
+            },
+            {
+              id: "2",
+              username: "maria",
+              class: "warrior",
+            },
+          ],
+        },
       ],
       pageNumber: 1,
+      showMenu: false,
+      showCreateRoom: false,
     };
   },
   created() {
@@ -268,8 +455,32 @@ export default {
   },
   methods: {
     changePageNumber(operation) {
-      operation === "plus" ? this.pageNumber++ : this.pageNumber--;
-      console.log(this.pageNumber);
+      const increasePageNumber = () => {
+        if (this.pageNumber !== this.thispageTotal()) {
+          this.pageNumber++;
+        }
+      };
+      const decreasePageNumber = () => {
+        if (this.pageNumber !== 1) {
+          this.pageNumber--;
+        }
+      };
+      operation === "plus" ? increasePageNumber() : decreasePageNumber();
+    },
+    createNewRoom() {
+      this.toogleCreateRoom();
+      this.$router.push("/characters");
+    },
+    logout() {
+      this.$router.push("/");
+    },
+    toogleMenu() {
+      this.showMenu === true ? (this.showMenu = false) : (this.showMenu = true);
+    },
+    toogleCreateRoom() {
+      this.showCreateRoom === true
+        ? (this.showCreateRoom = false)
+        : (this.showCreateRoom = true);
     },
   },
 };
@@ -286,6 +497,8 @@ export default {
 .table-room {
   display: flex;
   justify-content: center;
+  min-width: 1070px;
+  min-height: 540px;
 }
 td {
   border: 20px solid rgba(221, 221, 221, 0);
