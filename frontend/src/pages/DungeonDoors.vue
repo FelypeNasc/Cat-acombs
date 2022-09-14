@@ -10,13 +10,13 @@
       <img class="config" src="src/assets/icons/config-icon.svg" />
     </div>
     <div class="doors">
-        <button> sala 1</button>
-        
-        <button> sala 2</button>
-        
-        <button> sala 3</button>
-        
-        <button> sala 4</button>
+      <button>sala 1</button>
+
+      <button>sala 2</button>
+
+      <button>sala 3</button>
+
+      <button>sala 4</button>
     </div>
   </div>
 </template>
