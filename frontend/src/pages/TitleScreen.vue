@@ -7,11 +7,7 @@
       </h2>
     </div>
     <h3 class="text-2xl font-squirk">CLIQUE PARA CONTINUAR</h3>
-    <CardNickname
-      v-if="showCard"
-      @confirm="confirm"
-      @close="close"
-    ></CardNickname>
+    <CardNickname v-if="showCard" @confirm="confirm" @close="close" />
   </div>
 </template>
 <script>
