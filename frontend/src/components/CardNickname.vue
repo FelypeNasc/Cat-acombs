@@ -1,6 +1,7 @@
 <template>
   <div
-    class="fixed inset-0 bg-gray-600 bg-opacity-50 pin z-50 overflow-auto bg-smoke-black flex w-full m-auto"
+    class="fixed inset-0 bg-black bg-opacity-50 pin z-50 overflow-auto bg-smoke-black flex w-full m-auto"
+    @click.self="close"
   >
     <div
       class="bg-white p-2 lg:w-3/12 xl:w-3/12 2xl:w-2/12 h-48 rounded-lg card-shadow flex flex-col justify-center items-center"
@@ -27,6 +28,9 @@ export default {
     confirm() {
       const nickname = this.nickname;
       this.$emit("confirm", nickname);
+    },
+    close() {
+      this.$emit("close");
     },
   },
   components: { ButtonComponent },

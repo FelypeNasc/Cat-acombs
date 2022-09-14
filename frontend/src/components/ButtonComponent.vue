@@ -2,6 +2,7 @@
   <button
     v-bind:class="buttonColor"
     class="font-squirk w-6/12 rounded-md m-5 p-0.5 text-2xl"
+    @click="onclick"
   >
     {{ text }}
   </button>
@@ -22,6 +23,11 @@ export default {
   computed: {
     buttonColor() {
       return this.mode;
+    },
+  },
+  methods: {
+    onclick() {
+      this.$emit("onclick");
     },
   },
 };

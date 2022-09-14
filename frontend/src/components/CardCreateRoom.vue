@@ -1,0 +1,72 @@
+<template>
+  <div
+    class="fixed inset-0 bg-gray-600 bg-opacity-50 pin z-50 overflow-auto bg-smoke-black flex w-full m-auto"
+    @click.self="close"
+  >
+    <div
+      class="bg-white flex flex-col min-h-min content-between justify-between max-h-96 p-8 md:w-5/12 lg:w-4/12 xl:w-3/12 rounded-lg card-shadow"
+    >
+      <div class="flex flex-col justify-center content-center text-center">
+        <h2>Nome da Sala</h2>
+        <input
+          v-model="roomData.name"
+          type="text"
+          class="card-input-brackground rounded-md max-w-min"
+        />
+      </div>
+      <div
+        class="flex flex-col justify-center content-center text-center mb-10"
+      >
+        <h2>Senha</h2>
+        <input
+          v-model="roomData.password"
+          type="password"
+          class="card-input-brackground rounded-md max-w-min"
+        />
+      </div>
+      <div class="flex justify-center mt-5 content-center">
+        <button class="btn-confirm-color w-6/12 rounded-md" @click="confirm">
+          OK!
+        </button>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      roomData: {},
+    };
+  },
+  methods: {
+    confirm() {
+      const roomData = this.roomData;
+      this.$emit("confirm", roomData);
+    },
+    close() {
+      this.$emit("close");
+    },
+  },
+};
+</script>
+<style scoped>
+.card-input-brackground {
+  background: #c7cde2;
+  max-width: 100%;
+}
+.card-shadow {
+  font-family: "Squirk";
+  font-size: 1.7rem;
+  box-shadow: 0 5px #2c3c8c;
+  color: #2c3c8c;
+}
+.btn-confirm-color {
+  background-color: #2c3c8c;
+  color: white;
+  box-shadow: 0 5px #1a2661;
+}
+.btn-confirm-color:active {
+  box-shadow: 0 2px #1a2661;
+}
+</style>

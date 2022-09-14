@@ -18,7 +18,7 @@ export default {
   },
   data() {
     return {
-      showCard: null,
+      showCard: false,
     };
   },
   methods: {
@@ -28,10 +28,12 @@ export default {
     confirm(nickname) {
       console.log(nickname);
       this.showCard = false;
+      console.log(this.showCard);
     },
     close() {
       console.log(1);
       this.showCard = false;
+      console.log(this.showCard);
     },
   },
 };
