@@ -42,7 +42,10 @@
           </tbody>
         </table>
         <div class="inline-flex w-full justify-end">
-          <MiniButtonComponent shape="circle">
+          <MiniButtonComponent
+            shape="circle"
+            @onclick="changePageNumber('minus')"
+          >
             <img src="../assets/icons/arrow-left.svg" alt="left arrow" />
           </MiniButtonComponent>
           <div
@@ -50,7 +53,11 @@
           >
             <p>{{ pageNumber }}</p>
           </div>
-          <MiniButtonComponent shape="circle" class="mr-4">
+          <MiniButtonComponent
+            shape="circle"
+            class="mr-4"
+            @onclick="changePageNumber('plus')"
+          >
             <img src="../assets/icons/right-arrow.svg" alt="right arrow" />
           </MiniButtonComponent>
         </div>
@@ -257,6 +264,12 @@ export default {
       const pageMin = pageMax - 9;
       const pageRooms = this.rooms.slice(pageMin, pageMax);
       return pageRooms;
+    },
+  },
+  methods: {
+    changePageNumber(operation) {
+      operation === "plus" ? this.pageNumber++ : this.pageNumber--;
+      console.log(this.pageNumber);
     },
   },
 };
