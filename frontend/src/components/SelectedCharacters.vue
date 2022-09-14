@@ -1,9 +1,9 @@
 <template>
-  <div class="w-10/12 gap-10 flex justify-center">
-    <img src="src/assets/images/bard-class-selected.svg" />
-    <img src="src/assets/images/bard-class-selected.svg" />
-    <img src="src/assets/images/bard-class-selected.svg" />
-    <img src="src/assets/images/bard-class-selected.svg" />
+  <div class="w-6/12 gap-5 flex justify-center">
+    <img src="src/assets/images/bard-class-selected.svg" class="w-2/4" />
+    <img src="src/assets/images/bard-class-selected.svg" class="w-2/4" />
+    <img src="src/assets/images/bard-class-selected.svg" class="w-2/4" />
+    <img src="src/assets/images/bard-class-selected.svg" class="w-2/4" />
   </div>
 </template>
 <script>
