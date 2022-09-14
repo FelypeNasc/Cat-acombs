@@ -1,7 +1,9 @@
 <template>
   <div id="SelectClassComponent" class="container p-8">
-    <h1 class="font-squirk text-7xl text-center">Select Your Class</h1>
-    <div class="flex flex-row justify-around mt-24 px-28">
+    <h1 class="selectText font-squirk text-7xl text-center">
+      Select Your Class
+    </h1>
+    <div class="flex flex-row justify-around mt-24 px-14">
       <div class="flex flex-col">
         <img class="warrior" src="src/assets/images/warrior-class.svg" />
         <label class="font-squirk text-center text-white text-2xl" ref="warrior"
@@ -35,7 +37,7 @@ export default {};
 </script>
 
 <style scoped>
-h1 {
+.selectText {
   color: #2c3c8c;
   -webkit-text-stroke: 3px white;
 }
