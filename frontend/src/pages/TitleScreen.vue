@@ -53,7 +53,7 @@ body {
 }
 #continue {
   color: white;
-  animation: shine 2s infinite;
+  animation: shine 1s infinite;
   animation-direction: alternate;
 }
 @keyframes shine {
