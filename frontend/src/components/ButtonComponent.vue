@@ -1,7 +1,7 @@
 <template>
   <button
     v-bind:class="buttonColor"
-    class="font-squirk w-6/12 rounded-md m-5 p-0.5 text-2xl"
+    class="font-squirk w-6/12 rounded-md p-0.5 text-2xl max-w-max px-4"
   >
     {{ text }}
   </button>

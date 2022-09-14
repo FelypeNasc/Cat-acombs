@@ -39,13 +39,6 @@ export default {
 };
 </script>
 <style>
-body {
-  background-image: url("src/assets/images/backgroundblue.png");
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-}
 img {
   width: 624px;
 }

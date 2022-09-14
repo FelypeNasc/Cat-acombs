@@ -6,7 +6,7 @@
     </div>
 
     <div id="players">
-      <img src="../assets/cat-icon.png" alt="" />
+      <img src="../assets/icons/cat-icon.svg" alt="" />
       <h3>{{ numberOfPlayers }}/4</h3>
     </div>
   </div>
