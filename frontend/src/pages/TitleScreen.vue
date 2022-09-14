@@ -1,6 +1,6 @@
 <template>
-  <div class="noselect flex flex-col justify-around h-full">
-    <div class>
+  <div class="noselect flex flex-col justify-around items-center h-full">
+    <div class="flex flex-col justify-center items-center">
       <img src="src/assets/images/logo.svg" class="w-6/12" />
       <h2 class="text-3xl mt-2 tracking-wider font-chainwhacks">
         E O ATAQUE DOS DOGMANÍACOS
@@ -44,13 +44,6 @@ export default {
 };
 </script>
 <style scoped>
-body {
-  background-image: url("src/assets/images/backgroundblue.png");
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-}
 #continue {
   color: white;
   animation: shine 1s infinite;
@@ -63,14 +56,5 @@ body {
   to {
     color: white;
   }
-}
-img {
-  width: 624px;
-}
-div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 }
 </style>
