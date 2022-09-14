@@ -1,5 +1,10 @@
 <template>
-  <div></div>
+  <div class="w-10/12 gap-10 flex justify-center">
+    <img src="src/assets/images/bard-class-selected.svg" />
+    <img src="src/assets/images/bard-class-selected.svg" />
+    <img src="src/assets/images/bard-class-selected.svg" />
+    <img src="src/assets/images/bard-class-selected.svg" />
+  </div>
 </template>
 <script>
 export default {

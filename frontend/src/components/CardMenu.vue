@@ -8,7 +8,11 @@
     >
       <VolumeComponent></VolumeComponent>
       <div class="flex justify-center content-center mt-10">
-        <ButtonComponent text="Sair" mode="red"></ButtonComponent>
+        <ButtonComponent
+          text="Sair"
+          mode="red"
+          @onclick="confirm"
+        ></ButtonComponent>
       </div>
     </div>
   </div>
@@ -27,8 +31,7 @@ export default {
 
   methods: {
     confirm() {
-      const nickname = this.nickname;
-      this.$emit("confirm", nickname);
+      this.$emit("confirm");
     },
     close() {
       this.$emit("close");

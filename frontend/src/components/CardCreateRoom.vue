@@ -1,30 +1,28 @@
 <template>
   <div
-    class="fixed inset-0 bg-gray-600 bg-opacity-50 pin z-50 overflow-auto bg-smoke-black flex w-full m-auto"
+    class="fixed inset-0 bg-gray-600 bg-opacity-50 pin z-50 overflow-auto bg-smoke-black flex w-full m-auto items-center justify-center"
     @click.self="close"
   >
     <div
       class="bg-white flex flex-col min-h-min content-between justify-between max-h-96 p-8 md:w-5/12 lg:w-4/12 xl:w-3/12 rounded-lg card-shadow"
     >
-      <div class="flex flex-col justify-center content-center text-center">
+      <div class="flex flex-col justify-center items-center text-center">
         <h2>Nome da Sala</h2>
         <input
           v-model="roomData.name"
           type="text"
-          class="card-input-brackground rounded-md max-w-min"
+          class="card-input-background rounded-md mb-5 w-11/12 h-3/12 p-2 text-lg max-w-min"
         />
       </div>
-      <div
-        class="flex flex-col justify-center content-center text-center mb-10"
-      >
+      <div class="flex flex-col justify-center items-center text-center mb-10">
         <h2>Senha</h2>
         <input
           v-model="roomData.password"
           type="password"
-          class="card-input-brackground rounded-md max-w-min"
+          class="card-input-background rounded-md mb-5 w-11/12 h-3/12 p-2 text-lg max-w-min"
         />
       </div>
-      <div class="flex justify-center mt-5 content-center">
+      <div class="flex justify-center content-center">
         <button class="btn-confirm-color w-6/12 rounded-md" @click="confirm">
           OK!
         </button>
@@ -51,7 +49,7 @@ export default {
 };
 </script>
 <style scoped>
-.card-input-brackground {
+.card-input-background {
   background: #c7cde2;
   max-width: 100%;
 }
