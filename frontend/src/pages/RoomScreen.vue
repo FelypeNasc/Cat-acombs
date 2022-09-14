@@ -67,7 +67,7 @@ export default {
   components: { RoomComponent },
 };
 </script>
-<style>
+<style scoped>
 .main {
   background-image: url("src/assets/images/backgroundblue.png");
   height: 100vh;
