@@ -1,5 +1,5 @@
 <template>
-  <div class="container p-8">
+  <div id="SelectClassComponent" class="container p-8">
     <h1 class="font-squirk text-7xl text-center">Select Your Class</h1>
     <div class="flex flex-row justify-around mt-24 px-28">
       <div class="flex flex-col">
@@ -37,6 +37,7 @@ export default {};
 <style scoped>
 h1 {
   color: #2c3c8c;
+  -webkit-text-stroke: 3px white;
 }
 .container {
   box-sizing: border-box;
