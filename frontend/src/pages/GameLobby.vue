@@ -467,7 +467,8 @@ export default {
       };
       operation === "plus" ? increasePageNumber() : decreasePageNumber();
     },
-    createNewRoom() {
+    createNewRoom(roomData) {
+      console.log(roomData);
       this.toogleCreateRoom();
       this.$router.push("/characters");
     },

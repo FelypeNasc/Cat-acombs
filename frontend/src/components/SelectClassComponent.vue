@@ -1,31 +1,25 @@
 <template>
-  <div id="SelectClassComponent" class="container p-8">
-    <h1 class="selectText font-squirk text-7xl text-center">
+  <div class="container p-4 min-w-min h-min">
+    <h1
+      class="selectText font-squirk lg:text-7xl md:text-5xl sm:text-3xl text-center"
+    >
       Select Your Class
     </h1>
-    <div class="flex flex-row justify-around mt-24 px-14">
-      <div class="flex flex-col">
-        <img class="warrior" src="src/assets/images/warrior-class.svg" />
-        <label class="font-squirk text-center text-white text-2xl" ref="warrior"
-          >WARRIOR</label
-        >
-      </div>
-      <div class="flex flex-col">
-        <img class="ranger" src="src/assets/images/ranger-class.svg" />
-        <label class="font-squirk text-center text-white text-2xl" ref="ranger"
-          >RANGER</label
-        >
-      </div>
-      <div class="flex flex-col">
-        <img class="mage" src="src/assets/images/mage-class.svg" />
-        <label class="font-squirk text-center text-white text-2xl" ref="mage"
-          >MAGE</label
-        >
-      </div>
-      <div class="flex flex-col">
-        <img class="bard" src="src/assets/images/bard-class.svg" />
-        <label class="font-squirk text-center text-white text-2xl" ref="bard"
-          >BARD</label
+    <div
+      v-for="(row, index) in characterList"
+      :key="row"
+      class="flex flex-row lg:gap-12 md:gap-8 sm:gap-4 justify-center mt-10 px-14"
+    >
+      <div
+        v-for="item in characterList[index]"
+        :key="item"
+        class="flex flex-col min-w-[50px]"
+      >
+        <img :src="`src/assets/images/${item.class}-class.svg`" />
+        <label
+          class="font-squirk text-center text-white text-2xl"
+          ref="warrior"
+          >{{ item.class }}</label
         >
       </div>
     </div>
@@ -33,7 +27,27 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    characterList: {
+      type: Array,
+      default: () => [],
+    },
+  },
+  computed: {
+    buttonColor() {
+      return this.mode;
+    },
+    buttonShape() {
+      return this.shape;
+    },
+  },
+  methods: {
+    onclick() {
+      this.$emit("onclick");
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -43,8 +57,6 @@ export default {};
 }
 .container {
   box-sizing: border-box;
-  width: 967.97px;
-  height: 571.02px;
   background: #7171714d;
   border: 6px solid #2c3c8c;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
