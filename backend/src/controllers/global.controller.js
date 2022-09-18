@@ -2,28 +2,34 @@ import { RoomController } from "./room.controller.js";
 import { ClientController } from "./client.controller.js";
 
 export class GlobalController {
-  roomController = new RoomController();
-  clientController = new ClientController();
+  constructor() {
+    this.roomController = new RoomController();
+    this.clientController = new ClientController();
+  }
 
   async redirect(client, msg) {
-    type = "room/getRooms";
     msg = JSON.parse(msg);
     console.log(msg);
+    ("room/getRooms");
     const msgSplit = msg.type.split("/");
+    console.log("MSG SPLIT:", msgSplit);
     const primaryRoute = msgSplit[0];
     const secondaryRoute = msgSplit[1];
+    console.log(primaryRoute, secondaryRoute);
 
     const routes = {
-      room: this.roomController.redirect(secondaryRoute, client, msg),
-      client: this.clientController.redirect(secondaryRoute, client, msg),
+      client: () => this.clientController.redirect(secondaryRoute, client, msg),
+      // battle: () => battleController.redirect(secondaryRoute, client, msg),
+      room: () => this.roomController.redirect(secondaryRoute, client, msg),
     };
 
-    if (!routes[primaryRoute]) {
+    if (!routes.hasOwnProperty(primaryRoute)) {
       client.send(
         JSON.stringify({ error: true, message: "Invalid Message Route" })
       );
+      return;
     }
 
-    routes[primaryRoute];
+    routes[primaryRoute]();
   }
 }

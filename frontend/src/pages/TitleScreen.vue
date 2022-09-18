@@ -15,7 +15,9 @@
   </div>
 </template>
 <script>
+import { createWS, wsConnection, setUsername } from "../connection/connections";
 import CardNickname from "../components/CardNickname.vue";
+
 export default {
   components: {
     CardNickname,
@@ -25,20 +27,33 @@ export default {
       showCard: false,
     };
   },
-  created() {},
   methods: {
     openCard() {
       this.showCard = true;
     },
     confirm(nickname) {
-      console.log(nickname);
-      this.showCard = false;
-      this.$router.push({ path: "/lobby" });
+      createWS()
+        .then(() => {
+          this.setWsListener();
+        })
+        .then(() => {
+          setUsername(nickname);
+          this.showCard = false;
+        });
     },
     close() {
       console.log(1);
       this.showCard = false;
       console.log(this.showCard);
+    },
+    setWsListener() {
+      wsConnection.addEventListener("message", (msg) => {
+        msg = JSON.parse(msg.data);
+
+        if (msg.type === "connected") {
+          this.$router.push({ path: "/lobby" });
+        }
+      });
     },
   },
 };

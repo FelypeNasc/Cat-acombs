@@ -25,26 +25,28 @@
             @onclick="toogleCreateRoom"
           />
         </div>
-        <table class="table-room">
-          <tbody>
-            <tr v-for="(room, index) in currentPageRooms" v-bind:key="index">
-              <td v-if="index % 2 === 0">
-                <RoomComponent
-                  :roomName="room.roomName"
-                  :numberOfPlayers="room.players.length"
-                  :roomCreatorName="room.creatorName"
-                />
-              </td>
-              <td v-if="index % 2 === 0">
-                <RoomComponent
-                  :roomName="rooms[index + 1].roomName"
-                  :numberOfPlayers="rooms[index + 1].players.length"
-                  :roomCreatorName="rooms[index + 1].creatorName"
-                />
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-container">
+          <table class="h-10/12 w-10/12">
+            <tbody>
+              <tr v-for="(room, index) in currentPageRooms" v-bind:key="index">
+                <td v-if="index % 2 === 0">
+                  <RoomComponent
+                    :roomName="room.roomName"
+                    :numberOfPlayers="room.players.length"
+                    :roomCreatorName="room.creatorName"
+                  />
+                </td>
+                <td v-if="index % 2 === 0">
+                  <RoomComponent
+                    :roomName="rooms[index + 1].roomName"
+                    :numberOfPlayers="rooms[index + 1].players.length"
+                    :roomCreatorName="rooms[index + 1].creatorName"
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <div class="inline-flex w-full justify-end">
           <MiniButtonComponent
             shape="circle"
@@ -81,6 +83,7 @@ import MiniButtonComponent from "../components/MiniButtonComponent.vue";
 import ButtonComponent from "../components/ButtonComponent.vue";
 import CardMenu from "../components/CardMenu.vue";
 import CardCreateRoom from "../components/CardCreateRoom.vue";
+import { wsConnection, getRoomList } from "../connection/connections";
 
 export default {
   components: {
@@ -92,355 +95,27 @@ export default {
   },
   data() {
     return {
-      rooms: [
-        {
-          id: "1",
-          roomName: "OS BRABOS",
-          creatorName: "juao",
-          players: [
-            {
-              id: "1",
-              username: "juao",
-              class: "warrior",
-            },
-            {
-              id: "2",
-              username: "maria",
-              class: "warrior",
-            },
-          ],
-        },
-        {
-          id: "2",
-          roomName: "OS BRABOS 2",
-          creatorName: "juao",
-          players: [
-            {
-              id: "1",
-              username: "juao",
-              class: "warrior",
-            },
-            {
-              id: "2",
-              username: "maria",
-              class: "warrior",
-            },
-          ],
-        },
-        {
-          id: "3",
-          roomName: "OS BRABOS 3",
-          creatorName: "juao",
-          players: [
-            {
-              id: "1",
-              username: "juao",
-              class: "warrior",
-            },
-            {
-              id: "2",
-              username: "maria",
-              class: "warrior",
-            },
-          ],
-        },
-        {
-          id: "4",
-          roomName: "OS BRABOS 4",
-          creatorName: "juao",
-          players: [
-            {
-              id: "1",
-              username: "juao",
-              class: "warrior",
-            },
-            {
-              id: "2",
-              username: "maria",
-              class: "warrior",
-            },
-          ],
-        },
-        {
-          id: "5",
-          roomName: "OS BRABOS 5",
-          creatorName: "juao",
-          players: [
-            {
-              id: "1",
-              username: "juao",
-              class: "warrior",
-            },
-            {
-              id: "2",
-              username: "maria",
-              class: "warrior",
-            },
-          ],
-        },
-        {
-          id: "6",
-          roomName: "OS BRABOS 6",
-          creatorName: "juao",
-          players: [
-            {
-              id: "1",
-              username: "juao",
-              class: "warrior",
-            },
-            {
-              id: "2",
-              username: "maria",
-              class: "warrior",
-            },
-          ],
-        },
-        {
-          id: "7",
-          roomName: "OS BRABOS 7",
-          creatorName: "juao",
-          players: [
-            {
-              id: "1",
-              username: "juao",
-              class: "warrior",
-            },
-            {
-              id: "2",
-              username: "maria",
-              class: "warrior",
-            },
-          ],
-        },
-        {
-          id: "8",
-          roomName: "OS BRABOS 8",
-          creatorName: "juao",
-          players: [
-            {
-              id: "1",
-              username: "juao",
-              class: "warrior",
-            },
-            {
-              id: "2",
-              username: "maria",
-              class: "warrior",
-            },
-          ],
-        },
-        {
-          id: "9",
-          roomName: "OS BRABOS 9",
-          creatorName: "juao",
-          players: [
-            {
-              id: "1",
-              username: "juao",
-              class: "warrior",
-            },
-            {
-              id: "2",
-              username: "maria",
-              class: "warrior",
-            },
-          ],
-        },
-        {
-          id: "10",
-          roomName: "OS BRABOS 11",
-          creatorName: "juao",
-          players: [
-            {
-              id: "1",
-              username: "juao",
-              class: "warrior",
-            },
-            {
-              id: "2",
-              username: "maria",
-              class: "warrior",
-            },
-          ],
-        },
-        {
-          id: "11",
-          roomName: "OS BRABOS 11",
-          creatorName: "juao",
-          players: [
-            {
-              id: "1",
-              username: "juao",
-              class: "warrior",
-            },
-            {
-              id: "2",
-              username: "maria",
-              class: "warrior",
-            },
-          ],
-        },
-        {
-          id: "11",
-          roomName: "OS BRABOS 11",
-          creatorName: "juao",
-          players: [
-            {
-              id: "1",
-              username: "juao",
-              class: "warrior",
-            },
-            {
-              id: "2",
-              username: "maria",
-              class: "warrior",
-            },
-          ],
-        },
-        {
-          id: "11",
-          roomName: "OS BRABOS 11",
-          creatorName: "juao",
-          players: [
-            {
-              id: "1",
-              username: "juao",
-              class: "warrior",
-            },
-            {
-              id: "2",
-              username: "maria",
-              class: "warrior",
-            },
-          ],
-        },
-        {
-          id: "11",
-          roomName: "OS BRABOS 11",
-          creatorName: "juao",
-          players: [
-            {
-              id: "1",
-              username: "juao",
-              class: "warrior",
-            },
-            {
-              id: "2",
-              username: "maria",
-              class: "warrior",
-            },
-          ],
-        },
-        {
-          id: "11",
-          roomName: "OS BRABOS 11",
-          creatorName: "juao",
-          players: [
-            {
-              id: "1",
-              username: "juao",
-              class: "warrior",
-            },
-            {
-              id: "2",
-              username: "maria",
-              class: "warrior",
-            },
-          ],
-        },
-        {
-          id: "11",
-          roomName: "OS BRABOS 11",
-          creatorName: "juao",
-          players: [
-            {
-              id: "1",
-              username: "juao",
-              class: "warrior",
-            },
-            {
-              id: "2",
-              username: "maria",
-              class: "warrior",
-            },
-          ],
-        },
-        {
-          id: "11",
-          roomName: "OS BRABOS 11",
-          creatorName: "juao",
-          players: [
-            {
-              id: "1",
-              username: "juao",
-              class: "warrior",
-            },
-            {
-              id: "2",
-              username: "maria",
-              class: "warrior",
-            },
-          ],
-        },
-        {
-          id: "11",
-          roomName: "OS BRABOS 11",
-          creatorName: "juao",
-          players: [
-            {
-              id: "1",
-              username: "juao",
-              class: "warrior",
-            },
-            {
-              id: "2",
-              username: "maria",
-              class: "warrior",
-            },
-          ],
-        },
-        {
-          id: "11",
-          roomName: "OS BRABOS 11",
-          creatorName: "juao",
-          players: [
-            {
-              id: "1",
-              username: "juao",
-              class: "warrior",
-            },
-            {
-              id: "2",
-              username: "maria",
-              class: "warrior",
-            },
-          ],
-        },
-        {
-          id: "11",
-          roomName: "OS BRABOS 11",
-          creatorName: "juao",
-          players: [
-            {
-              id: "1",
-              username: "juao",
-              class: "warrior",
-            },
-            {
-              id: "2",
-              username: "maria",
-              class: "warrior",
-            },
-          ],
-        },
-      ],
-      pageNumber: 1,
-      showMenu: false,
-      showCreateRoom: false,
+      rooms: [],
     };
   },
   created() {
-    return;
+    getRoomList();
+
+    // ws listeners
+    wsConnection.addEventListener("message", (msg) => {
+      console.log("GET ROOMS", msg);
+      msg = JSON.parse(msg.data);
+      // if (msg.browserSession !== localStorage.getItem("browserSession")) {
+      //   return;
+      // }
+      console.log(msg);
+
+      switch (msg.type) {
+        case "getRooms":
+          this.rooms = msg.data;
+          break;
+      }
+    });
   },
   computed: {
     pageTotal() {
@@ -494,11 +169,14 @@ export default {
 .lobby-text {
   color: white;
 }
-.table-room {
+.table-container {
+  margin: 6px 0;
   display: flex;
   justify-content: center;
   min-width: 1070px;
   min-height: 540px;
+  background-color: var(--blue);
+  border-radius: 6px;
 }
 td {
   border: 20px solid rgba(221, 221, 221, 0);

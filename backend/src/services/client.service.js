@@ -1,8 +1,9 @@
 import { v4 as uuidv4 } from "uuid";
 
 export class ClientService {
-  async login(client, msg) {
-    client.username = msg.data.username;
+  async setUsername(client, msg) {
+    console.log("DENTRO DO SET USERNAME");
+    // client.username = msg.data.username;
   }
 }
 

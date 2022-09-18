@@ -10,18 +10,25 @@ const globalController = new GlobalController();
 
 wss.on("connection", (c) => {
   Object.assign(c, { id: uuidv4(), username: "Anonymous" });
+
+  c.send(
+    JSON.stringify({
+      type: "connected",
+    })
+  );
+
   c.on("message", (msg) => {
     globalController.redirect(c, msg);
   });
 });
 
-const sendUserSession = (browserSession, userId) => {
-  const msg = {
-    type: "login",
-    data: {
-      userId,
-    },
-    browserSession,
-  };
-  return JSON.stringify(msg);
-};
+// const sendUserSession = (browserSession, userId) => {
+//   const msg = {
+//     type: "login",
+//     data: {
+//       userId,
+//     },
+//     browserSession,
+//   };
+//   return JSON.stringify(msg);
+// };
