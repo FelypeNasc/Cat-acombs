@@ -1,7 +1,21 @@
 <template>
-  <div class="noselect"></div>
+  <div>
+    <HPComponent :playerStatus="playerStatus"></HPComponent>
+  </div>
 </template>
 <script>
-export default {};
+import HPComponent from "../components/PlayerHPComponent.vue";
+export default {
+  components: { HPComponent },
+  data() {
+    return {
+      playerStatus: {
+        playerName: "Eu",
+        playerClass: "mage",
+        hpMax: 80,
+        hpCurrent: 20,
+      },
+    };
+  },
+};
 </script>
-<style></style>
