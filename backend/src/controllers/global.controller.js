@@ -8,14 +8,11 @@ export class GlobalController {
   }
 
   async redirect(client, msg) {
-    msg = JSON.parse(msg);
-    console.log(msg);
     ("room/getRooms");
     const msgSplit = msg.type.split("/");
     console.log("MSG SPLIT:", msgSplit);
     const primaryRoute = msgSplit[0];
     const secondaryRoute = msgSplit[1];
-    console.log(primaryRoute, secondaryRoute);
 
     const routes = {
       client: () => this.clientController.redirect(secondaryRoute, client, msg),

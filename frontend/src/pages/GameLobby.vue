@@ -16,7 +16,7 @@
     <div class="flex flex-col justify-center items-center w-full">
       <div class="w-max">
         <div class="inline-flex w-full justify-end">
-          <MiniButtonComponent>
+          <MiniButtonComponent @onclick="getRoomList()">
             <img src="../assets/icons/refresh-icon.svg" alt="refresh icon" />
           </MiniButtonComponent>
           <ButtonComponent
@@ -25,27 +25,16 @@
             @onclick="toogleCreateRoom"
           />
         </div>
-        <div class="table-container">
-          <table class="h-10/12 w-10/12">
-            <tbody>
-              <tr v-for="(room, index) in currentPageRooms" v-bind:key="index">
-                <td v-if="index % 2 === 0">
-                  <RoomComponent
-                    :roomName="room.roomName"
-                    :numberOfPlayers="room.players.length"
-                    :roomCreatorName="room.creatorName"
-                  />
-                </td>
-                <td v-if="index % 2 === 0">
-                  <RoomComponent
-                    :roomName="rooms[index + 1].roomName"
-                    :numberOfPlayers="rooms[index + 1].players.length"
-                    :roomCreatorName="rooms[index + 1].creatorName"
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <div
+          class="table-container my-6 grid grid-cols-2 items-center justify-items-center"
+        >
+          <RoomComponent
+            v-for="(room, index) in currentPageRooms"
+            v-bind:key="index"
+            :roomName="room.roomName"
+            :numberOfPlayers="room.players.length"
+            :roomCreatorName="room.creatorName"
+          />
         </div>
         <div class="inline-flex w-full justify-end">
           <MiniButtonComponent
@@ -72,7 +61,7 @@
     <CardCreateRoom
       v-if="showCreateRoom"
       @close="toogleCreateRoom"
-      @confirm="createNewRoom"
+      @confirm="createRoom()"
     />
     <CardMenu v-if="showMenu" @close="toogleMenu" @confirm="logout" />
   </div>
@@ -83,7 +72,11 @@ import MiniButtonComponent from "../components/MiniButtonComponent.vue";
 import ButtonComponent from "../components/ButtonComponent.vue";
 import CardMenu from "../components/CardMenu.vue";
 import CardCreateRoom from "../components/CardCreateRoom.vue";
-import { wsConnection, getRoomList } from "../connection/connections";
+import {
+  wsConnection,
+  getRoomList,
+  createRoom,
+} from "../connection/connections";
 
 export default {
   components: {
@@ -95,43 +88,47 @@ export default {
   },
   data() {
     return {
+      createRoom,
+      getRoomList,
       rooms: [],
+      pageNumber: 1,
+      pageSize: 10,
+      showMenu: false,
+      showCreateRoom: false,
     };
   },
   created() {
-    getRoomList();
+    this.getRoomList();
 
     // ws listeners
     wsConnection.addEventListener("message", (msg) => {
       console.log("GET ROOMS", msg);
       msg = JSON.parse(msg.data);
-      // if (msg.browserSession !== localStorage.getItem("browserSession")) {
-      //   return;
-      // }
       console.log(msg);
 
       switch (msg.type) {
         case "getRooms":
           this.rooms = msg.data;
           break;
+        case "roomCreated":
+          this.$router.push({ path: `/characters/${msg.data.id}` });
       }
     });
   },
   computed: {
     pageTotal() {
-      return Math.ceil(this.rooms.length / 10);
+      return Math.ceil(this.rooms.length / this.pageSize);
     },
     currentPageRooms() {
-      const pageMax = this.pageNumber * 10;
-      const pageMin = pageMax - 9;
-      const pageRooms = this.rooms.slice(pageMin, pageMax);
-      return pageRooms;
+      const pageMax = this.pageNumber * this.pageSize;
+      const pageMin = pageMax - this.pageSize;
+      return this.rooms.slice(pageMin, pageMax);
     },
   },
   methods: {
     changePageNumber(operation) {
       const increasePageNumber = () => {
-        if (this.pageNumber !== this.thispageTotal()) {
+        if (this.pageNumber !== this.pageTotal) {
           this.pageNumber++;
         }
       };
@@ -144,18 +141,15 @@ export default {
     },
     createNewRoom() {
       this.toogleCreateRoom();
-      this.$router.push("/characters");
     },
     logout() {
       this.$router.push("/");
     },
     toogleMenu() {
-      this.showMenu === true ? (this.showMenu = false) : (this.showMenu = true);
+      this.showMenu = !this.showMenu;
     },
     toogleCreateRoom() {
-      this.showCreateRoom === true
-        ? (this.showCreateRoom = false)
-        : (this.showCreateRoom = true);
+      this.showCreateRoom = !this.showCreateRoom;
     },
   },
 };
@@ -170,9 +164,6 @@ export default {
   color: white;
 }
 .table-container {
-  margin: 6px 0;
-  display: flex;
-  justify-content: center;
   min-width: 1070px;
   min-height: 540px;
   background-color: var(--blue);

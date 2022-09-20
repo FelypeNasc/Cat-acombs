@@ -15,7 +15,7 @@
   </div>
 </template>
 <script>
-import { createWS, wsConnection, setUsername } from "../connection/connections";
+import { createWS, wsConnection } from "../connection/connections";
 import CardNickname from "../components/CardNickname.vue";
 
 export default {
@@ -32,14 +32,10 @@ export default {
       this.showCard = true;
     },
     confirm(nickname) {
-      createWS()
-        .then(() => {
-          this.setWsListener();
-        })
-        .then(() => {
-          setUsername(nickname);
-          this.showCard = false;
-        });
+      createWS(nickname).then(() => {
+        this.setWsListener();
+        this.showCard = false;
+      });
     },
     close() {
       console.log(1);
