@@ -18,6 +18,12 @@ wss.on("connection", (c) => {
   );
 
   c.on("message", (msg) => {
+    msg = JSON.parse(msg);
+    if (msg.type === "setUsername") {
+      Object.assign(c, { username: msg.data.username });
+      return;
+    }
+    console.log(`CLIENT: ${c.username}`);
     globalController.redirect(c, msg);
   });
 });
