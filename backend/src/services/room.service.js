@@ -3,6 +3,7 @@ const rooms = [
     id: "1",
     roomName: "OS BRABOS 1",
     creatorName: "juao",
+    currentView: "classSelection",
     players: [
       {
         id: "1",

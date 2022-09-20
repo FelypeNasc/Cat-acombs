@@ -111,7 +111,7 @@ export default {
           this.rooms = msg.data;
           break;
         case "roomCreated":
-          this.$router.push({ path: `/characters/${msg.data.id}` });
+          this.$router.push({ path: `/play/${msg.data.id}` });
       }
     });
   },
@@ -142,10 +142,6 @@ export default {
     createNewRoom(roomData) {
       console.log(roomData);
       this.toogleCreateRoom();
-    },
-    redirectToCharacters() {
-      console.log("aqui");
-      this.$router.push("/characters");
     },
     logout() {
       this.$router.push("/");

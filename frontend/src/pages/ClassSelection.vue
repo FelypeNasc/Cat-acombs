@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="main noselect">
     <div class="header flex justify-between items-stretch">
       <div class="w-3/12 min-w-min">
         <h3
@@ -9,9 +9,9 @@
         </h3>
       </div>
       <div class="flex justify-center w-7/12 mb-5">
-        <SelectedCharactersComponent
-          :socket-players="selectedCharacterList"
-        ></SelectedCharactersComponent>
+        <SelectedClassComponent
+          :socket-players="selectedClassList"
+        ></SelectedClassComponent>
       </div>
       <div class="flex justify-end items-start w-2/12">
         <MiniButtonComponent @onclick="toogleMenu">
@@ -26,26 +26,24 @@
           class="selected flex flex-col pr-3 items-center w-2/12 lg:min-w-[250px] md:min-w-[150px] sm:min-w-[100px]"
         >
           <img
-            v-if="selectedCharacter"
+            v-if="selectedClass"
             class=""
-            :src="`src/assets/images/${selectedCharacter}-card.png`"
+            :src="`src/assets/images/${selectedClass}-card.png`"
           />
         </div>
         <div class="flex flex-col items-center">
-          <CharacterListComponent
-            :character-list="characterList"
+          <ClassListComponent
+            :class-list="classList"
             class="lg:min-w-[400px] md:min-w-[350px] sm:min-w-[300px]"
-            @selectCharacter="selectCharacter"
-          ></CharacterListComponent>
+            @selectClass="selectClass"
+          ></ClassListComponent>
           <button
             class="font-squirk mt-8 bg-white text-3xl rounded-lg flat text-blue-600 h-20 w-40"
           >
             READY !
           </button>
         </div>
-        <div class="ml-3">
-          <ChatComponent></ChatComponent>
-        </div>
+        <div class="ml-3"></div>
       </div>
       <div class="footer flex justify-center m-4">
         <button
@@ -59,23 +57,21 @@
   </div>
 </template>
 <script>
-import SelectedCharactersComponent from "../components/SelectedCharactersComponent.vue";
-import CharacterListComponent from "../components/CharacterListComponent.vue";
+import SelectedClassComponent from "../components/SelectedClassComponent.vue";
+import ClassListComponent from "../components/ClassListComponent.vue";
 import MiniButtonComponent from "../components/MiniButtonComponent.vue";
 import CardMenu from "../components/CardMenu.vue";
-import ChatComponent from "../components/ChatComponent.vue";
 
 export default {
   components: {
-    CharacterListComponent,
-    SelectedCharactersComponent,
+    ClassListComponent,
+    SelectedClassComponent,
     MiniButtonComponent,
     CardMenu,
-    ChatComponent,
   },
   data() {
     return {
-      characterList: [
+      classList: [
         [
           { class: "warrior" },
           { class: "bard" },
@@ -83,26 +79,26 @@ export default {
           { class: "ranger" },
         ],
       ],
-      selectedCharacterList: {
+      selectedClassList: {
         player1: { name: "joao", class: null },
         player2: { name: "felype", class: null },
         player3: { name: "gislene", class: null },
         player4: { name: "augusto", class: null },
       },
-      selectedCharacter: null,
+      selectedClass: null,
       showMenu: false,
     };
   },
   methods: {
     toogleMenu() {
-      this.showMenu === true ? (this.showMenu = false) : (this.showMenu = true);
+      this.showMenu === !this.showMenu;
     },
     logout() {
       this.$router.push("/");
     },
-    selectCharacter(item) {
-      this.selectedCharacter = item.class;
-      this.selectedCharacterList["player2"].class = item.class;
+    selectClass(item) {
+      this.selectedClass = item.class;
+      this.selectedClassList["player2"].class = item.class;
       console.log(item);
     },
     getUsersSocket() {},

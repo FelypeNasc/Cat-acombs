@@ -6,20 +6,17 @@
       Select Your Class
     </h1>
     <div
-      v-for="(row, index) in characterList"
+      v-for="(row, index) in classList"
       :key="index"
       class="flex flex-row lg:gap-12 md:gap-8 sm:gap-4 justify-center mt-10 px-14"
     >
       <div
-        v-for="item in characterList[index]"
+        v-for="item in classList[index]"
         :key="item.class"
         class="flex flex-col min-w-[50px] pointer"
-        @click="selectCharacter(item)"
+        @click="selectclass(item)"
       >
-        <img
-          class="character"
-          :src="`src/assets/images/${item.class}-class.svg`"
-        />
+        <img class="class" :src="`../assets/images/${item.class}-class.svg`" />
         <label
           class="font-squirk text-center pointer text-white lg:text-xl md:text-base sm:text-sm"
           ref="warrior"
@@ -33,7 +30,7 @@
 <script>
 export default {
   props: {
-    characterList: {
+    classList: {
       type: Array,
       default: () => [],
     },
@@ -47,8 +44,8 @@ export default {
     },
   },
   methods: {
-    selectCharacter(item) {
-      this.$emit("selectCharacter", item);
+    selectclass(item) {
+      this.$emit("selectclass", item);
     },
   },
 };
@@ -69,7 +66,7 @@ export default {
 .pointer {
   cursor: pointer;
 }
-.character:hover {
+.class:hover {
   box-shadow: 0 0 1em gold;
 }
 </style>

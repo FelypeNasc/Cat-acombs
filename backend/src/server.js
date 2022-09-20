@@ -19,22 +19,19 @@ wss.on("connection", (c) => {
 
   c.on("message", (msg) => {
     msg = JSON.parse(msg);
+
     if (msg.type === "setUsername") {
       Object.assign(c, { username: msg.data.username });
+      c.send(
+        JSON.stringify({
+          type: "userConnected",
+          data: { username: c.username, id: c.id },
+        })
+      );
       return;
     }
+
     console.log(`CLIENT: ${c.username}`);
     globalController.redirect(c, msg);
   });
 });
-
-// const sendUserSession = (browserSession, userId) => {
-//   const msg = {
-//     type: "login",
-//     data: {
-//       userId,
-//     },
-//     browserSession,
-//   };
-//   return JSON.stringify(msg);
-// };

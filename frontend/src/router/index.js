@@ -13,29 +13,14 @@ const router = new VueRouter({
       component: () => import("../pages/TitleScreen.vue"),
     },
     {
-      path: "/doors",
-      name: "doors",
-      component: () => import("../pages/DungeonDoors.vue"),
-    },
-    {
-      path: "/combat",
-      name: "combat",
-      component: () => import("../pages/EncounterCombat.vue"),
-    },
-    {
       path: "/lobby",
       name: "lobby",
       component: () => import("../pages/GameLobby.vue"),
     },
     {
-      path: "/story",
-      name: "story",
-      component: () => import("../pages/StoryScreen.vue"),
-    },
-    {
-      path: "/characters",
-      name: "characters",
-      component: () => import("../pages/CharacterSelector.vue"),
+      path: "/play/:id",
+      name: "play",
+      component: () => import("../pages/SessionController.vue"),
     },
     {
       path: "/test",

@@ -69,9 +69,7 @@
           >Door 4</label
         >
       </div>
-      <div class="ml-6">
-        <ChatComponent></ChatComponent>
-      </div>
+      <div class="ml-6"></div>
     </div>
     <CardMenu v-if="showMenu" @close="toogleMenu" @confirm="logout"></CardMenu>
   </div>
@@ -79,13 +77,11 @@
 <script>
 import MiniButtonComponent from "../components/MiniButtonComponent.vue";
 import CardMenu from "../components/CardMenu.vue";
-import ChatComponent from "../components/ChatComponent.vue";
 
 export default {
   components: {
     CardMenu,
     MiniButtonComponent,
-    ChatComponent,
   },
   data() {
     return {

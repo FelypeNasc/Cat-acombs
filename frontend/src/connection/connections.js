@@ -15,6 +15,13 @@ export function createWS(username) {
       resolve(wsConnection);
     };
 
+    wsConnection.addEventListener("message", (msg) => {
+      msg = JSON.parse(msg);
+      if (msg.type === "userConnected") {
+        sessionStorage.setItem("userData", msg.data);
+      }
+    });
+
     wsConnection.onerror = function (err) {
       console.log(err);
       reject(err);
@@ -48,42 +55,3 @@ export const setUsername = (username) => {
 const sendMessage = (msg) => {
   wsConnection.send(JSON.stringify(msg));
 };
-
-// const logged = () => {
-//   document.getElementById("loginForm").style.display = "none";
-//   document.getElementById("rooms").style.display = "block";
-//   getRoomList();
-// };
-// const login = () => {
-//   const username = document.getElementById("username-input").value;
-//   const browserSession = uuidv4();
-//   if (username.length < 4) {
-//     alert("Username need to be at least 4 characters");
-//     return;
-//   }
-//   document.getElementById("sendUsername").disabled = true;
-//   const msg = {
-//     type: "login",
-//     data: {
-//       name: username,
-//       browserSession,
-//     },
-//   };
-//   localStorage.setItem("browserSession", browserSession);
-//   ws.send(JSON.stringify(msg));
-// };
-
-// wsConnection.onmessage = (msg) => {
-//   console.log(msg);
-//   msg = JSON.parse(msg.data);
-//   // if (msg.browserSession !== localStorage.getItem("browserSession")) {
-//   //   return;
-//   // }
-//   console.log(msg);
-
-//   // switch (msg.type) {
-//   //   case "login":
-//   //     localStorage.setItem("userId", msg.data.userId);
-//   //     break;
-//   // }
-// };
