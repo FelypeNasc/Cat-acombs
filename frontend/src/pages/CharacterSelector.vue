@@ -32,7 +32,7 @@
         <button
           class="font-squirk bg-white text-3xl rounded-lg flat text-blue-600 h-20 w-40"
         >
-          READY !
+          READY!
         </button>
       </div>
     </div>

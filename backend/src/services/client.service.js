@@ -15,6 +15,5 @@ const login = (msgData) => {
     username: msgData.username,
     browserSession: msgData.browserSession,
   });
-  console.log("antes de return");
   return sendUserSession(msgData.browserSession, userId);
 };
