@@ -2,7 +2,7 @@
   <div class="w-52 flex-col p-1">
     <div class="bg-white rounded-md p-2">
       <h2 class="font-squirk text-blue-900 text-center">
-        {{ playerStatus?.playerName }}
+        {{ bossStatus.bossName }}
       </h2>
       <div class="flex items-center">
         <div class="heart">
@@ -14,27 +14,20 @@
             type="range"
             class="windowsSliderInput"
             min="0"
-            :max="playerStatus.hpMax"
+            :max="100"
           />
           <div
             class="windowsSliderProgress"
-            :style="{ width: playerStatus.hpCurrent + '%' }"
+            :style="{ width: bossStatus.hpCurrent + '%' }"
           ></div>
         </div>
       </div>
     </div>
     <div class="flex justify-center m-6">
-      <div v-if="playerStatus.playerClass == 'warrior'">
-        <img src="src/assets/images/warrior-full.svg" class="warrior" />
-      </div>
-      <div v-else-if="playerStatus.playerClass == 'mage'">
-        <img src="src/assets/images/mage-full.svg" class="mage" />
-      </div>
-      <div v-else-if="playerStatus.playerClass == 'ranger'">
-        <img src="src/assets/images/ranger-full.svg" class="ranger" />
-      </div>
-      <div v-else-if="playerStatus.playerClass == 'bard'">
-        <img src="src/assets/images/bard-full.svg" class="bard" />
+      <div>
+        <img
+          :src="`src/assets/images/${bossStatus.numberFloor}-floor-boss-${bossStatus.numberDoor}.svg`"
+        />
       </div>
     </div>
   </div>
@@ -42,9 +35,9 @@
 
 <script>
 export default {
-  name: "HPComponent",
+  name: "BossHPComponent",
   props: {
-    playerStatus: {
+    bossStatus: {
       type: Object,
       default: () => {},
       required: true,
@@ -57,7 +50,7 @@ export default {
   },
   watch: {
     windowsSliderProgress() {
-      return (this.percent = this.hpCurrent);
+      return (this.percent = this.bossStatus.hpCurrent);
     },
   },
 };
