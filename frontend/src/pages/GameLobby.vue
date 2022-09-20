@@ -16,7 +16,7 @@
     <div class="flex flex-col justify-center items-center w-full">
       <div class="w-max">
         <div class="inline-flex w-full justify-end">
-          <MiniButtonComponent>
+          <MiniButtonComponent @onclick="refreshRooms">
             <img src="../assets/icons/refresh-icon.svg" alt="refresh icon" />
           </MiniButtonComponent>
           <ButtonComponent
@@ -33,6 +33,7 @@
                   :roomName="room.roomName"
                   :numberOfPlayers="room.players.length"
                   :roomCreatorName="room.creatorName"
+                  @onclick="redirectToCharacters"
                 />
               </td>
               <td v-if="index % 2 === 0">
@@ -40,6 +41,7 @@
                   :roomName="rooms[index + 1].roomName"
                   :numberOfPlayers="rooms[index + 1].players.length"
                   :roomCreatorName="rooms[index + 1].creatorName"
+                  @click="redirectToCharacters"
                 />
               </td>
             </tr>
@@ -472,11 +474,18 @@ export default {
       this.toogleCreateRoom();
       this.$router.push("/characters");
     },
+    redirectToCharacters() {
+      console.log("aqui");
+      this.$router.push("/characters");
+    },
     logout() {
       this.$router.push("/");
     },
     toogleMenu() {
       this.showMenu === true ? (this.showMenu = false) : (this.showMenu = true);
+    },
+    refreshRooms() {
+      console.log("refreshRooms");
     },
     toogleCreateRoom() {
       this.showCreateRoom === true

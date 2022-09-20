@@ -7,17 +7,21 @@
     </h1>
     <div
       v-for="(row, index) in characterList"
-      :key="row"
+      :key="index"
       class="flex flex-row lg:gap-12 md:gap-8 sm:gap-4 justify-center mt-10 px-14"
     >
       <div
         v-for="item in characterList[index]"
-        :key="item"
-        class="flex flex-col min-w-[50px]"
+        :key="item.class"
+        class="flex flex-col min-w-[50px] pointer"
+        @click="selectCharacter(item)"
       >
-        <img :src="`src/assets/images/${item.class}-class.svg`" />
+        <img
+          class="character"
+          :src="`src/assets/images/${item.class}-class.svg`"
+        />
         <label
-          class="font-squirk text-center text-white text-2xl"
+          class="font-squirk text-center pointer text-white lg:text-xl md:text-base sm:text-sm"
           ref="warrior"
           >{{ item.class }}</label
         >
@@ -43,8 +47,8 @@ export default {
     },
   },
   methods: {
-    onclick() {
-      this.$emit("onclick");
+    selectCharacter(item) {
+      this.$emit("selectCharacter", item);
     },
   },
 };
@@ -61,5 +65,11 @@ export default {
   border: 6px solid #2c3c8c;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
+}
+.pointer {
+  cursor: pointer;
+}
+.character:hover {
+  box-shadow: 0 0 1em gold;
 }
 </style>
