@@ -13,19 +13,9 @@ const router = new VueRouter({
       component: () => import("../pages/TitleScreen.vue"),
     },
     {
-      path: "/door1",
-      name: "door1",
-      component: () => import("../pages/DungeonDoors1.vue"),
-    },
-    {
-      path: "/door2",
-      name: "door2",
-      component: () => import("../pages/DungeonDoors2.vue"),
-    },
-    {
-      path: "/door3",
-      name: "door3",
-      component: () => import("../pages/DungeonDoors3.vue"),
+      path: "/doors",
+      name: "doors",
+      component: () => import("../pages/DungeonDoors.vue"),
     },
     {
       path: "/combat",

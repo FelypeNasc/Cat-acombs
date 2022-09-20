@@ -139,14 +139,22 @@ export default {
       };
       operation === "plus" ? increasePageNumber() : decreasePageNumber();
     },
-    createNewRoom() {
+    createNewRoom(roomData) {
+      console.log(roomData);
       this.toogleCreateRoom();
+    },
+    redirectToCharacters() {
+      console.log("aqui");
+      this.$router.push("/characters");
     },
     logout() {
       this.$router.push("/");
     },
     toogleMenu() {
       this.showMenu = !this.showMenu;
+    },
+    refreshRooms() {
+      console.log("refreshRooms");
     },
     toogleCreateRoom() {
       this.showCreateRoom = !this.showCreateRoom;
