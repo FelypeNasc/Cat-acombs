@@ -1,5 +1,5 @@
 <template>
-  <div id="RoomComponent">
+  <div id="RoomComponent" @click="onclick">
     <div id="data">
       <h2>{{ roomName }}</h2>
       <h3>{{ roomCreatorName }}</h3>
@@ -18,6 +18,14 @@ export default {
     roomName: String,
     roomCreatorName: String,
     numberOfPlayers: Number,
+  },
+  methods: {
+    onclick() {
+      this.$emit("onclick", {
+        roomName: this.roomCreatorName,
+        roomCreatorName: this.roomCreatorName,
+      });
+    },
   },
 };
 </script>

@@ -6,10 +6,6 @@ export class RoomController {
   }
 
   async redirect(route, client, msg) {
-    console.log("ROOM CONTROLLER");
-    console.log("ROUTE: ", route);
-    console.log("MESSAGE: ", msg);
-
     const routes = {
       getRooms: () => this.roomService.getRooms(client, msg),
       createRoom: () => this.roomService.createRoom(client, msg),
