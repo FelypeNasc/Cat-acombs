@@ -24,50 +24,20 @@
       /></MiniButtonComponent>
     </div>
     <div class="doors flex flex-row justify-end gap-5 my-20">
-      <div class="flex flex-col">
+      <div
+        v-for="(item, index) in levels[`${level}`]"
+        :key="index"
+        class="flex flex-col"
+      >
         <img
           class="door1 pointer"
-          :src="`src/assets/images/${level}-floor-door-${
-            levels[`${level}`].door1
-          }.svg`"
+          :src="`src/assets/images/${level}-floor-door-${item.acess}.svg`"
+          @click="startBattle(item)"
         />
 
-        <label ref="door1" class="text-xl text-white text-center font-squirk"
-          >Door 1</label
-        >
-      </div>
-      <div class="flex flex-col">
-        <img
-          class="door2 pointer"
-          :src="`src/assets/images/${level}-floor-door-${
-            levels[`${level}`].door2
-          }.svg`"
-        />
-        <label ref="door2" class="text-xl text-center font-squirk"
-          >Door 2</label
-        >
-      </div>
-      <div class="flex flex-col">
-        <img
-          class="door3 pointer"
-          :src="`src/assets/images/${level}-floor-door-${
-            levels[`${level}`].door3
-          }.svg`"
-        />
-        <label ref="door3" class="text-xl text-center font-squirk"
-          >Door 3</label
-        >
-      </div>
-      <div class="flex flex-col">
-        <img
-          class="door4 pointer"
-          :src="`src/assets/images/${level}-floor-door-${
-            levels[`${level}`].door4
-          }.svg`"
-        />
-        <label ref="door4" class="text-xl text-center font-squirk"
-          >Door 4</label
-        >
+        <label ref="door1" class="text-xl text-white text-center font-squirk">{{
+          item.name
+        }}</label>
       </div>
       <div class="ml-6"></div>
     </div>
@@ -86,31 +56,32 @@ export default {
   data() {
     return {
       levels: {
-        1: {
-          door1: "enabled",
-          door2: "enabled",
-          door3: "locked",
-          door4: "locked",
-        },
-        2: {
-          door1: "locked",
-          door2: "locked",
-          door3: "locked",
-          door4: "locked",
-        },
-        3: {
-          door1: "enabled",
-          door2: "locked",
-          door3: "locked",
-          door4: "locked",
-        },
+        1: [
+          { name: "Door 1", level: 1, acess: "enabled" },
+          { name: "Door 2", level: 1, acess: "enabled" },
+          { name: "Door 3", level: 1, acess: "locked" },
+          { name: "Door 4", level: 1, acess: "locked" },
+        ],
+        2: [
+          { name: "Door 1", level: 2, acess: "enabled" },
+          { name: "Door 2", level: 2, acess: "enabled" },
+          { name: "Door 3", level: 2, acess: "locked" },
+          { name: "Door 4", level: 2, acess: "locked" },
+        ],
+        3: [
+          { name: "Door 1", level: 3, acess: "enabled" },
+          { name: "Door 2", level: 3, acess: "enabled" },
+          { name: "Door 3", level: 3, acess: "locked" },
+          { name: "Door 4", level: 3, acess: "locked" },
+        ],
       },
-      level: 3,
+      level: 1,
       showMenu: false,
     };
   },
   created() {
     this.getLevels();
+    this.getSession();
   },
   methods: {
     changeLevel(event) {
@@ -134,6 +105,14 @@ export default {
     },
     getLevels() {
       console.log("requisição dos levels disponíveis");
+    },
+    getSession() {
+      console.log("requisição dos dados da sessão");
+    },
+    startBattle(item) {
+      console.log(item);
+      /* enviar as informações para o back e retornar com o a mudança de tela */
+      this.$router.push("/combat");
     },
   },
 };
