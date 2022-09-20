@@ -10,7 +10,9 @@
 </template>
 
 <script>
-export default {};
+export default {
+  name: "JoystickComponent",
+};
 </script>
 
 <style scoped></style>
