@@ -7,11 +7,11 @@
       class="w-full mt-5 px-2 overflow-y-auto scroll-smooth"
     >
       <div
-        v-for="(item, index) in message"
+        v-for="(item, index) in messages"
         :key="index"
         class="flex gap-x-2 text-base"
       >
-        <p class="name-color">{{ item.name }}:</p>
+        <p class="name-color">{{ item.username }}:</p>
         <p class="break-all">{{ item.message }}</p>
       </div>
     </div>
@@ -32,24 +32,35 @@
   </div>
 </template>
 <script>
-export default {
-  props: {
-    messages: { type: Array, default: () => [] },
-  },
+import { wsConnection, sendChatMessage } from "../connection/connections";
 
+export default {
   data() {
     return {
-      message: [
-        { name: "maria", message: "ESCOLHE LOGO!" },
-        { name: "joão", message: "calma!" },
+      sendChatMessage,
+      messages: [
+        { username: "maria", message: "ESCOLHE LOGO!" },
+        { username: "joão", message: "calma!" },
       ],
       chatMessage: "",
     };
   },
+  created() {
+    wsConnection.addEventListener("message", (msg) => {
+      msg = JSON.parse(msg.data);
+      console.log(msg);
+
+      switch (msg.type) {
+        case "chatMessage":
+          this.messages.push(msg.data);
+          break;
+      }
+    });
+  },
   methods: {
     sendMessage() {
       if (this.chatMessage) {
-        this.message.push({ name: "joão", message: this.chatMessage });
+        this.sendChatMessage(this.chatMessage, this.$route.params.id);
         this.chatMessage = "";
         this.handleScroll();
       }
@@ -63,6 +74,7 @@ export default {
       });
     },
   },
+  setWsListener() {},
 };
 </script>
 <style scoped>

@@ -1,178 +1,7 @@
-const rooms = [
-  {
-    id: "1",
-    roomName: "OS BRABOS 1",
-    creatorName: "juao",
-    currentView: "classSelection",
-    players: [
-      {
-        id: "1",
-        username: "juao",
-        class: "warrior",
-      },
-      {
-        id: "2",
-        username: "maria",
-        class: "warrior",
-      },
-    ],
-  },
-  {
-    id: "2",
-    roomName: "OS BRABOS 2",
-    creatorName: "juao",
-    players: [
-      {
-        id: "1",
-        username: "juao",
-        class: "warrior",
-      },
-      {
-        id: "2",
-        username: "maria",
-        class: "warrior",
-      },
-    ],
-  },
-  {
-    id: "3",
-    roomName: "OS BRABOS 3",
-    creatorName: "juao",
-    players: [
-      {
-        id: "1",
-        username: "juao",
-        class: "warrior",
-      },
-      {
-        id: "2",
-        username: "maria",
-        class: "warrior",
-      },
-    ],
-  },
-  {
-    id: "4",
-    roomName: "OS BRABOS 4",
-    creatorName: "juao",
-    players: [
-      {
-        id: "1",
-        username: "juao",
-        class: "warrior",
-      },
-      {
-        id: "2",
-        username: "maria",
-        class: "warrior",
-      },
-    ],
-  },
-  {
-    id: "5",
-    roomName: "OS BRABOS 5",
-    creatorName: "juao",
-    players: [
-      {
-        id: "1",
-        username: "juao",
-        class: "warrior",
-      },
-      {
-        id: "2",
-        username: "maria",
-        class: "warrior",
-      },
-    ],
-  },
-  {
-    id: "6",
-    roomName: "OS BRABOS 6",
-    creatorName: "juao",
-    players: [
-      {
-        id: "1",
-        username: "juao",
-        class: "warrior",
-      },
-      {
-        id: "2",
-        username: "maria",
-        class: "warrior",
-      },
-    ],
-  },
-  {
-    id: "7",
-    roomName: "OS BRABOS 7",
-    creatorName: "juao",
-    players: [
-      {
-        id: "1",
-        username: "juao",
-        class: "warrior",
-      },
-      {
-        id: "2",
-        username: "maria",
-        class: "warrior",
-      },
-    ],
-  },
-  {
-    id: "8",
-    roomName: "OS BRABOS 8",
-    creatorName: "juao",
-    players: [
-      {
-        id: "1",
-        username: "juao",
-        class: "warrior",
-      },
-      {
-        id: "2",
-        username: "maria",
-        class: "warrior",
-      },
-    ],
-  },
-  {
-    id: "9",
-    roomName: "OS BRABOS 9",
-    creatorName: "juao",
-    players: [
-      {
-        id: "1",
-        username: "juao",
-        class: "warrior",
-      },
-      {
-        id: "2",
-        username: "maria",
-        class: "warrior",
-      },
-    ],
-  },
-  {
-    id: "10",
-    roomName: "OS BRABOS 10",
-    creatorName: "juao",
-    players: [
-      {
-        id: "1",
-        username: "juao",
-        class: "warrior",
-      },
-      {
-        id: "2",
-        username: "maria",
-        class: "warrior",
-      },
-    ],
-  },
-]; // TODO: colocar pro redis
+export const rooms = [];
 
 import { v4 as uuidv4 } from "uuid";
+import sendMessageToRoom from "../utils/sendMessageToRoom.js";
 
 export class RoomService {
   async getRooms(client, msg) {
@@ -197,6 +26,7 @@ export class RoomService {
       ],
     };
     rooms.push(newRoom);
+
     const response = {
       type: "roomCreated",
       data: newRoom,
@@ -204,7 +34,23 @@ export class RoomService {
     client.send(JSON.stringify(response));
   }
 
-  async deleteRoom(client, msg) {}
+  async enterRoom(client, msg) {
+    const player = {
+      id: client.id,
+      username: client.username,
+      class: null,
+    };
 
-  async enterRoom(client, msg) {}
+    const roomIndex = rooms.map((e) => e.id).indexOf(msg.data.roomId);
+    rooms[roomIndex].players.push(player);
+
+    const response = {
+      type: "enterRoom",
+      data: rooms[roomIndex],
+    };
+
+    client.send(JSON.stringify(response));
+  }
+
+  async deleteRoom(client, msg) {}
 }
