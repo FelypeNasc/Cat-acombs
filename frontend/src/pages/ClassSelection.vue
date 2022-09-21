@@ -26,9 +26,24 @@
           class="selected flex flex-col pr-3 items-center w-2/12 lg:min-w-[250px] md:min-w-[150px] sm:min-w-[100px]"
         >
           <img
-            v-if="selectedClass"
+            v-if="selectedClass === 'warrior'"
             class=""
-            :src="`src/assets/images/${selectedClass}-card.png`"
+            src="../assets/images/warrior-card.png"
+          />
+          <img
+            v-if="selectedClass === 'bard'"
+            class=""
+            src="../assets/images/bard-card.png"
+          />
+          <img
+            v-if="selectedClass === 'mage'"
+            class=""
+            src="../assets/images/mage-card.png"
+          />
+          <img
+            v-if="selectedClass === 'ranger'"
+            class=""
+            src="../assets/images/ranger-card.png"
           />
         </div>
         <div class="flex flex-col items-center">
@@ -61,6 +76,7 @@ import SelectedClassComponent from "../components/SelectedClassComponent.vue";
 import ClassListComponent from "../components/ClassListComponent.vue";
 import MiniButtonComponent from "../components/MiniButtonComponent.vue";
 import CardMenu from "../components/CardMenu.vue";
+import { wsConnection } from "../connection/connections";
 
 export default {
   components: {
@@ -80,14 +96,36 @@ export default {
         ],
       ],
       selectedClassList: {
-        player1: { name: "joao", class: null },
-        player2: { name: "felype", class: null },
-        player3: { name: "gislene", class: null },
-        player4: { name: "augusto", class: null },
+        player1: { username: "joao", class: null },
+        player2: { username: "felype", class: null },
+        player3: { username: "gislene", class: null },
+        player4: { username: "augusto", class: null },
       },
       selectedClass: null,
       showMenu: false,
     };
+  },
+  created() {
+    wsConnection.addEventListener("message", (msg) => {
+      msg = JSON.parse(msg.data);
+      console.log(msg);
+
+      switch (msg.type) {
+        case "getRooms":
+          this.rooms = msg.data;
+          break;
+        case "roomCreated":
+          this.$router.push({ path: `/play/${msg.data.id}` });
+          break;
+        case "enterRoom":
+          this.$router.push({ path: `/play/${msg.data.id}` });
+          break;
+        case "roomFull":
+          break;
+        case "wrongPassword":
+          break;
+      }
+    });
   },
   methods: {
     toogleMenu() {
@@ -98,7 +136,7 @@ export default {
     },
     selectClass(item) {
       this.selectedClass = item.class;
-      this.selectedClassList["player2"].class = item.class;
+      this.selectedClassList["player1"].class = item.class;
       console.log(item);
     },
     getUsersSocket() {},

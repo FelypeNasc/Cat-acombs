@@ -14,8 +14,6 @@ export class RoomService {
       type: "getRooms",
       data: responseRooms,
     };
-    console.log(rooms);
-    console.log(responseRooms);
 
     client.send(JSON.stringify(response));
   }
@@ -51,6 +49,7 @@ export class RoomService {
       type: "roomCreated",
       data: newRoom,
     };
+    console.log(rooms);
     client.send(JSON.stringify(response));
   }
 
@@ -62,10 +61,6 @@ export class RoomService {
     };
 
     const roomIndex = rooms.map((e) => e.id).indexOf(msg.data.roomId);
-    console.log(roomIndex);
-    console.log(msg.data);
-
-    console.log("enter room: ", rooms[roomIndex]);
 
     if (rooms[roomIndex].hasPassword) {
       const passwordMatch = bcrypt.compareSync(
@@ -96,8 +91,7 @@ export class RoomService {
       type: "enterRoom",
       data: rooms[roomIndex],
     };
-
-    client.send(JSON.stringify(response));
+    sendMessageToRoom(rooms[roomIndex].id, response);
   }
 
   async deleteRoom(client, msg) {}
