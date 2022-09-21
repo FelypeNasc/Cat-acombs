@@ -1,12 +1,14 @@
 import { RoomController } from "./room.controller.js";
 import { ClientController } from "./client.controller.js";
 import { ChatController } from "./chat.controller.js";
+import { ClassController } from "./class.controller.js";
 
 export class GlobalController {
   constructor() {
     this.roomController = new RoomController();
     this.clientController = new ClientController();
     this.chatController = new ChatController();
+    this.classController = new ClassController();
   }
 
   async redirect(client, msg) {
@@ -18,7 +20,8 @@ export class GlobalController {
 
     const routes = {
       client: () => this.clientController.redirect(secondaryRoute, client, msg),
-      // battle: () => battleController.redirect(secondaryRoute, client, msg),
+      battle: () => this.battleController.redirect(secondaryRoute, client, msg),
+      class: () => this.classController.redirect(secondaryRoute, client),
       chat: () => this.chatController.redirect(secondaryRoute, client, msg),
       room: () => this.roomController.redirect(secondaryRoute, client, msg),
     };

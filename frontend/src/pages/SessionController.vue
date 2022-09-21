@@ -1,5 +1,5 @@
 <template>
-  <div class="noselect flex justify-center items-center overflow-hidden">
+  <div class="noselect flex justify-between items-center overflow-hidden">
     <div class="h-full">
       <ClassSelection v-if="currentView === 'classSelection'" />
       <StoryScreen v-if="currentView === 'storyScreen'" />

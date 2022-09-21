@@ -1,7 +1,8 @@
 <template>
   <div class="gap-5 flex justify-center items-center content-center">
     <div class="flex flex-col justify-center items-center content-center">
-      <p class="text-xl">{{ socketPlayers?.player1?.name }}</p>
+      <p class="text-xl">{{ socketPlayers?.player1?.username }}</p>
+      {{ socketPlayers?.player1?.class }}
       <img
         id="player1"
         :src="`src/assets/images/${
@@ -13,7 +14,8 @@
       />
     </div>
     <div class="flex flex-col justify-center items-center content-center">
-      <p class="text-xl">{{ socketPlayers?.player2?.name }}</p>
+      <p class="text-xl">{{ socketPlayers?.player2?.username }}</p>
+      {{ socketPlayers?.player1?.class }}
       <img
         id="player2"
         :src="`src/assets/images/${
@@ -25,7 +27,8 @@
       />
     </div>
     <div class="flex flex-col justify-center items-center content-center">
-      <p class="text-xl">{{ socketPlayers?.player3?.name }}</p>
+      <p class="text-xl">{{ socketPlayers?.player3?.username }}</p>
+      {{ socketPlayers?.player1?.class }}
       <img
         id="player3"
         :src="`src/assets/images/${
@@ -37,7 +40,8 @@
       />
     </div>
     <div class="flex flex-col justify-center items-center content-center">
-      <p class="text-xl">{{ socketPlayers?.player4?.name }}</p>
+      <p class="text-xl">{{ socketPlayers?.player4?.username }}</p>
+      {{ socketPlayers?.player1?.class }}
       <img
         id="player4"
         :src="`src/assets/images/${
@@ -58,10 +62,10 @@ export default {
       required: true,
       default: () => {
         return {
-          player1: { name: null, class: null },
-          player2: { name: null, class: null },
-          player3: { name: null, class: null },
-          player4: { name: null, class: null },
+          player1: { username: null, class: null },
+          player2: { username: null, class: null },
+          player3: { username: null, class: null },
+          player4: { username: null, class: null },
         };
       },
     },

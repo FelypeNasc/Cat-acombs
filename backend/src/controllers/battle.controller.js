@@ -9,7 +9,7 @@ export class BattleController {
     console.log("MESSAGE: ", msg);
 
     const routes = {
-      setUsername: () => this.battleService.test(client, msg),
+      test: () => this.battleService.test(client, msg),
     };
 
     if (!routes.hasOwnProperty(route)) {

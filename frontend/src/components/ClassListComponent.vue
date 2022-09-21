@@ -16,7 +16,27 @@
         class="flex flex-col min-w-[50px] pointer"
         @click="selectclass(item)"
       >
-        <img class="class" :src="`../assets/images/${item.class}-class.svg`" />
+        <img
+          v-if="item.class === 'warrior'"
+          class="class"
+          src="../assets/images/warrior-class.svg"
+        />
+        <img
+          v-if="item.class === 'bard'"
+          class="class"
+          src="../assets/images/bard-class.svg"
+        />
+        <img
+          v-if="item.class === 'mage'"
+          class="class"
+          src="../assets/images/mage-class.svg"
+        />
+        <img
+          v-if="item.class === 'ranger'"
+          class="class"
+          src="../assets/images/ranger-class.svg"
+        />
+
         <label
           class="font-squirk text-center pointer text-white lg:text-xl md:text-base sm:text-sm"
           ref="warrior"
