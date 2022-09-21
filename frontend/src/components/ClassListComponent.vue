@@ -65,7 +65,7 @@ export default {
   },
   methods: {
     selectclass(item) {
-      this.$emit("selectclass", item);
+      this.$emit("selectClass", item);
     },
   },
 };

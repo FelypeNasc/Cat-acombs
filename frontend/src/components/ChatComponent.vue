@@ -38,10 +38,7 @@ export default {
   data() {
     return {
       sendChatMessage,
-      messages: [
-        { username: "maria", message: "ESCOLHE LOGO!" },
-        { username: "joão", message: "calma!" },
-      ],
+      messages: [],
       chatMessage: "",
     };
   },

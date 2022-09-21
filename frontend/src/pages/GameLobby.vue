@@ -16,7 +16,7 @@
     <div class="flex flex-col justify-center items-center w-full">
       <div class="w-max">
         <div class="inline-flex w-full justify-end">
-          <MiniButtonComponent @onclick="getRoomList">
+          <MiniButtonComponent @onclick="getRoomList()">
             <img src="../assets/icons/refresh-icon.svg" alt="refresh icon" />
           </MiniButtonComponent>
           <ButtonComponent
@@ -101,6 +101,7 @@ export default {
   },
   data() {
     return {
+      players: [],
       createRoom,
       enterRoom,
       getRoomList,
@@ -114,8 +115,7 @@ export default {
     };
   },
   created() {
-    this.getRoomList();
-
+    getRoomList();
     // ws listeners
     wsConnection.addEventListener("message", (msg) => {
       msg = JSON.parse(msg.data);
@@ -126,9 +126,11 @@ export default {
           this.rooms = msg.data;
           break;
         case "roomCreated":
+          console.log(msg.data);
           this.$router.push({ path: `/play/${msg.data.id}` });
           break;
         case "enterRoom":
+          console.log(msg.data);
           this.$router.push({ path: `/play/${msg.data.id}` });
           break;
         case "roomFull":
@@ -175,6 +177,7 @@ export default {
       this.showCardPassword = !this.showCardPassword;
     },
     openRoom(roomData) {
+      console.log(roomData);
       this.roomData = roomData;
       if (!roomData.hasPassword) {
         roomData.password = null;
