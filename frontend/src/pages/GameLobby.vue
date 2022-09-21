@@ -16,7 +16,7 @@
     <div class="flex flex-col justify-center items-center w-full">
       <div class="w-max">
         <div class="inline-flex w-full justify-end">
-          <MiniButtonComponent @onclick="getRoomList()">
+          <MiniButtonComponent @onclick="getRoomList">
             <img src="../assets/icons/refresh-icon.svg" alt="refresh icon" />
           </MiniButtonComponent>
           <ButtonComponent
@@ -25,16 +25,24 @@
             @onclick="toogleCreateRoom"
           />
         </div>
+        <div v-if="rooms.length">
+          <div
+            class="table-container my-6 grid grid-cols-2 grid-rows-5 items-center justify-items-center"
+          >
+            <RoomComponent
+              v-for="(room, index) in currentPageRooms"
+              v-bind:key="index"
+              :roomData="room"
+              @onclick="openRoom"
+            />
+          </div>
+        </div>
+
         <div
-          class="table-container my-6 grid grid-cols-2 items-center justify-items-center"
+          v-else
+          class="table-container my-6 flex items-center justify-center"
         >
-          <RoomComponent
-            v-for="(room, index) in currentPageRooms"
-            v-bind:key="index"
-            :roomName="room.roomName"
-            :numberOfPlayers="room.players.length"
-            :roomCreatorName="room.creatorName"
-          />
+          <h3 class="font-squirk text-4xl text-center">Não existem salas :(</h3>
         </div>
         <div class="inline-flex w-full justify-end">
           <MiniButtonComponent
@@ -61,7 +69,13 @@
     <CardCreateRoom
       v-if="showCreateRoom"
       @close="toogleCreateRoom"
-      @confirm="createRoom()"
+      @confirm="createRoom"
+    />
+    <CardPassword
+      v-if="showCardPassword"
+      :roomData="roomData"
+      @close="toogleCardPassword"
+      @confirm="confirmPassword"
     />
     <CardMenu v-if="showMenu" @close="toogleMenu" @confirm="logout" />
   </div>
@@ -72,11 +86,9 @@ import MiniButtonComponent from "../components/MiniButtonComponent.vue";
 import ButtonComponent from "../components/ButtonComponent.vue";
 import CardMenu from "../components/CardMenu.vue";
 import CardCreateRoom from "../components/CardCreateRoom.vue";
-import {
-  wsConnection,
-  getRoomList,
-  createRoom,
-} from "../connection/connections";
+import CardPassword from "../components/CardPassword.vue";
+import { wsConnection } from "../connection/connections";
+import { getRoomList, createRoom, enterRoom } from "../connection/room.methods";
 
 export default {
   components: {
@@ -85,16 +97,20 @@ export default {
     ButtonComponent,
     CardMenu,
     CardCreateRoom,
+    CardPassword,
   },
   data() {
     return {
       createRoom,
+      enterRoom,
       getRoomList,
       rooms: [],
+      roomData: null,
       pageNumber: 1,
       pageSize: 10,
       showMenu: false,
       showCreateRoom: false,
+      showCardPassword: false,
     };
   },
   created() {
@@ -102,7 +118,6 @@ export default {
 
     // ws listeners
     wsConnection.addEventListener("message", (msg) => {
-      console.log("GET ROOMS", msg);
       msg = JSON.parse(msg.data);
       console.log(msg);
 
@@ -112,6 +127,14 @@ export default {
           break;
         case "roomCreated":
           this.$router.push({ path: `/play/${msg.data.id}` });
+          break;
+        case "enterRoom":
+          this.$router.push({ path: `/play/${msg.data.id}` });
+          break;
+        case "roomFull":
+          break;
+        case "wrongPassword":
+          break;
       }
     });
   },
@@ -139,21 +162,29 @@ export default {
       };
       operation === "plus" ? increasePageNumber() : decreasePageNumber();
     },
-    createNewRoom(roomData) {
-      console.log(roomData);
-      this.toogleCreateRoom();
-    },
     logout() {
       this.$router.push("/");
     },
     toogleMenu() {
       this.showMenu = !this.showMenu;
     },
-    refreshRooms() {
-      console.log("refreshRooms");
-    },
     toogleCreateRoom() {
       this.showCreateRoom = !this.showCreateRoom;
+    },
+    toogleCardPassword() {
+      this.showCardPassword = !this.showCardPassword;
+    },
+    openRoom(roomData) {
+      this.roomData = roomData;
+      if (!roomData.hasPassword) {
+        roomData.password = null;
+        enterRoom(roomData);
+        return;
+      }
+      this.toogleCardPassword();
+    },
+    confirmPassword(verifyRoom) {
+      enterRoom(verifyRoom);
     },
   },
 };

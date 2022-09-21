@@ -16,7 +16,7 @@ export function createWS(username) {
     };
 
     wsConnection.addEventListener("message", (msg) => {
-      msg = JSON.parse(msg);
+      msg = JSON.parse(msg.data);
       if (msg.type === "userConnected") {
         sessionStorage.setItem("userData", msg.data);
       }
@@ -29,29 +29,25 @@ export function createWS(username) {
   });
 }
 
-export const getRoomList = () => {
-  const msg = {
-    type: "room/getRooms",
-  };
-  sendMessage(msg);
-};
-
-export const createRoom = (roomName, roomPassword) => {
-  const msg = {
-    type: "room/createRoom",
-    data: { roomName, roomPassword },
-  };
-  sendMessage(msg);
-};
-
 export const setUsername = (username) => {
   const msg = {
     type: "client/setUsername",
-    message: { username },
+    data: { username },
   };
   sendMessage(msg);
 };
 
-const sendMessage = (msg) => {
+export const sendChatMessage = (chatMessage, roomId) => {
+  const msg = {
+    type: "chat/sendMessage",
+    data: {
+      roomId,
+      message: chatMessage,
+    },
+  };
+  sendMessage(msg);
+};
+
+export const sendMessage = (msg) => {
   wsConnection.send(JSON.stringify(msg));
 };

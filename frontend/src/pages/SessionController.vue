@@ -1,7 +1,6 @@
 <template>
-  <div class="noselect flex justify-center items-center">
+  <div class="noselect flex justify-center items-center overflow-hidden">
     <div class="h-full">
-      {{ $route.params.id }}
       <ClassSelection v-if="currentView === 'classSelection'" />
       <StoryScreen v-if="currentView === 'storyScreen'" />
       <DungeonDoors v-if="currentView === 'dungeonDoors'" />
