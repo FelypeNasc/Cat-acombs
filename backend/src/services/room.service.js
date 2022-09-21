@@ -100,5 +100,7 @@ export class RoomService {
     client.send(JSON.stringify(response));
   }
 
+  async leaveRoom(client, msg) {}
+
   async deleteRoom(client, msg) {}
 }
