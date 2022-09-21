@@ -73,10 +73,10 @@ export default {
     return {
       classList: [
         [
-          { class: "warrior" },
-          { class: "bard" },
-          { class: "mage" },
-          { class: "ranger" },
+          { class: "warrior", route: "../assets/images/warrior-class.svg" },
+          { class: "bard", route: "../assets/images/bard-class.svg" },
+          { class: "mage", route: "../assets/images/mage-class.svg" },
+          { class: "ranger", route: "../assets/images/ranger-class.svg" },
         ],
       ],
       selectedClassList: {

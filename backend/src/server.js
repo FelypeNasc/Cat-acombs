@@ -2,9 +2,10 @@ import { WebSocketServer } from "ws";
 import { v4 as uuidv4 } from "uuid";
 
 import { GlobalController } from "./controllers/global.controller.js";
+import { disconnectPlayer } from "./utils/disconnectPlayer.js";
 
 const port = 8080;
-const wss = new WebSocketServer({ port });
+export const wss = new WebSocketServer({ port });
 
 const globalController = new GlobalController();
 
@@ -33,5 +34,9 @@ wss.on("connection", (c) => {
 
     console.log(`CLIENT: ${c.username}`);
     globalController.redirect(c, msg);
+  });
+
+  c.on("close", () => {
+    disconnectPlayer(c.id);
   });
 });

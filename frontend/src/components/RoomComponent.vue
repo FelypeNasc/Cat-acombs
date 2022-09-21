@@ -1,13 +1,13 @@
 <template>
   <div id="RoomComponent" @click="onclick">
     <div id="data">
-      <h2>{{ roomName }}</h2>
-      <h3>{{ roomCreatorName }}</h3>
+      <h2>{{ roomData?.roomName }}</h2>
+      <h3>{{ roomData?.creatorName }}</h3>
     </div>
 
     <div id="players">
       <img src="../assets/icons/cat-icon.svg" alt="" />
-      <h3>{{ numberOfPlayers }}/4</h3>
+      <h3>{{ playersNumber }}/4</h3>
     </div>
   </div>
 </template>
@@ -15,16 +15,16 @@
 <script>
 export default {
   props: {
-    roomName: String,
-    roomCreatorName: String,
-    numberOfPlayers: Number,
+    roomData: { type: Object, default: () => {} },
+  },
+  computed: {
+    playersNumber() {
+      return this.roomData?.players?.length ?? 0;
+    },
   },
   methods: {
     onclick() {
-      this.$emit("onclick", {
-        roomName: this.roomCreatorName,
-        roomCreatorName: this.roomCreatorName,
-      });
+      this.$emit("onclick", this.roomData);
     },
   },
 };
