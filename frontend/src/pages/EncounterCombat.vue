@@ -4,16 +4,16 @@
       <div class="11">
         <HPComponent
           class="w-[60%] h-[60%]"
-          :playerStatus="playerStatus1"
+          :playerStatus="playerStatus[1]"
         ></HPComponent>
       </div>
       <div class="12">
         <HPComponent
           class="w-[60%] h-[60%]"
-          :playerStatus="playerStatus2"
+          :playerStatus="playerStatus[2]"
         ></HPComponent>
       </div>
-      <div class="13 row-span-2">
+      <div class="13 row-span-2 w-32">
         <BossHPComponent :bossStatus="bossStatus"></BossHPComponent>
       </div>
       <div class="14 row-span-3">
@@ -22,13 +22,13 @@
       <div class="21">
         <HPComponent
           class="w-[60%] h-[60%]"
-          :playerStatus="playerStatus3"
+          :playerStatus="playerStatus[3]"
         ></HPComponent>
       </div>
       <div class="22">
         <HPComponent
           class="w-[60%] h-[60%]"
-          :playerStatus="playerStatus4"
+          :playerStatus="playerStatus[4]"
         ></HPComponent>
       </div>
       <div class="31 col-span-2 ml-10">
@@ -38,10 +38,10 @@
         <div class="showTurn mt-10 bg-blend-darken font-squirk text-xl">
           <h1 v-for="n in 4" :key="n">
             <div v-if="turn === n">
-              <h1 class="opacity-100">{{ `playerStatus${n}.playerName` }}</h1>
+              <h1 class="opacity-100">{{ playerStatus[n].playerName }}</h1>
             </div>
             <div v-else>
-              <h1 class="opacity-30">{{ `playerStatus${n}.playerName` }}</h1>
+              <h1 class="opacity-30">{{ playerStatus[n].playerName }}</h1>
             </div>
           </h1>
         </div>
@@ -66,29 +66,31 @@ export default {
     return {
       turn: 3,
       numberFloor: "1",
-      playerStatus4: {
-        playerName: "Eu",
-        playerClass: "mage",
-        hpMax: 100,
-        hpCurrent: 20,
-      },
-      playerStatus1: {
-        playerName: "Tu",
-        playerClass: "bard",
-        hpMax: 80,
-        hpCurrent: 50,
-      },
-      playerStatus2: {
-        playerName: "Eles",
-        playerClass: "warrior",
-        hpMax: 70,
-        hpCurrent: 40,
-      },
-      playerStatus3: {
-        playerName: "Nós",
-        playerClass: "ranger",
-        hpMax: 100,
-        hpCurrent: 10,
+      playerStatus: {
+        4: {
+          playerName: "Eu",
+          playerClass: "mage",
+          hpMax: 100,
+          hpCurrent: 20,
+        },
+        1: {
+          playerName: "Tu",
+          playerClass: "bard",
+          hpMax: 80,
+          hpCurrent: 50,
+        },
+        2: {
+          playerName: "Eles",
+          playerClass: "warrior",
+          hpMax: 70,
+          hpCurrent: 40,
+        },
+        3: {
+          playerName: "Nós",
+          playerClass: "ranger",
+          hpMax: 100,
+          hpCurrent: 10,
+        },
       },
       bossStatus: {
         bossName: "Grande Chefão",
