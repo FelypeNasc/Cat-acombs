@@ -24,18 +24,42 @@
         src="/src/assets/images/magic-btn.svg"
       />
     </div>
-    <div class="showAction mt-10 bg-blend-darken text-xl">
+    <div class="showAction mt-10 bg-blend-darken font-squirk text-xl">
       <div class="attackItems" v-if="action === 'attack'">
-        <h1 v-for="item in attackItems" :key="item">{{ item }}</h1>
+        <h1
+          class="opacity-30 hover:opacity-100"
+          v-for="item in attackItems"
+          :key="item"
+        >
+          {{ item }}
+        </h1>
       </div>
       <div class="defenseItems" v-if="action === 'defense'">
-        <h1 v-for="item in defenseItems" :key="item">{{ item }}</h1>
+        <h1
+          class="opacity-30 hover:opacity-100"
+          v-for="item in defenseItems"
+          :key="item"
+        >
+          {{ item }}
+        </h1>
       </div>
       <div class="magicItems" v-if="action === 'magic'">
-        <h1 v-for="item in magicItems" :key="item">{{ item }}</h1>
+        <h1
+          class="opacity-30 hover:opacity-100"
+          v-for="item in magicItems"
+          :key="item"
+        >
+          {{ item }}
+        </h1>
       </div>
       <div class="inventoryItems" v-if="action === 'inventory'">
-        <h1 v-for="item in inventoryItems" :key="item">{{ item }}</h1>
+        <h1
+          class="opacity-30 hover:opacity-100"
+          v-for="item in inventoryItems"
+          :key="item"
+        >
+          {{ item }}
+        </h1>
       </div>
     </div>
   </div>

@@ -1,52 +1,51 @@
 <template>
-  <div>
-    <div class="noselect flex flex-row justify-between">
-      <div>
+  <div class="dense">
+    <div class="grid grid-flow-row-dense grid-cols-4 grid-rows-3 items-center">
+      <div class="11">
         <HPComponent
-          class="max-w-[60%] max-h-[60%]"
-          :playerStatus="playerStatus"
-        ></HPComponent>
-        <HPComponent
-          class="max-w-[60%] max-h-[60%]"
+          class="w-[60%] h-[60%]"
           :playerStatus="playerStatus1"
         ></HPComponent>
       </div>
-      <div class="content-between">
+      <div class="12">
         <HPComponent
-          class="max-w-[60%] max-h-[60%]"
+          class="w-[60%] h-[60%]"
           :playerStatus="playerStatus2"
         ></HPComponent>
+      </div>
+      <div class="13 row-span-2">
+        <BossHPComponent :bossStatus="bossStatus"></BossHPComponent>
+      </div>
+      <div class="14 row-span-3">
+        <chat-component></chat-component>
+      </div>
+      <div class="21">
         <HPComponent
-          class="max-w-[60%] max-h-[60%]"
+          class="w-[60%] h-[60%]"
           :playerStatus="playerStatus3"
         ></HPComponent>
       </div>
-      <div>
-        <BossHPComponent
-          class="mt-10"
-          :bossStatus="bossStatus"
-        ></BossHPComponent>
-        <div class="mt-10 text-xl mr-64">
-          <h1 class="font-squirk opacity-30 hover:opacity-100">
-            Turno Player 1
-          </h1>
-          <h1 class="font-squirk opacity-30 hover:opacity-100">
-            Turno Player 2
-          </h1>
-          <h1 class="font-squirk opacity-30 hover:opacity-100">
-            Turno Player 3
-          </h1>
-          <h1 class="font-squirk opacity-30 hover:opacity-100">
-            Turno Player 4
+      <div class="22">
+        <HPComponent
+          class="w-[60%] h-[60%]"
+          :playerStatus="playerStatus4"
+        ></HPComponent>
+      </div>
+      <div class="31 col-span-2 ml-10">
+        <joystick-component></joystick-component>
+      </div>
+      <div class="33">
+        <div class="showTurn mt-10 bg-blend-darken font-squirk text-xl">
+          <h1 v-for="n in 4" :key="n">
+            <div v-if="turn === n">
+              <h1 class="opacity-100">{{ `playerStatus${n}.playerName` }}</h1>
+            </div>
+            <div v-else>
+              <h1 class="opacity-30">{{ `playerStatus${n}.playerName` }}</h1>
+            </div>
           </h1>
         </div>
       </div>
-      <div>
-        <chat-component></chat-component>
-      </div>
-    </div>
-    <div class="footer flex flex-row justify-between">
-      <joystick-component class="static left-10 botton-10"></joystick-component>
     </div>
   </div>
 </template>
@@ -65,8 +64,9 @@ export default {
   },
   data() {
     return {
+      turn: 3,
       numberFloor: "1",
-      playerStatus: {
+      playerStatus4: {
         playerName: "Eu",
         playerClass: "mage",
         hpMax: 100,
@@ -93,8 +93,8 @@ export default {
       bossStatus: {
         bossName: "Grande Chefão",
         hpCurrent: 80,
-        numberFloor: 1,
-        numberDoor: 3,
+        numberFloor: 3,
+        numberDoor: 2,
       },
     };
   },
