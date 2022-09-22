@@ -28,37 +28,41 @@
       <div class="attackItems" v-if="action === 'attack'">
         <h1
           class="opacity-30 hover:opacity-100"
-          v-for="item in attackItems"
-          :key="item"
+          v-for="(item, index) in attackItems"
+          :key="index"
+          @click="emitAction(item)"
         >
-          {{ item }}
+          {{ item.name }}
         </h1>
       </div>
       <div class="defenseItems" v-if="action === 'defense'">
         <h1
           class="opacity-30 hover:opacity-100"
-          v-for="item in defenseItems"
-          :key="item"
+          v-for="(item, index) in defenseItems"
+          :key="index"
+          @click="emitAction(item)"
         >
-          {{ item }}
+          {{ item.name }}
         </h1>
       </div>
       <div class="magicItems" v-if="action === 'magic'">
         <h1
           class="opacity-30 hover:opacity-100"
-          v-for="item in magicItems"
-          :key="item"
+          v-for="(item, index) in magicItems"
+          :key="index"
+          @click="emitAction(item)"
         >
-          {{ item }}
+          {{ item.name }}
         </h1>
       </div>
       <div class="inventoryItems" v-if="action === 'inventory'">
         <h1
           class="opacity-30 hover:opacity-100"
-          v-for="item in inventoryItems"
-          :key="item"
+          v-for="(item, index) in inventoryItems"
+          :key="index"
+          @click="emitAction(item)"
         >
-          {{ item }}
+          {{ item.name }}
         </h1>
       </div>
     </div>
@@ -71,11 +75,32 @@ export default {
   data() {
     return {
       action: "",
-      inventoryItems: ["pedra", "comida", "vida"],
-      defenseItems: ["escudo", "armadura", "colete"],
-      magicItems: ["bola", "artefato", "pó"],
-      attackItems: ["faca", "arma", "arco"],
+      inventoryItems: [
+        { name: "pedra", type: "item" },
+        { name: "comida", type: "item" },
+        { name: "vida", type: "item" },
+      ],
+      defenseItems: [
+        { name: "escudo", type: "defense" },
+        { name: "armadura", type: "defense" },
+        { name: "colete", type: "defense" },
+      ],
+      magicItems: [
+        { name: "bola", type: "magic" },
+        { name: "artefato", type: "magic" },
+        { name: "pó", type: "magic" },
+      ],
+      attackItems: [
+        { name: "faca", type: "attack" },
+        { name: "arma", type: "attack" },
+        { name: "arco", type: "attack" },
+      ],
     };
+  },
+  methods: {
+    emitAction(item) {
+      this.$emit("emitAction", item);
+    },
   },
 };
 </script>

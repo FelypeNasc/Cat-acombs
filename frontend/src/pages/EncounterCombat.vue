@@ -32,7 +32,7 @@
         ></HPComponent>
       </div>
       <div class="31 col-span-2 ml-10">
-        <joystick-component></joystick-component>
+        <joystick-component @emitAction="playerAction"></joystick-component>
       </div>
       <div class="33">
         <div class="showTurn mt-10 bg-blend-darken font-squirk text-xl">
@@ -94,7 +94,7 @@ export default {
       },
       bossStatus: {
         bossName: "Grande Chefão",
-        hpCurrent: 80,
+        hpCurrent: 50,
         numberFloor: 3,
         numberDoor: 2,
       },
@@ -104,6 +104,9 @@ export default {
     this.setBackground();
   },
   methods: {
+    playerAction(action) {
+      console.log(action);
+    },
     setBackground() {
       document.querySelector(
         "body"

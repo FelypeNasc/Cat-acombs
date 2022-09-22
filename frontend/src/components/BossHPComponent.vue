@@ -25,7 +25,8 @@
     </div>
     <div class="flex justify-center m-6">
       <div>
-        <img class="w-full"
+        <img
+          class="w-full"
           :src="`src/assets/images/${bossStatus.numberFloor}-floor-boss-${bossStatus.numberDoor}.svg`"
         />
       </div>
