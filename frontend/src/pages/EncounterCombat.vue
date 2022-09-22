@@ -1,42 +1,52 @@
 <template>
-  <div class="noselect flex flex-row justify-between">
-    <div>
-      <HPComponent
-        class="max-w-[60%] max-h-[60%]"
-        :playerStatus="playerStatus"
-      ></HPComponent>
-      <HPComponent
-        class="max-w-[60%] max-h-[60%]"
-        :playerStatus="playerStatus1"
-      ></HPComponent>
-      <joystick-component></joystick-component>
-    </div>
-    <div class="content-between">
-      <HPComponent
-        class="max-w-[60%] max-h-[60%]"
-        :playerStatus="playerStatus2"
-      ></HPComponent>
-      <HPComponent
-        class="max-w-[60%] max-h-[60%]"
-        :playerStatus="playerStatus3"
-      ></HPComponent>
-      <div class="mt-10 bg-blend-darken text-xl">
-        <h1 class="font-squirk opacity-30 hover:opacity-100">ATAQUE FORTE</h1>
-        <h1 class="font-squirk opacity-30 hover:opacity-100">ATAQUE BASICO</h1>
-        <h1 class="font-squirk opacity-30 hover:opacity-100">ATAQUE FRACO</h1>
+  <div>
+    <div class="noselect flex flex-row justify-between">
+      <div>
+        <HPComponent
+          class="max-w-[60%] max-h-[60%]"
+          :playerStatus="playerStatus"
+        ></HPComponent>
+        <HPComponent
+          class="max-w-[60%] max-h-[60%]"
+          :playerStatus="playerStatus1"
+        ></HPComponent>
+      </div>
+      <div class="content-between">
+        <HPComponent
+          class="max-w-[60%] max-h-[60%]"
+          :playerStatus="playerStatus2"
+        ></HPComponent>
+        <HPComponent
+          class="max-w-[60%] max-h-[60%]"
+          :playerStatus="playerStatus3"
+        ></HPComponent>
+      </div>
+      <div>
+        <BossHPComponent
+          class="mt-10"
+          :bossStatus="bossStatus"
+        ></BossHPComponent>
+        <div class="mt-10 text-xl mr-64">
+          <h1 class="font-squirk opacity-30 hover:opacity-100">
+            Turno Player 1
+          </h1>
+          <h1 class="font-squirk opacity-30 hover:opacity-100">
+            Turno Player 2
+          </h1>
+          <h1 class="font-squirk opacity-30 hover:opacity-100">
+            Turno Player 3
+          </h1>
+          <h1 class="font-squirk opacity-30 hover:opacity-100">
+            Turno Player 4
+          </h1>
+        </div>
+      </div>
+      <div>
+        <chat-component></chat-component>
       </div>
     </div>
-    <div>
-      <BossHPComponent class="mt-10" :bossStatus="bossStatus"></BossHPComponent>
-      <div class="mt-10 text-xl">
-        <h1 class="font-squirk opacity-30 hover:opacity-100">Turno Player 1</h1>
-        <h1 class="font-squirk opacity-30 hover:opacity-100">Turno Player 2</h1>
-        <h1 class="font-squirk opacity-30 hover:opacity-100">Turno Player 3</h1>
-        <h1 class="font-squirk opacity-30 hover:opacity-100">Turno Player 4</h1>
-      </div>
-    </div>
-    <div>
-      <chat-component></chat-component>
+    <div class="footer flex flex-row justify-between">
+      <joystick-component class="static left-10 botton-10"></joystick-component>
     </div>
   </div>
 </template>
@@ -45,6 +55,7 @@ import HPComponent from "../components/PlayerHPComponent.vue";
 import BossHPComponent from "../components/BossHPComponent.vue";
 import ChatComponent from "../components/ChatComponent.vue";
 import JoystickComponent from "../components/JoystickComponent.vue";
+
 export default {
   components: {
     HPComponent,
