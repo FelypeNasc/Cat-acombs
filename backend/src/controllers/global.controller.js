@@ -12,7 +12,7 @@ export class GlobalController {
   }
 
   async redirect(client, msg) {
-    ("room/getRooms");
+    // ("room/getRooms");
     const msgSplit = msg.type.split("/");
     console.log("MSG SPLIT:", msgSplit);
     const primaryRoute = msgSplit[0];

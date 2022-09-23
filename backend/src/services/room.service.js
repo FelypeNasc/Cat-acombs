@@ -1,4 +1,29 @@
-export const rooms = [];
+export const rooms = new Map();
+
+const roomExample = [
+  {
+    id: uuidv4(),
+    roomName: "abacaxi",
+    creatorName: "junin",
+    password: null,
+    hasPassword: false,
+    currentView: "classSelection",
+    players: [
+      {
+        id: client.id,
+        username: client.username,
+        character: {
+          class: null,
+          level: 1,
+          hp: 100,
+          maxHp: 100,
+          attack: 10,
+          actions: {},
+        },
+      },
+    ],
+  },
+];
 
 import { v4 as uuidv4 } from "uuid";
 import sendMessageToRoom from "../utils/sendMessageToRoom.js";
