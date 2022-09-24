@@ -1,18 +1,106 @@
 <template>
-  <div>
-    <img class="h-14 ml-14" src="/src/assets/images/attack-btn.svg" />
-    <div class="flex flex-row">
-      <img class="h-14" src="/src/assets/images/defense-btn.svg" />
-      <img class="h-14 ml-14" src="/src/assets/images/inventory-btn.svg" />
+  <div class="flex flex-row">
+    <div class="joystick mr-10">
+      <img
+        class="h-14 ml-14 rounded-full hover:bg-[#1a2661]"
+        @click="action = 'attack'"
+        src="/src/assets/images/attack-btn.svg"
+      />
+      <div class="flex flex-row">
+        <img
+          class="h-14 rounded-full hover:bg-[#1a2661]"
+          @click="action = 'defense'"
+          src="/src/assets/images/defense-btn.svg"
+        />
+        <img
+          class="h-14 ml-14 rounded-full hover:bg-[#1a2661]"
+          @click="action = 'inventory'"
+          src="/src/assets/images/inventory-btn.svg"
+        />
+      </div>
+      <img
+        class="h-14 ml-14 rounded-full hover:bg-[#1a2661]"
+        @click="action = 'magic'"
+        src="/src/assets/images/magic-btn.svg"
+      />
     </div>
-    <img class="h-14 ml-14" src="/src/assets/images/magic-btn.svg" />
+    <div class="showAction mt-10 bg-blend-darken font-squirk text-xl">
+      <div class="attackItems" v-if="action === 'attack'">
+        <h1
+          class="opacity-30 hover:opacity-100"
+          v-for="(item, index) in attackItems"
+          :key="index"
+          @click="emitAction(item)"
+        >
+          {{ item.name }}
+        </h1>
+      </div>
+      <div class="defenseItems" v-if="action === 'defense'">
+        <h1
+          class="opacity-30 hover:opacity-100"
+          v-for="(item, index) in defenseItems"
+          :key="index"
+          @click="emitAction(item)"
+        >
+          {{ item.name }}
+        </h1>
+      </div>
+      <div class="magicItems" v-if="action === 'magic'">
+        <h1
+          class="opacity-30 hover:opacity-100"
+          v-for="(item, index) in magicItems"
+          :key="index"
+          @click="emitAction(item)"
+        >
+          {{ item.name }}
+        </h1>
+      </div>
+      <div class="inventoryItems" v-if="action === 'inventory'">
+        <h1
+          class="opacity-30 hover:opacity-100"
+          v-for="(item, index) in inventoryItems"
+          :key="index"
+          @click="emitAction(item)"
+        >
+          {{ item.name }}
+        </h1>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: "JoystickComponent",
+  data() {
+    return {
+      action: "",
+      inventoryItems: [
+        { name: "pedra", type: "item" },
+        { name: "comida", type: "item" },
+        { name: "vida", type: "item" },
+      ],
+      defenseItems: [
+        { name: "escudo", type: "defense" },
+        { name: "armadura", type: "defense" },
+        { name: "colete", type: "defense" },
+      ],
+      magicItems: [
+        { name: "bola", type: "magic" },
+        { name: "artefato", type: "magic" },
+        { name: "pó", type: "magic" },
+      ],
+      attackItems: [
+        { name: "faca", type: "attack" },
+        { name: "arma", type: "attack" },
+        { name: "arco", type: "attack" },
+      ],
+    };
+  },
+  methods: {
+    emitAction(item) {
+      this.$emit("emitAction", item);
+    },
+  },
 };
 </script>
-
-<style scoped></style>
