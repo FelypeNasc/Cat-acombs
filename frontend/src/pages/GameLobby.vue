@@ -146,6 +146,9 @@ export default {
       }
     });
   },
+  mounted() {
+    document.addEventListener("backbutton", this.userOnLobby(), false);
+  },
   computed: {
     pageTotal() {
       return Math.ceil(this.rooms.length / this.pageSize);
