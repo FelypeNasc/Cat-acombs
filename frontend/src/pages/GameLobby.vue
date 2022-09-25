@@ -88,7 +88,12 @@ import CardMenu from "../components/CardMenu.vue";
 import CardCreateRoom from "../components/CardCreateRoom.vue";
 import CardPassword from "../components/CardPassword.vue";
 import { wsConnection } from "../connection/connections";
-import { getRoomList, createRoom, enterRoom } from "../connection/room.methods";
+import {
+  getRoomList,
+  createRoom,
+  enterRoom,
+  userOnLobby,
+} from "../connection/room.methods";
 
 export default {
   components: {
@@ -105,6 +110,7 @@ export default {
       createRoom,
       enterRoom,
       getRoomList,
+      userOnLobby,
       rooms: [],
       roomData: null,
       pageNumber: 1,
@@ -133,12 +139,17 @@ export default {
           console.log(msg.data);
           this.$router.push({ path: `/play/${msg.data.id}` });
           break;
+        case "disconnectedFromRoom":
+          break;
         case "roomFull":
           break;
         case "wrongPassword":
           break;
       }
     });
+  },
+  mounted() {
+    document.addEventListener("backbutton", this.userOnLobby(), false);
   },
   computed: {
     pageTotal() {

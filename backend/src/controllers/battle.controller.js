@@ -4,10 +4,6 @@ export class BattleController {
   battleService = new BattleService();
 
   async redirect(route, client, msg) {
-    console.log("BATTLE CONTROLLER");
-    console.log("ROUTE: ", route);
-    console.log("MESSAGE: ", msg);
-
     const routes = {
       test: () => this.battleService.test(client, msg),
     };

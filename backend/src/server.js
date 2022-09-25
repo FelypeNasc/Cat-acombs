@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { GlobalController } from "./controllers/global.controller.js";
 import { disconnectPlayer } from "./utils/disconnectPlayer.js";
+import { RoomService } from "./services/room.service.js";
 
 const port = 8080;
 export const wss = new WebSocketServer({ port });
@@ -36,7 +37,11 @@ wss.on("connection", (c) => {
     globalController.redirect(c, msg);
   });
 
-  c.on("close", () => {
-    disconnectPlayer(c.id);
+  c.on("close", async () => {
+    console.log(`${c.username} DISCONNECTING`);
+    const roomService = new RoomService();
+    await roomService.deletePlayerFromRooms(c.id);
+    console.log(`${c.username} DISCONNECTED`);
+
   });
 });

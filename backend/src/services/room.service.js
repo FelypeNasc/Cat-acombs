@@ -1,10 +1,41 @@
 export const rooms = [];
+export const playersOnRooms = [];
+
+// const roomExample = [
+//   {
+//     id: uuidv4(),
+//     roomName: "abacaxi",
+//     creatorName: "junin",
+//     password: null,
+//     hasPassword: false,
+//     currentView: "classSelection",
+//     players: [
+//       {
+//         id: client.id,
+//         username: client.username,
+//         character: {
+//           class: null,
+//           level: 1,
+//           hp: 100,
+//           maxHp: 100,
+//           attack: 10,
+//           actions: {},
+//         },
+//       },
+//     ],
+//   },
+// ];
 
 import { v4 as uuidv4 } from "uuid";
 import sendMessageToRoom from "../utils/sendMessageToRoom.js";
 import bcrypt from "bcrypt";
+import { ChatService } from "./chat.service.js";
 
 export class RoomService {
+  constructor() {
+    this.chatService = new ChatService();
+  }
+
   async getRooms(client, msg) {
     const responseRooms = rooms;
 
@@ -43,7 +74,14 @@ export class RoomService {
       newRoom.hasPassword = true;
     }
 
+    const player = {
+      id: client.id,
+      username: client.username,
+      roomId: newRoom.id,
+    };
+
     rooms.push(newRoom);
+    playersOnRooms.push(player);
 
     const response = {
       type: "roomCreated",
@@ -54,7 +92,7 @@ export class RoomService {
   }
 
   async enterRoom(client, msg) {
-    const player = {
+    const newPlayer = {
       id: client.id,
       username: client.username,
       class: null,
@@ -85,14 +123,76 @@ export class RoomService {
       return;
     }
 
-    rooms[roomIndex].players.push(player);
+    const player = {
+      id: client.id,
+      username: client.username,
+      roomId: msg.data.roomId,
+    };
+
+    rooms[roomIndex].players.push(newPlayer);
+    playersOnRooms.push(player);
 
     const response = {
       type: "enterRoom",
       data: rooms[roomIndex],
     };
-    sendMessageToRoom(rooms[roomIndex].id, response);
+
+    client.send(JSON.stringify(response));
+
+    const messageToRoom = `${client.username} entrou na sala`;
+
+    this.chatService.systemMessage(rooms[roomIndex].id, messageToRoom);
+  }
+
+  async userOnLobby(client, msg) {
+    await this.deletePlayerFromRooms(client.id);
+
+    const response = {
+      type: "disconnectedFromRoom",
+    };
+
+    client.send(JSON.stringify(response));
+  }
+
+  async leaveRoom(client, msg) {
+    deletePlayerFromRooms(client.id);
   }
 
   async deleteRoom(client, msg) {}
+
+  async deletePlayerFromRooms(playerId) {
+    const userFound = playersOnRooms.find((player) => player.id === playerId);
+
+    if (!userFound) return;
+
+    const roomIndex = rooms.map((e) => e.id).indexOf(userFound.roomId);
+
+    playersOnRooms.forEach((el, index) => {
+      if (el.id === playerId) {
+        playersOnRooms.splice(index, 1);
+      }
+    });
+    rooms[roomIndex].players = rooms[roomIndex].players.filter(
+      (player) => player.id !== playerId
+    );
+
+    playersOnRooms.forEach((el, index) => {
+      if (el.id === playerId) {
+        playersOnRooms.splice(index, 1);
+      }
+    });
+
+    const systemMessage = `${userFound.username} saiu na sala`;
+
+    this.chatService.systemMessage(userFound.roomId, systemMessage);
+
+    const messageToRoom = {
+      type: "roomUpdated",
+      data: rooms[roomIndex],
+    };
+
+    sendMessageToRoom(userFound.roomId, messageToRoom);
+
+    return rooms[roomIndex];
+  }
 }

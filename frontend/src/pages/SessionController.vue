@@ -1,9 +1,9 @@
 <template>
   <div class="noselect flex justify-between items-center overflow-hidden">
-    <div class="h-full w-full">
-      <ClassSelection v-if="currentView === 'classSelection'" />
-      <StoryScreen v-if="currentView === 'storyScreen'" />
-      <DungeonDoors v-if="currentView === 'dungeonDoors'" />
+    <div class="h-full">
+      <ClassSelection v-if="currentView === 'class'" />
+      <StoryScreen v-if="currentView === 'story'" />
+      <DungeonDoors v-if="currentView === 'doors'" />
       <EncounterCombat v-if="currentView === 'combat'" />
       <TestPage v-if="currentView === 'test'" />
     </div>
@@ -28,7 +28,7 @@ export default {
   },
   data() {
     return {
-      currentView: "combat",
+      currentView: "class",
     };
   },
   mounted() {
