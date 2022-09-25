@@ -70,6 +70,7 @@ export class RoomService {
           id: client.id,
           username: client.username,
           class: null,
+          checked: false,
         },
       ],
     };

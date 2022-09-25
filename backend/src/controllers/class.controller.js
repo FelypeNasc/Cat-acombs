@@ -6,6 +6,7 @@ export class ClassController {
   async redirect(route, client, msg) {
     const routes = {
       selectClass: () => this.classService.selectClass(client, msg),
+      ready: () => this.classService.ready(client, msg),
     };
 
     if (!routes.hasOwnProperty(route)) {

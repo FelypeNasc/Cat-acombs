@@ -53,19 +53,14 @@
             @selectClass="selectionClass"
           ></ClassListComponent>
           <button
-            class="font-squirk mt-8 bg-white text-3xl rounded-lg flat text-blue-600 h-20 w-40"
+            class="font-squirk mt-8 bg-white text-3xl rounded-lg flat ready-btn-color h-20 w-40"
+            :disabled="!selectedClass"
+            @click="readySection"
           >
             READY !
           </button>
         </div>
         <div class="ml-3"></div>
-      </div>
-      <div class="footer flex justify-center m-4">
-        <button
-          class="font-squirk bg-white text-3xl rounded-lg flat text-blue-600 h-20 w-40"
-        >
-          READY!
-        </button>
       </div>
     </div>
     <CardMenu v-if="showMenu" @close="toogleMenu" @confirm="logout" />
@@ -77,7 +72,7 @@ import ClassListComponent from "../components/ClassListComponent.vue";
 import MiniButtonComponent from "../components/MiniButtonComponent.vue";
 import CardMenu from "../components/CardMenu.vue";
 import { wsConnection } from "../connection/connections";
-import { selectClass } from "../connection/classSelection.methods";
+import { selectClass, ready } from "../connection/classSelection.methods";
 
 export default {
   components: {
@@ -99,6 +94,8 @@ export default {
       selectedClassList: {},
       selectedClass: null,
       showMenu: false,
+      selectClass,
+      ready,
     };
   },
   created() {
@@ -124,13 +121,18 @@ export default {
           this.selectedClassList = msg.data;
           console.log(msg.data);
           break;
+        case "ready":
+          this.selectedClassList = msg.data;
+          console.log(msg.data);
+          break;
       }
     });
     this.getCharactersSelected();
   },
   methods: {
     toogleMenu() {
-      this.showMenu === !this.showMenu;
+      this.showMenu = !this.showMenu;
+      console.log(this.showMenu);
     },
     logout() {
       this.$router.push("/");
@@ -141,7 +143,7 @@ export default {
       const userId = sessionStorage.getItem("userId");
       const username = sessionStorage.getItem("username");
       const roomData = { roomId, userId, username, class: item.class };
-      selectClass(roomData);
+      this.selectClass(roomData);
     },
     getCharactersSelected() {
       this.selectedClass = null;
@@ -149,10 +151,18 @@ export default {
       const userId = sessionStorage.getItem("userId");
       const username = sessionStorage.getItem("username");
       const roomData = { roomId, userId, username, class: this.selectedClass };
-      selectClass(roomData);
+      this.selectClass(roomData);
     },
-    getUsersSocket() {},
-    socketClassChange() {},
+    readySection() {
+      if (this.selectedClass) {
+        const roomId = this.$route.params.id;
+        const roomData = {
+          roomId,
+        };
+        console.log(roomData);
+        this.ready(roomData);
+      }
+    },
   },
 };
 </script>
@@ -176,7 +186,9 @@ export default {
 .config {
   width: 5%;
 }
-
+.ready-btn-color {
+  color: var(--dark-blue);
+}
 .tableRoom {
   display: flex;
   justify-content: center;
