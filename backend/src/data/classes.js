@@ -19,7 +19,7 @@ export default classes = {
         {
           id: 1,
           name: "Ataque Furioso",
-          description: "Um ataque rápido e muito forte, machuca",
+          description: "Um ataque rápido e muito forte com sua espada, machuca",
           cooldown: 2,
           type: "attack",
           value: 20,
@@ -47,7 +47,8 @@ export default classes = {
         {
           id: 2,
           name: "Chuva de flechas",
-          description: "Um ataque rápido",
+          description:
+            "Múltiplas flechas pro céu que caem sobre o inimigo consecutivamente",
           cooldown: 4,
           type: "attack",
           value: 15,
