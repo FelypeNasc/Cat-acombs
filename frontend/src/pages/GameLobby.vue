@@ -122,6 +122,7 @@ export default {
     };
   },
   created() {
+    this.setBackground();
     this.getRoomList();
     // ws listeners
     wsConnection.addEventListener("message", (msg) => {
@@ -163,6 +164,11 @@ export default {
     },
   },
   methods: {
+    setBackground() {
+      document.querySelector(
+        "body"
+      ).style.backgroundImage = `url(../src/assets/images/backgroundblue.png)`;
+    },
     changePageNumber(operation) {
       const increasePageNumber = () => {
         if (this.pageNumber !== this.pageTotal) {

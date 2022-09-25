@@ -118,9 +118,9 @@ export default {
 };
 </script>
 <style scoped>
-.main {
+/* .main {
   background-image: url("src/assets/images/backgroundblue.png");
-}
+} */
 .pointer {
   cursor: pointer;
 }

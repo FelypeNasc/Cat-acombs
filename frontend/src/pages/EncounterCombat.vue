@@ -1,6 +1,6 @@
 <template>
   <div class="dense">
-    <div class="grid grid-flow-row-dense grid-cols-4 grid-rows-3 items-center">
+    <div class="grid grid-flow-row-dense grid-cols-3 grid-rows-3 items-center">
       <div class="11">
         <HPComponent
           class="w-[60%] h-[60%]"
@@ -15,9 +15,6 @@
       </div>
       <div class="13 row-span-2 w-32">
         <BossHPComponent :bossStatus="bossStatus"></BossHPComponent>
-      </div>
-      <div class="14 row-span-3">
-        <chat-component></chat-component>
       </div>
       <div class="21">
         <HPComponent
@@ -52,14 +49,12 @@
 <script>
 import HPComponent from "../components/PlayerHPComponent.vue";
 import BossHPComponent from "../components/BossHPComponent.vue";
-import ChatComponent from "../components/ChatComponent.vue";
 import JoystickComponent from "../components/JoystickComponent.vue";
 
 export default {
   components: {
     HPComponent,
     BossHPComponent,
-    ChatComponent,
     JoystickComponent,
   },
   data() {
@@ -110,9 +105,15 @@ export default {
     setBackground() {
       document.querySelector(
         "body"
-      ).style.backgroundImage = `url(src/assets/images/${this.numberFloor}-floor-background.svg)`;
+      ).style.backgroundImage = `url(../src/assets/images/${this.numberFloor}-floor-background.svg)`;
     },
   },
 };
 </script>
-<style scoped></style>
+<style scoped>
+@media only screen and (min-height: 853px) {
+  .big-screen {
+    margin-top: 20%;
+  }
+}
+</style>

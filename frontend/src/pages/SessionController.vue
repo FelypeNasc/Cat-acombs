@@ -1,6 +1,6 @@
 <template>
   <div class="noselect flex justify-between items-center overflow-hidden">
-    <div class="h-full">
+    <div class="h-full w-full">
       <ClassSelection v-if="currentView === 'class'" />
       <StoryScreen v-if="currentView === 'story'" />
       <DungeonDoors v-if="currentView === 'doors'" />
@@ -28,18 +28,8 @@ export default {
   },
   data() {
     return {
-      currentView: "class",
+      currentView: "combat",
     };
-  },
-  mounted() {
-    this.setBackground();
-  },
-  methods: {
-    setBackground() {
-      document.querySelector(
-        "body"
-      ).style.backgroundImage = `url(src/assets/images/backgroundblue.png)`;
-    },
   },
 };
 </script>

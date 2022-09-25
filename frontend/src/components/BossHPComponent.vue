@@ -1,12 +1,12 @@
 <template>
-  <div class="w-52 flex-col p-1">
+  <div class="w-72 flex-col p-1">
     <div class="bg-white rounded-md p-2">
       <h2 class="font-squirk text-blue-900 text-center">
         {{ bossStatus.bossName }}
       </h2>
       <div class="flex items-center">
         <div class="heart">
-          <img src="src/assets/icons/heart-icon.svg" />
+          <img src="../assets/icons/heart-icon.svg" />
         </div>
         <div class="windowsSlider flex justify-center items-center">
           <input
@@ -23,11 +23,11 @@
         </div>
       </div>
     </div>
-    <div class="flex justify-center m-6">
+    <div class="h-60 w-60 flex justify-center m-6">
       <div>
         <img
           class="w-full"
-          :src="`src/assets/images/${bossStatus.numberFloor}-floor-boss-${bossStatus.numberDoor}.svg`"
+          :src="`../src/assets/images/${bossStatus.numberFloor}-floor-boss-${bossStatus.numberDoor}.svg`"
         />
       </div>
     </div>
