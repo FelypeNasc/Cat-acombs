@@ -137,6 +137,8 @@ export default {
         case "enterRoom":
           this.$router.push({ path: `/play/${msg.data.id}` });
           break;
+        case "disconnectedFromRoom":
+          break;
         case "roomFull":
           break;
         case "wrongPassword":

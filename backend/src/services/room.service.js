@@ -45,8 +45,6 @@ export class RoomService {
       type: "getRooms",
       data: responseRooms,
     };
-    console.log(rooms);
-    console.log(responseRooms);
 
     client.send(JSON.stringify(response));
   }
@@ -93,15 +91,13 @@ export class RoomService {
   }
 
   async enterRoom(client, msg) {
-    const player = {
+    const newPlayer = {
       id: client.id,
       username: client.username,
       class: null,
     };
 
     const roomIndex = rooms.map((e) => e.id).indexOf(msg.data.roomId);
-
-    console.log("enter room: ", rooms[roomIndex]);
 
     if (rooms[roomIndex].hasPassword) {
       const passwordMatch = bcrypt.compareSync(
@@ -126,7 +122,14 @@ export class RoomService {
       return;
     }
 
-    rooms[roomIndex].players.push(player);
+    const player = {
+      id: client.id,
+      username: client.username,
+      roomId: msg.data.roomId,
+    };
+
+    rooms[roomIndex].players.push(newPlayer);
+    playersOnRooms.push(player);
 
     const response = {
       type: "enterRoom",
@@ -141,29 +144,54 @@ export class RoomService {
   }
 
   async userOnLobby(client, msg) {
-    const userFound = playersOnRooms.find((player) => player.id === client.id);
+    await this.deletePlayerFromRooms(client.id);
 
-    if (userFound) {
-      const roomIndex = rooms.map((e) => e.id).indexOf(userFound.roomId);
-      rooms[roomIndex].players = rooms[roomIndex].players.filter(
-        (player) => player.id !== userFound.id
-      );
+    const response = {
+      type: "disconnectedFromRoom",
+    };
 
-      const response = {
-        type: "disconnectedFromRoom",
-      };
-
-      client.send(JSON.stringify(response));
-
-      const messageToRoom = {
-        type: "roomUpdated",
-        data: rooms[roomIndex],
-      };
-      sendMessageToRoom(rooms[roomIndex].id, messageToRoom);
-    }
+    client.send(JSON.stringify(response));
   }
 
-  async leaveRoom(client, msg) {}
+  async leaveRoom(client, msg) {
+    deletePlayerFromRooms(client.id);
+  }
 
   async deleteRoom(client, msg) {}
+
+  async deletePlayerFromRooms(playerId) {
+    const userFound = playersOnRooms.find((player) => player.id === playerId);
+
+    if (!userFound) return;
+
+    const roomIndex = rooms.map((e) => e.id).indexOf(userFound.roomId);
+
+    playersOnRooms.forEach((el, index) => {
+      if (el.id === playerId) {
+        playersOnRooms.splice(index, 1);
+      }
+    });
+    rooms[roomIndex].players = rooms[roomIndex].players.filter(
+      (player) => player.id !== playerId
+    );
+
+    playersOnRooms.forEach((el, index) => {
+      if (el.id === playerId) {
+        playersOnRooms.splice(index, 1);
+      }
+    });
+
+    const systemMessage = `${userFound.username} saiu na sala`;
+
+    this.chatService.systemMessage(userFound.roomId, systemMessage);
+
+    const messageToRoom = {
+      type: "roomUpdated",
+      data: rooms[roomIndex],
+    };
+
+    sendMessageToRoom(userFound.roomId, messageToRoom);
+
+    return rooms[roomIndex];
+  }
 }
