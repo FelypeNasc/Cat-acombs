@@ -6,7 +6,7 @@
       </h2>
       <div class="flex items-center">
         <div class="heart">
-          <img src="src/assets/icons/heart-icon.svg" />
+          <img src="../assets/icons/heart-icon.svg" />
         </div>
         <div class="windowsSlider flex justify-center items-center">
           <input
@@ -27,7 +27,7 @@
       <div>
         <img
           class="w-full"
-          :src="`src/assets/images/${bossStatus.numberFloor}-floor-boss-${bossStatus.numberDoor}.svg`"
+          :src="`../src/assets/images/${bossStatus.numberFloor}-floor-boss-${bossStatus.numberDoor}.svg`"
         />
       </div>
     </div>
