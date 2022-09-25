@@ -88,7 +88,12 @@ import CardMenu from "../components/CardMenu.vue";
 import CardCreateRoom from "../components/CardCreateRoom.vue";
 import CardPassword from "../components/CardPassword.vue";
 import { wsConnection } from "../connection/connections";
-import { getRoomList, createRoom, enterRoom } from "../connection/room.methods";
+import {
+  getRoomList,
+  createRoom,
+  enterRoom,
+  userOnLobby,
+} from "../connection/room.methods";
 
 export default {
   components: {
@@ -104,6 +109,7 @@ export default {
       createRoom,
       enterRoom,
       getRoomList,
+      userOnLobby,
       rooms: [],
       roomData: null,
       pageNumber: 1,

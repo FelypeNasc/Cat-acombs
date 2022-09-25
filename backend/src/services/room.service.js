@@ -1,35 +1,41 @@
-export const rooms = new Map();
+export const rooms = [];
+export const playersOnRooms = [];
 
-const roomExample = [
-  {
-    id: uuidv4(),
-    roomName: "abacaxi",
-    creatorName: "junin",
-    password: null,
-    hasPassword: false,
-    currentView: "classSelection",
-    players: [
-      {
-        id: client.id,
-        username: client.username,
-        character: {
-          class: null,
-          level: 1,
-          hp: 100,
-          maxHp: 100,
-          attack: 10,
-          actions: {},
-        },
-      },
-    ],
-  },
-];
+// const roomExample = [
+//   {
+//     id: uuidv4(),
+//     roomName: "abacaxi",
+//     creatorName: "junin",
+//     password: null,
+//     hasPassword: false,
+//     currentView: "classSelection",
+//     players: [
+//       {
+//         id: client.id,
+//         username: client.username,
+//         character: {
+//           class: null,
+//           level: 1,
+//           hp: 100,
+//           maxHp: 100,
+//           attack: 10,
+//           actions: {},
+//         },
+//       },
+//     ],
+//   },
+// ];
 
 import { v4 as uuidv4 } from "uuid";
 import sendMessageToRoom from "../utils/sendMessageToRoom.js";
 import bcrypt from "bcrypt";
+import { ChatService } from "./chat.service.js";
 
 export class RoomService {
+  constructor() {
+    this.chatService = new ChatService();
+  }
+
   async getRooms(client, msg) {
     const responseRooms = rooms;
 
@@ -70,7 +76,14 @@ export class RoomService {
       newRoom.hasPassword = true;
     }
 
+    const player = {
+      id: client.id,
+      username: client.username,
+      roomId: newRoom.id,
+    };
+
     rooms.push(newRoom);
+    playersOnRooms.push(player);
 
     const response = {
       type: "roomCreated",
@@ -87,8 +100,6 @@ export class RoomService {
     };
 
     const roomIndex = rooms.map((e) => e.id).indexOf(msg.data.roomId);
-    console.log(roomIndex);
-    console.log(msg.data);
 
     console.log("enter room: ", rooms[roomIndex]);
 
@@ -123,6 +134,33 @@ export class RoomService {
     };
 
     client.send(JSON.stringify(response));
+
+    const messageToRoom = `${client.username} entrou na sala`;
+
+    this.chatService.systemMessage(rooms[roomIndex].id, messageToRoom);
+  }
+
+  async userOnLobby(client, msg) {
+    const userFound = playersOnRooms.find((player) => player.id === client.id);
+
+    if (userFound) {
+      const roomIndex = rooms.map((e) => e.id).indexOf(userFound.roomId);
+      rooms[roomIndex].players = rooms[roomIndex].players.filter(
+        (player) => player.id !== userFound.id
+      );
+
+      const response = {
+        type: "disconnectedFromRoom",
+      };
+
+      client.send(JSON.stringify(response));
+
+      const messageToRoom = {
+        type: "roomUpdated",
+        data: rooms[roomIndex],
+      };
+      sendMessageToRoom(rooms[roomIndex].id, messageToRoom);
+    }
   }
 
   async leaveRoom(client, msg) {}

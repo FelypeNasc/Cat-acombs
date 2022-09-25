@@ -10,4 +10,13 @@ export class ChatService {
     };
     sendMessageToRoom(msg.data.roomId, response);
   }
+
+  async systemMessage(roomId, msg) {
+    const response = {
+      type: "systemMessage",
+      data: { username: "Sistema", message: msg },
+    };
+
+    sendMessageToRoom(roomId, response);
+  }
 }

@@ -54,6 +54,9 @@ export default {
         case "chatMessage":
           this.messages.push(msg.data);
           break;
+        case "systemMessage":
+          this.messages.push(msg.data);
+          break;
       }
     });
   },

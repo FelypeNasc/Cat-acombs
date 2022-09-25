@@ -27,6 +27,14 @@ export const enterRoom = (roomData) => {
   sendMessage(msg);
 };
 
+export const userOnLobby = () => {
+  const msg = {
+    type: "room/userOnLobby",
+  };
+
+  sendMessage(msg);
+};
+
 export const leaveRoom = (roomData) => {
   const msg = {
     type: "room/leaveRoom",
