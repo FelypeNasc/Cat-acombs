@@ -130,7 +130,7 @@ export default {
   },
   methods: {
     toogleMenu() {
-      this.showMenu === !this.showMenu;
+      this.showMenu = !this.showMenu;
     },
     logout() {
       this.$router.push("/");

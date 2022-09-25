@@ -31,16 +31,16 @@ export default {
       currentView: "classSelection",
     };
   },
-  mounted() {
-    this.setBackground();
-  },
-  methods: {
-    setBackground() {
-      document.querySelector(
-        "body"
-      ).style.backgroundImage = `url(src/assets/images/backgroundblue.png)`;
-    },
-  },
+  // mounted() {
+  //   this.setBackground();
+  // },
+  // methods: {
+  //   setBackground() {
+  //     document.querySelector(
+  //       "body"
+  //     ).style.backgroundImage = `url(src/assets/images/backgroundblue.png)`;
+  //   },
+  // },
 };
 </script>
 <style scoped></style>
