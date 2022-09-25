@@ -31,16 +31,6 @@ export default {
       currentView: "combat",
     };
   },
-  // mounted() {
-  //   this.setBackground();
-  // },
-  // methods: {
-  //   setBackground() {
-  //     document.querySelector(
-  //       "body"
-  //     ).style.backgroundImage = `url(src/assets/images/backgroundblue.png)`;
-  //   },
-  // },
 };
 </script>
 <style scoped></style>
