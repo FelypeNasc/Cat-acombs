@@ -1,7 +1,9 @@
 <template>
   <div class="gap-5 flex justify-center items-center content-center">
     <div class="flex flex-col justify-center items-center content-center">
-      <p class="text-xl">{{ socketPlayers?.player1?.username }}</p>
+      <p class="text-xl break-all h-[50px]">
+        {{ socketPlayers?.player1?.username }}
+      </p>
       <img
         v-if="!socketPlayers?.player1?.class"
         id="player1"
@@ -34,7 +36,9 @@
       />
     </div>
     <div class="flex flex-col justify-center items-center content-center">
-      <p class="text-xl">{{ socketPlayers?.player2?.username }}</p>
+      <p class="text-xl break-all h-[50px]">
+        {{ socketPlayers?.player2?.username }}
+      </p>
       <img
         v-if="!socketPlayers?.player2?.class"
         id="player2"
@@ -67,7 +71,9 @@
       />
     </div>
     <div class="flex flex-col justify-center items-center content-center">
-      <p class="text-xl">{{ socketPlayers?.player3?.username }}</p>
+      <p class="text-xl break-all h-[50px]">
+        {{ socketPlayers?.player3?.username }}
+      </p>
       <img
         v-if="!socketPlayers?.player3?.class"
         id="player3"
@@ -100,7 +106,9 @@
       />
     </div>
     <div class="flex flex-col justify-center items-center content-center">
-      <p class="text-xl">{{ socketPlayers?.player4?.username }}</p>
+      <p class="text-xl break-all h-[50px]">
+        {{ socketPlayers?.player4?.username }}
+      </p>
       <img
         v-if="!socketPlayers?.player4?.class"
         id="player4"

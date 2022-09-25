@@ -72,6 +72,7 @@
       @confirm="createRoom"
     />
     <CardPassword
+      :room-data="roomData"
       v-if="showCardPassword"
       :roomData="roomData"
       @close="toogleCardPassword"
@@ -177,7 +178,6 @@ export default {
       this.showCardPassword = !this.showCardPassword;
     },
     openRoom(roomData) {
-      console.log(roomData);
       this.roomData = roomData;
       if (!roomData.hasPassword) {
         roomData.password = null;
@@ -186,8 +186,9 @@ export default {
       }
       this.toogleCardPassword();
     },
-    confirmPassword(verifyRoom) {
-      enterRoom(verifyRoom);
+    confirmPassword(roomData) {
+      console.log("confirmacao", roomData);
+      enterRoom(roomData);
     },
   },
 };

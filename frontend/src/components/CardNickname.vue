@@ -11,6 +11,7 @@
         v-model="nickname"
         type="text"
         class="card-input-background rounded-md mb-5 w-11/12 h-3/12 p-2 text-lg"
+        v-on:keyup.enter="confirm"
       />
       <ButtonComponent text="Ok!" mode="dark" @onclick="confirm" />
     </div>
