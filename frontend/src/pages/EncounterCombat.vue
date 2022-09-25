@@ -115,4 +115,10 @@ export default {
   },
 };
 </script>
-<style scoped></style>
+<style scoped>
+@media only screen and (min-height: 853px) {
+  .big-screen {
+    margin-top: 20%;
+  }
+}
+</style>

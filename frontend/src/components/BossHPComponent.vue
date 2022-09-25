@@ -1,5 +1,5 @@
 <template>
-  <div class="w-52 flex-col p-1">
+  <div class="w-72 flex-col p-1">
     <div class="bg-white rounded-md p-2">
       <h2 class="font-squirk text-blue-900 text-center">
         {{ bossStatus.bossName }}
@@ -23,7 +23,7 @@
         </div>
       </div>
     </div>
-    <div class="flex justify-center m-6">
+    <div class="h-60 w-60 flex justify-center m-6">
       <div>
         <img
           class="w-full"
