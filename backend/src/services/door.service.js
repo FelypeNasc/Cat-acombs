@@ -48,6 +48,10 @@ export class DoorService {
       door
     );
     const roomIndex = rooms.map((e) => e.id).indexOf(roomId);
+
+    rooms[roomIndex].currentView = "story";
+    this.roomService.roomUpdated(roomId, true, doorData.storyText);
+
     rooms[roomIndex].currentView = "combat";
 
     const response = {
@@ -55,8 +59,9 @@ export class DoorService {
       data: battleData,
     };
 
-    sendMessageToRoom(roomId, response);
-
-    this.roomService.roomUpdated(roomId);
+    setTimeout(() => {
+      sendMessageToRoom(roomId, response);
+      this.roomService.roomUpdated(roomId);
+    }, 10000);
   }
 }
