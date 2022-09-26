@@ -2,10 +2,12 @@ import { rooms } from "./room.service.js";
 import sendMessageToRoom from "../utils/sendMessageToRoom.js";
 import { RoomService } from "../services/room.service.js";
 import { wss } from "../server.js";
+import { BattleService } from "./battle.service.js";
 
 export class ClassService {
   constructor() {
     this.roomService = new RoomService();
+    this.battleService = new BattleService();
   }
   async selectClass(client, msg) {
     console.log(msg.data);
@@ -100,6 +102,7 @@ export class ClassService {
       rooms[roomIndex].currentView = "doors";
       rooms[roomIndex].inGame = true;
       this.roomService.roomUpdated(msg.data.roomId);
+      this.battleService.setInitialStats(msg.data.roomId);
     } else {
       sendMessageToRoom(msg.data.roomId, response);
     }

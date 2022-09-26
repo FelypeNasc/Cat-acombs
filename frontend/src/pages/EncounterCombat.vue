@@ -1,44 +1,48 @@
 <template>
-  <div class="dense">
+  <div class="dense noselect">
+    {{ battleData.turnIndex }}
     <div class="grid grid-flow-row-dense grid-cols-3 grid-rows-3 items-center">
       <div class="11">
         <HPComponent
-          class="w-[60%] h-[60%]"
-          :playerStatus="playerStatus[1]"
+          class="w-[60%] big-screen"
+          :playerStatus="battleData.players[0]"
         ></HPComponent>
       </div>
       <div class="12">
         <HPComponent
-          class="w-[60%] h-[60%]"
-          :playerStatus="playerStatus[2]"
+          class="w-[60%] big-screen"
+          :playerStatus="battleData.players[1]"
         ></HPComponent>
       </div>
       <div class="13 row-span-2 w-32">
-        <BossHPComponent :bossStatus="bossStatus"></BossHPComponent>
+        <BossHPComponent :bossStatus="battleData.enemy"></BossHPComponent>
       </div>
       <div class="21">
         <HPComponent
-          class="w-[60%] h-[60%]"
-          :playerStatus="playerStatus[3]"
+          class="w-[60%] big-screen"
+          :playerStatus="battleData.players[2]"
         ></HPComponent>
       </div>
       <div class="22">
         <HPComponent
-          class="w-[60%] h-[60%]"
-          :playerStatus="playerStatus[4]"
+          class="w-[60%] big-screen"
+          :playerStatus="battleData.players[3]"
         ></HPComponent>
       </div>
       <div class="31 col-span-2 ml-10">
-        <joystick-component @emitAction="playerAction"></joystick-component>
+        <joystick-component
+          :playerStatus="battleData.players[`${userIndex()}`]"
+          @emitAction="playerAction"
+        ></joystick-component>
       </div>
       <div class="33">
         <div class="showTurn mt-10 bg-blend-darken font-squirk text-xl">
-          <h1 v-for="n in 4" :key="n">
-            <div v-if="turn === n">
-              <h1 class="opacity-100">{{ playerStatus[n].playerName }}</h1>
+          <h1 v-for="n in 5" :key="n">
+            <div v-if="battleData.turnIndex === n - 1">
+              <h1 class="opacity-100">{{ battleData.turnList[n - 1].name }}</h1>
             </div>
             <div v-else>
-              <h1 class="opacity-30">{{ playerStatus[n].playerName }}</h1>
+              <h1 class="opacity-30">{{ battleData.turnList[n - 1].name }}</h1>
             </div>
           </h1>
         </div>
@@ -50,6 +54,7 @@
 import HPComponent from "../components/PlayerHPComponent.vue";
 import BossHPComponent from "../components/BossHPComponent.vue";
 import JoystickComponent from "../components/JoystickComponent.vue";
+import { wsConnection } from "../connection/connections";
 
 export default {
   components: {
@@ -64,54 +69,60 @@ export default {
     },
   },
   data() {
-    return {
-      turn: 3,
-      numberFloor: "1",
-      playerStatus: {
-        4: {
-          playerName: "Eu",
-          playerClass: "mage",
-          hpMax: 100,
-          hpCurrent: 20,
-        },
-        1: {
-          playerName: "Tu",
-          playerClass: "bard",
-          hpMax: 80,
-          hpCurrent: 50,
-        },
-        2: {
-          playerName: "Eles",
-          playerClass: "warrior",
-          hpMax: 70,
-          hpCurrent: 40,
-        },
-        3: {
-          playerName: "Nós",
-          playerClass: "ranger",
-          hpMax: 100,
-          hpCurrent: 10,
-        },
-      },
-      bossStatus: {
-        bossName: "Grande Chefão",
-        hpCurrent: 50,
-        numberFloor: 3,
-        numberDoor: 2,
-      },
-    };
+    return {};
   },
   created() {
     this.setBackground();
+    wsConnection.addEventListener("message", (msg) => {
+      msg = JSON.parse(msg.data);
+      console.log(msg);
+
+      switch (msg.type) {
+        case "startBattle":
+          break;
+        case "battleUpdated":
+          break;
+      }
+    });
   },
   methods: {
     playerAction(action) {
       console.log(action);
     },
     setBackground() {
-      document.querySelector(
-        "body"
-      ).style.backgroundImage = `url(../src/assets/images/${this.numberFloor}-floor-background.svg)`;
+      if (
+        this.battleData.enemy.id === 1 ||
+        this.battleData.enemy.id === 2 ||
+        this.battleData.enemy.id === 3
+      ) {
+        document.querySelector("body").style.backgroundImage =
+          "url(../src/assets/images/1-floor-background.svg)";
+      } else if (
+        this.battleData.enemy.id === 4 ||
+        this.battleData.enemy.id === 5 ||
+        this.battleData.enemy.id === 6
+      ) {
+        document.querySelector("body").style.backgroundImage =
+          "url(../src/assets/images/2-floor-background.svg)";
+      } else if (
+        this.battleData.enemy.id === 7 ||
+        this.battleData.enemy.id === 8 ||
+        this.battleData.enemy.id === 9
+      ) {
+        document.querySelector("body").style.backgroundImage =
+          "url(../src/assets/images/3-floor-background.svg)";
+      }
+    },
+    userIndex() {
+      const sessionId = sessionStorage.getItem("userId");
+      const userIndex = this.battleData.players
+        .map((e) => {
+          return e.playerId;
+        })
+        .indexOf(sessionId);
+
+      console.log(userIndex, 'AAAAOBA')
+      return userIndex;
     },
   },
 };
@@ -119,7 +130,7 @@ export default {
 <style scoped>
 @media only screen and (min-height: 853px) {
   .big-screen {
-    margin-top: 20%;
+    margin-top: 15%;
   }
 }
 </style>

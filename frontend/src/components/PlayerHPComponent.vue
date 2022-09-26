@@ -2,7 +2,7 @@
   <div class="w-52 flex-col p-1">
     <div class="bg-white rounded-md p-2">
       <h2 class="font-squirk text-blue-900 text-center">
-        {{ playerStatus?.playerName }}
+        {{ playerStatus?.username }}
       </h2>
       <div class="flex items-center">
         <div class="heart">
@@ -14,26 +14,26 @@
             type="range"
             class="windowsSliderInput"
             min="0"
-            :max="playerStatus.hpMax"
+            :max="playerStatus.stats.maxHp"
           />
           <div
             class="windowsSliderProgress"
-            :style="{ width: playerStatus.hpCurrent + '%' }"
+            :style="{ width: playerStatus.stats.currentHp / playerStatus.stats.maxHp * 100 + '%' }"
           ></div>
         </div>
       </div>
     </div>
     <div class="flex justify-center m-6">
-      <div v-if="playerStatus.playerClass == 'warrior'">
+      <div v-if="playerStatus.class == 'Warrior'">
         <img src="../assets/images/warrior-full.svg" class="warrior catImage" />
       </div>
-      <div v-else-if="playerStatus.playerClass == 'mage'">
+      <div v-else-if="playerStatus.class == 'Mage'">
         <img src="../assets/images/mage-full.svg" class="mage catImage" />
       </div>
-      <div v-else-if="playerStatus.playerClass == 'ranger'">
+      <div v-else-if="playerStatus.class == 'Ranger'">
         <img src="../assets/images/ranger-full.svg" class="ranger catImage" />
       </div>
-      <div v-else-if="playerStatus.playerClass == 'bard'">
+      <div v-else-if="playerStatus.class == 'Bard'">
         <img src="../assets/images/bard-full.svg" class="bard catImage" />
       </div>
     </div>
@@ -54,6 +54,11 @@ export default {
     return {
       percent: 100,
     };
+  },
+  methods: {
+    calculatePercentage(max, current) {
+      return (current * 100) / max;
+    },
   },
   watch: {
     windowsSliderProgress() {

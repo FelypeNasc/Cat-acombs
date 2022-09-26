@@ -20,7 +20,7 @@ export class BattleService {
 
     if (!battleData) return;
 
-    if (turnList[turnIndex] !== client.id) return;
+    if (turnList[turnIndex].id !== client.id) return;
 
     const playerIndex = players.map((e) => e.id).indexOf(client.id);
     const playerData = players[playerIndex];
@@ -52,7 +52,7 @@ export class BattleService {
 
     this.verifyHps(roomId);
     this.verifyTurn(roomId);
-    this.battleUpdated(roomId)
+    this.battleUpdated(roomId);
   }
 
   async skill(client, msg) {
@@ -62,7 +62,7 @@ export class BattleService {
 
     if (!battleData) return;
 
-    if (turnList[turnIndex] !== client.id) return;
+    if (turnList[turnIndex].id !== client.id) return;
 
     const playerIndex = players.map((e) => e.id).indexOf(client.id);
     const playerData = players[playerIndex];
@@ -117,7 +117,7 @@ export class BattleService {
     this.chatService.systemMessage(roomId, systemMessage);
     this.verifyHps(roomId);
     this.verifyTurn(roomId);
-    this.battleUpdated(roomId)
+    this.battleUpdated(roomId);
   }
 
   async enemyTurn(roomId) {
@@ -185,7 +185,7 @@ export class BattleService {
 
     this.verifyHps(roomId);
     this.verifyTurn(roomId);
-    this.battleUpdated(roomId)
+    this.battleUpdated(roomId);
   }
 
   async newBattle(doorData, roomId, floor, door) {
@@ -202,14 +202,18 @@ export class BattleService {
       id: room.id,
       doorData: { floor, door },
       turnIndex: 0,
-      turnList: room.players.map((player) => player.id),
+      turnList: room.players.map((player) => {
+        return { id: player.id, name: player.username };
+      }),
       players: playersCharacters,
       enemy: roomEnemy,
     };
+    console.log("Players characters:", playersCharacters);
 
-    newBattle.turnList.push("enemy");
+    newBattle.turnList.push({ id: "enemy", name: roomEnemy.name });
 
     battles[roomId] = newBattle;
+    return newBattle;
   }
 
   async cooldownDecrease(roomId) {
@@ -262,7 +266,7 @@ export class BattleService {
       ? ((turnIndex = 0), this.cooldownDecrease(roomId))
       : turnIndex++;
 
-    if (turnList[turnIndex] === "enemy") {
+    if (turnList[turnIndex].id === "enemy") {
       this.enemyTurn(roomId);
     }
   }
@@ -343,7 +347,7 @@ export class BattleService {
     });
   }
 
-  async buildCharacter(playerData) {
+  buildCharacter(playerData) {
     const classRawData = classes[playerData.character.class];
     console.log("classRawData", classRawData);
     const { name, description, stats, actions } = classRawData;
@@ -368,6 +372,8 @@ export class BattleService {
       actions,
     };
 
+    console.log("new character", newCharacter);
+
     return newCharacter;
   }
 
@@ -391,6 +397,8 @@ export class BattleService {
 
       player.character.currentHp = stats.baseHp;
       player.character.maxHp = stats.baseHp;
+
+      console.log("stats base hp: ", stats.baseHp);
     });
   }
 }

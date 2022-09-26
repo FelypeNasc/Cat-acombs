@@ -11,7 +11,9 @@
         :key="index"
         class="flex gap-x-2 text-base"
       >
-        <p class="name-color">{{ item.username }}:</p>
+        <p :class="item.username === 'Sistema' ? 'system-color' : 'name-color'">
+          {{ item.username }}:
+        </p>
         <p class="break-all">{{ item.message }}</p>
       </div>
     </div>
@@ -94,6 +96,9 @@ export default {
 
 .name-color {
   color: #4047ff;
+}
+.system-color {
+  color: red;
 }
 
 .blue-color {

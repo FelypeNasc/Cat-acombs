@@ -10,7 +10,9 @@
       />
       <TestPage v-if="currentView === 'test'" />
     </div>
-    <div class="chat-container w-max"><ChatComponent /></div>
+    <div v-if="currentView !== 'story'" class="chat-container w-max">
+      <ChatComponent />
+    </div>
   </div>
 </template>
 <script>
@@ -34,17 +36,20 @@ export default {
     return {
       currentView: "class",
       storyText: null,
+      battleData: {},
     };
   },
   created() {
     wsConnection.addEventListener("message", (msg) => {
       msg = JSON.parse(msg.data);
-      console.log(msg);
 
       switch (msg.type) {
         case "roomUpdated":
           this.storyText = msg?.data?.storyText ?? null;
           this.currentView = msg?.data?.currentView;
+          break;
+        case "battleUpdated":
+          this.battleData = msg?.data;
           break;
       }
     });

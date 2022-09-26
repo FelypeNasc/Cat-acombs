@@ -180,7 +180,7 @@ export class RoomService {
 
     client.send(JSON.stringify(response));
 
-    const messageToRoom = `${client.username} entrou na sala`;
+    const messageToRoom = `O jogador ${client.username} entrou na sala`;
 
     this.chatService.systemMessage(rooms[roomIndex].id, messageToRoom);
   }
