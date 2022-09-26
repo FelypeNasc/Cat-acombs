@@ -407,6 +407,7 @@ export class BattleService {
 
   async buildCharacter(playerData) {
     const classRawData = classes[playerData.character.class];
+    console.log("classRawData", classRawData);
     const { name, description, stats, actions } = classRawData;
     const newCharacter = {
       playerId: playerData.id,
