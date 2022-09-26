@@ -90,8 +90,8 @@ export default {
       bossStatus: {
         bossName: "Grande Chefão",
         hpCurrent: 50,
-        numberFloor: 2,
-        numberDoor: 2,
+        numberFloor: 3,
+        numberDoor: 4,
       },
     };
   },
