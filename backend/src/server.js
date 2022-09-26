@@ -38,10 +38,8 @@ wss.on("connection", (c) => {
   });
 
   c.on("close", async () => {
-    console.log(`${c.username} DISCONNECTING`);
     const roomService = new RoomService();
     await roomService.deletePlayerFromRooms(c.id);
     console.log(`${c.username} DISCONNECTED`);
-
   });
 });
