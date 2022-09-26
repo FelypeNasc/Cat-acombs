@@ -72,8 +72,8 @@
       @confirm="createRoom"
     />
     <CardPassword
+      :room-data="roomData"
       v-if="showCardPassword"
-      :roomData="roomData"
       @close="toogleCardPassword"
       @confirm="confirmPassword"
     />
@@ -121,7 +121,8 @@ export default {
     };
   },
   created() {
-    getRoomList();
+    this.setBackground();
+    this.getRoomList();
     // ws listeners
     wsConnection.addEventListener("message", (msg) => {
       msg = JSON.parse(msg.data);
@@ -149,7 +150,7 @@ export default {
     });
   },
   mounted() {
-    document.addEventListener("backbutton", this.userOnLobby(), false);
+    document.addEventListener("backbutton", this.backButton(), false);
   },
   computed: {
     pageTotal() {
@@ -162,6 +163,11 @@ export default {
     },
   },
   methods: {
+    setBackground() {
+      document.querySelector(
+        "body"
+      ).style.backgroundImage = `url(../src/assets/images/backgroundblue.png)`;
+    },
     changePageNumber(operation) {
       const increasePageNumber = () => {
         if (this.pageNumber !== this.pageTotal) {
@@ -174,6 +180,10 @@ export default {
         }
       };
       operation === "plus" ? increasePageNumber() : decreasePageNumber();
+    },
+    backButton() {
+      this.getRoomList();
+      this.userOnLobby();
     },
     logout() {
       this.$router.push("/");
@@ -188,7 +198,6 @@ export default {
       this.showCardPassword = !this.showCardPassword;
     },
     openRoom(roomData) {
-      console.log(roomData);
       this.roomData = roomData;
       if (!roomData.hasPassword) {
         roomData.password = null;
@@ -197,8 +206,9 @@ export default {
       }
       this.toogleCardPassword();
     },
-    confirmPassword(verifyRoom) {
-      enterRoom(verifyRoom);
+    confirmPassword(roomData) {
+      console.log("confirmacao", roomData);
+      enterRoom(roomData);
     },
   },
 };

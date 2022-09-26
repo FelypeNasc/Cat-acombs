@@ -1,4 +1,4 @@
-export default skills = {
+export const skills = {
   1: {
     id: 1,
     name: "Ataque Furioso",

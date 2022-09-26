@@ -3,28 +3,28 @@
     <div class="grid grid-flow-row-dense grid-cols-3 grid-rows-3 items-center">
       <div class="11">
         <HPComponent
-          class="w-[60%] big-screen"
+          class="w-[60%] h-[60%]"
           :playerStatus="playerStatus[1]"
         ></HPComponent>
       </div>
       <div class="12">
         <HPComponent
-          class="w-[60%] big-screen"
+          class="w-[60%] h-[60%]"
           :playerStatus="playerStatus[2]"
         ></HPComponent>
       </div>
-      <div class="13 row-span-2 w-72">
+      <div class="13 row-span-2 w-32">
         <BossHPComponent :bossStatus="bossStatus"></BossHPComponent>
       </div>
       <div class="21">
         <HPComponent
-          class="w-[60%] big-screen"
+          class="w-[60%] h-[60%]"
           :playerStatus="playerStatus[3]"
         ></HPComponent>
       </div>
       <div class="22">
         <HPComponent
-          class="w-[60%] big-screen"
+          class="w-[60%] h-[60%]"
           :playerStatus="playerStatus[4]"
         ></HPComponent>
       </div>
@@ -57,6 +57,12 @@ export default {
     BossHPComponent,
     JoystickComponent,
   },
+  props: {
+    battleData: {
+      type: Object,
+      default: () => {},
+    },
+  },
   data() {
     return {
       turn: 3,
@@ -72,7 +78,7 @@ export default {
           playerName: "Tu",
           playerClass: "bard",
           hpMax: 80,
-          hpCurrent: 39,
+          hpCurrent: 50,
         },
         2: {
           playerName: "Eles",
@@ -83,7 +89,7 @@ export default {
         3: {
           playerName: "Nós",
           playerClass: "ranger",
-          hpMax: 50,
+          hpMax: 100,
           hpCurrent: 10,
         },
       },
@@ -91,7 +97,7 @@ export default {
         bossName: "Grande Chefão",
         hpCurrent: 50,
         numberFloor: 3,
-        numberDoor: 4,
+        numberDoor: 2,
       },
     };
   },
@@ -105,7 +111,7 @@ export default {
     setBackground() {
       document.querySelector(
         "body"
-      ).style.backgroundImage = `url(src/assets/images/${this.numberFloor}-floor-background.svg)`;
+      ).style.backgroundImage = `url(../src/assets/images/${this.numberFloor}-floor-background.svg)`;
     },
   },
 };

@@ -1,7 +1,11 @@
 <template>
   <div class="gap-5 flex justify-center items-center content-center">
-    <div class="flex flex-col justify-center items-center content-center">
-      <p class="text-xl">{{ socketPlayers?.player1?.username }}</p>
+    <div
+      class="relative flex flex-col justify-center items-center content-center"
+    >
+      <p class="text-xl break-all h-[50px]">
+        {{ socketPlayers?.player1?.username }}
+      </p>
       <img
         v-if="!socketPlayers?.player1?.class"
         id="player1"
@@ -32,9 +36,17 @@
         src="../assets/images/ranger-class-selected.svg"
         class="w-2/4 min-w-[80px]"
       />
+      <img
+        v-if="socketPlayers?.player1?.checked"
+        id="player1"
+        src="../assets/icons/check-icon.svg"
+        class="absolute right-0 bottom-0 w-2/4 z-10"
+      />
     </div>
     <div class="flex flex-col justify-center items-center content-center">
-      <p class="text-xl">{{ socketPlayers?.player2?.username }}</p>
+      <p class="text-xl break-all h-[50px]">
+        {{ socketPlayers?.player2?.username }}
+      </p>
       <img
         v-if="!socketPlayers?.player2?.class"
         id="player2"
@@ -65,9 +77,17 @@
         src="../assets/images/ranger-class-selected.svg"
         class="w-2/4 min-w-[80px]"
       />
+      <img
+        v-if="socketPlayers?.player2?.checked"
+        id="player2"
+        src="../assets/icons/check-icon.svg"
+        class="absolute right-0 bottom-0 w-2/4 z-10"
+      />
     </div>
     <div class="flex flex-col justify-center items-center content-center">
-      <p class="text-xl">{{ socketPlayers?.player3?.username }}</p>
+      <p class="text-xl break-all h-[50px]">
+        {{ socketPlayers?.player3?.username }}
+      </p>
       <img
         v-if="!socketPlayers?.player3?.class"
         id="player3"
@@ -98,9 +118,17 @@
         src="../assets/images/ranger-class-selected.svg"
         class="w-2/4 min-w-[80px]"
       />
+      <img
+        v-if="socketPlayers?.player3?.checked"
+        id="player3"
+        src="../assets/icons/check-icon.svg"
+        class="absolute right-0 bottom-0 w-2/4 z-10"
+      />
     </div>
     <div class="flex flex-col justify-center items-center content-center">
-      <p class="text-xl">{{ socketPlayers?.player4?.username }}</p>
+      <p class="text-xl break-all h-[50px]">
+        {{ socketPlayers?.player4?.username }}
+      </p>
       <img
         v-if="!socketPlayers?.player4?.class"
         id="player4"
@@ -130,6 +158,12 @@
         id="player4"
         src="../assets/images/ranger-class-selected.svg"
         class="w-2/4 min-w-[80px]"
+      />
+      <img
+        v-if="socketPlayers?.player4?.checked"
+        id="player1"
+        src="../assets/icons/check-icon.svg"
+        class="absolute right-0 bottom-0 w-2/4 z-10"
       />
     </div>
   </div>

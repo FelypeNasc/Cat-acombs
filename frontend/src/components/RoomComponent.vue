@@ -2,7 +2,7 @@
   <div id="RoomComponent" @click="onclick">
     <div id="data">
       <h2>{{ roomData?.roomName }}</h2>
-      <h3>{{ roomData?.creatorName }}</h3>
+      <h3>{{ roomData?.adminUsername }}</h3>
     </div>
 
     <div id="players">

@@ -1,10 +1,14 @@
 <template>
   <div class="noselect flex justify-between items-center overflow-hidden">
-    <div class="h-full">
+    <div class="h-full w-full">
+      {{ currentView }}
       <ClassSelection v-if="currentView === 'class'" />
-      <StoryScreen v-if="currentView === 'story'" />
+      <StoryScreen v-if="currentView === 'story'" :story-text="storyText" />
       <DungeonDoors v-if="currentView === 'doors'" />
-      <EncounterCombat v-if="currentView === 'combat'" />
+      <EncounterCombat
+        v-if="currentView === 'combat'"
+        :battle-data="battleData"
+      />
       <TestPage v-if="currentView === 'test'" />
     </div>
     <div class="chat-container w-max"><ChatComponent /></div>
@@ -17,6 +21,7 @@ import DungeonDoors from "./DungeonDoors.vue";
 import StoryScreen from "./StoryScreen.vue";
 import TestPage from "./TestPage.vue";
 import ChatComponent from "../components/ChatComponent.vue";
+import { wsConnection } from "../connection/connections";
 export default {
   components: {
     ClassSelection,
@@ -31,15 +36,17 @@ export default {
       currentView: "class",
     };
   },
-  mounted() {
-    this.setBackground();
-  },
-  methods: {
-    setBackground() {
-      document.querySelector(
-        "body"
-      ).style.backgroundImage = `url(src/assets/images/backgroundblue.png)`;
-    },
+  created() {
+    wsConnection.addEventListener("message", (msg) => {
+      msg = JSON.parse(msg.data);
+      console.log(msg);
+
+      switch (msg.type) {
+        case "roomUpdated":
+          this.currentView = msg.data.currentView;
+          break;
+      }
+    });
   },
 };
 </script>

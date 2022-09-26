@@ -1,13 +1,14 @@
-export default enemies = {
+export const enemies = {
   1: {
     id: 1,
     name: "Fra-cão",
     stats: {
-      baseHp: 200,
+      currentHp: 200,
+      maxHp: 200,
       baseAttack: 20,
     },
     actions: {
-      attack: { type: "attack" },
+      attack: { type: "attack", multiplier: 1, accuracy: 100 },
       skills: [
         {
           id: 5,
@@ -15,7 +16,7 @@ export default enemies = {
           cooldown: 3,
           type: "attack",
           multiTarget: false,
-          multiplyer: 1.5,
+          multiplier: 1.5,
         },
       ],
     },
@@ -24,11 +25,12 @@ export default enemies = {
     id: 2,
     name: "Puguerreiro",
     stats: {
-      baseHp: 220,
+      currentHp: 220,
+      maxHp: 220,
       baseAttack: 25,
     },
     actions: {
-      attack: { type: "attack" },
+      attack: { type: "attack", multiplier: 1, accuracy: 100 },
       skills: [
         {
           id: 6,
@@ -36,7 +38,7 @@ export default enemies = {
           cooldown: 2,
           type: "attack",
           multiTarget: false,
-          multiplyer: 1.3,
+          multiplier: 1.3,
         },
       ],
     },
@@ -45,11 +47,12 @@ export default enemies = {
     id: 3,
     name: "Cãoshin",
     stats: {
-      baseHp: 220,
+      currentHp: 220,
+      maxHp: 220,
       baseAttack: 35,
     },
     actions: {
-      attack: { type: "attack" },
+      attack: { type: "attack", multiplier: 1, accuracy: 100 },
       skills: [
         {
           id: 7,
@@ -57,7 +60,7 @@ export default enemies = {
           cooldown: 3,
           type: "attack",
           multiTarget: false,
-          multiplyer: 1.2,
+          multiplier: 1.2,
           critRate: 50,
           critMultiplayer: 1.5,
         },
@@ -68,11 +71,12 @@ export default enemies = {
     id: 4,
     name: "Chow-tchau",
     stats: {
-      baseHp: 300,
+      currentHp: 300,
+      maxHp: 300,
       baseAttack: 25,
     },
     actions: {
-      attack: { type: "attack" },
+      attack: { type: "attack", multiplier: 1, accuracy: 100 },
       skills: [
         {
           id: 8,
@@ -80,7 +84,7 @@ export default enemies = {
           cooldown: 4,
           type: "attack",
           multiTarget: true,
-          multiplyer: 1.5,
+          multiplier: 1.5,
         },
       ],
     },
@@ -89,19 +93,20 @@ export default enemies = {
     id: 5,
     name: "Pastor Sinistrão",
     stats: {
-      baseHp: 300,
+      currentHp: 300,
+      maxHp: 300,
       baseAttack: 30,
     },
     actions: {
-      attack: { type: "attack" },
+      attack: { type: "attack", multiplier: 1, accuracy: 100 },
       skills: [
         {
           id: 9,
           name: "Latido revigorante",
-          cooldown: 2,
+          cooldown: 3,
           type: "cure",
           multiTarget: false,
-          multiplyer: 1.5,
+          multiplier: 1.5,
         },
       ],
     },
@@ -110,11 +115,12 @@ export default enemies = {
     id: 6,
     name: "Akitacalor",
     stats: {
-      baseHp: 350,
+      currentHp: 350,
+      maxHp: 350,
       baseAttack: 30,
     },
     actions: {
-      attack: { type: "attack" },
+      attack: { type: "attack", multiplier: 1, accuracy: 100 },
       skills: [
         {
           id: 10,
@@ -122,7 +128,7 @@ export default enemies = {
           cooldown: 4,
           type: "attack",
           multiTarget: true,
-          multiplyer: 1.5,
+          multiplier: 1.5,
         },
       ],
     },
@@ -131,11 +137,12 @@ export default enemies = {
     id: 7,
     name: "Doberserker",
     stats: {
-      baseHp: 400,
+      currentHp: 400,
+      maxHp: 400,
       baseAttack: 35,
     },
     actions: {
-      attack: { type: "attack" },
+      attack: { type: "attack", multiplier: 1, accuracy: 100 },
       skills: [
         {
           id: 11,
@@ -143,7 +150,7 @@ export default enemies = {
           cooldown: 2,
           type: "attack",
           multiTarget: false,
-          multiplyer: 1.5,
+          multiplier: 1.5,
         },
       ],
     },
@@ -152,11 +159,12 @@ export default enemies = {
     id: 8,
     name: "Pit Bruto",
     stats: {
-      baseHp: 450,
+      currentHp: 450,
+      maxHp: 450,
       baseAttack: 40,
     },
     actions: {
-      attack: { type: "attack" },
+      attack: { type: "attack", multiplier: 1, accuracy: 100 },
       skills: [
         {
           id: 12,
@@ -164,7 +172,7 @@ export default enemies = {
           cooldown: 2,
           type: "attack",
           multiTarget: false,
-          multiplyer: 1.5,
+          multiplier: 1.5,
         },
       ],
     },
@@ -173,11 +181,12 @@ export default enemies = {
     id: 9,
     name: "Loboss",
     stats: {
-      baseHp: 500,
+      currentHp: 500,
+      maxHp: 500,
       baseAttack: 45,
     },
     actions: {
-      attack: { type: "attack" },
+      attack: { type: "attack", multiplier: 1, accuracy: 100 },
       skills: [
         {
           id: 13,
@@ -185,7 +194,7 @@ export default enemies = {
           cooldown: 3,
           type: "attack",
           multiTarget: false,
-          multiplyer: 2,
+          multiplier: 2,
         },
       ],
     },
