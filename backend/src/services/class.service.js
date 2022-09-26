@@ -1,5 +1,6 @@
 import { rooms } from "./room.service.js";
 import sendMessageToRoom from "../utils/sendMessageToRoom.js";
+import { RoomService } from "../services/room.service.js";
 import { wss } from "../server.js";
 
 export class ClassService {

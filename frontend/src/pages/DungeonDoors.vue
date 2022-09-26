@@ -3,19 +3,19 @@
     <div
       class="header flex flex-row text-white text-xl justify-between font-chainwhacks"
     >
-      <img class="logo w-48" src="src/assets/images/logo.svg" />
+      <img class="logo w-48" src="../assets/images/logo.svg" />
       <div
         class="level flex flex-row text-center align-middle text-7xl font-squirk"
       >
         <img
           class="pointer w-10 mr-6"
-          src="src/assets/images/arrowLeft.svg"
+          src="../assets/images/arrowLeft.svg"
           @click="changeLevel('-')"
         />
         <h3>Level {{ level }}</h3>
         <img
           class="pointer w-10 ml-6"
-          src="src/assets/images/arrowRight.svg"
+          src="../assets/images/arrowRight.svg"
           @click="changeLevel('+')"
         />
       </div>
@@ -31,7 +31,7 @@
       >
         <img
           class="door1 pointer"
-          :src="`src/assets/images/${level}-floor-door-${item.acess}.svg`"
+          :src="`../src/assets/images/${level}-floor-door-${item.acess}.svg`"
           @click="startBattle(item)"
         />
 
