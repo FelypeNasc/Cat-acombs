@@ -11,15 +11,13 @@ export const playersOnRooms = [];
 //     currentView: "classSelection",
 //     players: [
 //       {
-//         id: client.id,
+//         id: 'abuble',
 //         username: client.username,
 //         character: {
 //           class: null,
 //           level: 1,
-//           hp: 100,
-//           maxHp: 100,
-//           attack: 10,
-//           actions: {},
+//           currentHp: 100,
+//           maxHp: 100
 //         },
 //       },
 //     ],
@@ -157,7 +155,7 @@ export class RoomService {
     deletePlayerFromRooms(client.id);
   }
 
-  async deleteRoom(client, msg) {}
+  async deleteRoom(client, msg) {} // TO DO
 
   async deletePlayerFromRooms(playerId) {
     const userFound = playersOnRooms.find((player) => player.id === playerId);
@@ -184,6 +182,15 @@ export class RoomService {
     const systemMessage = `${userFound.username} saiu na sala`;
 
     this.chatService.systemMessage(userFound.roomId, systemMessage);
+    this.roomUpdated(userFound.roomId);
+
+    return rooms[roomIndex];
+  }
+
+  async partyReady() {}
+
+  async roomUpdated(roomId) {
+    const roomIndex = rooms.map((e) => e.id).indexOf(roomId);
 
     const messageToRoom = {
       type: "roomUpdated",
@@ -191,7 +198,5 @@ export class RoomService {
     };
 
     sendMessageToRoom(userFound.roomId, messageToRoom);
-
-    return rooms[roomIndex];
   }
 }

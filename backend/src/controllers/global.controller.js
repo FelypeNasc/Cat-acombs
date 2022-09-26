@@ -2,6 +2,7 @@ import { RoomController } from "./room.controller.js";
 import { ClientController } from "./client.controller.js";
 import { ChatController } from "./chat.controller.js";
 import { ClassController } from "./class.controller.js";
+import { DoorController } from "./door.controller.js";
 
 export class GlobalController {
   constructor() {
@@ -9,6 +10,7 @@ export class GlobalController {
     this.clientController = new ClientController();
     this.chatController = new ChatController();
     this.classController = new ClassController();
+    this.doorController = new DoorController();
   }
 
   async redirect(client, msg) {
@@ -21,6 +23,7 @@ export class GlobalController {
     const routes = {
       client: () => this.clientController.redirect(secondaryRoute, client, msg),
       battle: () => this.battleController.redirect(secondaryRoute, client, msg),
+      door: () => this.doorController.redirect(secondaryRoute, client, msg),
       class: () => this.classController.redirect(secondaryRoute, client),
       chat: () => this.chatController.redirect(secondaryRoute, client, msg),
       room: () => this.roomController.redirect(secondaryRoute, client, msg),
