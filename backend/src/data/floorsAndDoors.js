@@ -1,4 +1,4 @@
-export default floorsAndDoors = {
+export const floorsAndDoors = {
   1: {
     1: {
       type: "battle",

@@ -1,4 +1,4 @@
-export default enemies = {
+export const enemies = {
   1: {
     id: 1,
     name: "Fra-cão",

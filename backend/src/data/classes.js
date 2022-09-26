@@ -1,4 +1,4 @@
-export default classes = {
+export const classes = {
   warrior: {
     id: 1,
     name: "Warrior",
