@@ -1,5 +1,8 @@
 <template>
-  <div class="noselect flex flex-col justify-around items-center h-full">
+  <div
+    class="noselect flex flex-col justify-around items-center h-full"
+    @click.once="playSound"
+  >
     <div class="flex flex-col justify-center items-center">
       <img src="src/assets/images/logo.svg" class="w-6/12" />
       <h2 class="text-3xl mt-2 tracking-wider font-chainwhacks">
@@ -17,7 +20,6 @@
 <script>
 import { createWS, wsConnection } from "../connection/connections";
 import CardNickname from "../components/CardNickname.vue";
-
 export default {
   components: {
     CardNickname,
@@ -26,6 +28,9 @@ export default {
     return {
       showCard: false,
     };
+  },
+  mounted() {
+    // this.playSound();
   },
   methods: {
     openCard() {
@@ -38,9 +43,7 @@ export default {
       });
     },
     close() {
-      console.log(1);
       this.showCard = false;
-      console.log(this.showCard);
     },
     setWsListener() {
       wsConnection.addEventListener("message", (msg) => {
@@ -54,6 +57,12 @@ export default {
           console.log(msg);
         }
       });
+    },
+    playSound() {
+      const audio = new Audio("../src/assets/music/Medieval_music.mp3");
+      audio.play();
+      audio.loop = true;
+      audio.volume = 0.25;
     },
   },
 };
