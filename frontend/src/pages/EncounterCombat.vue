@@ -1,5 +1,5 @@
 <template>
-  <div class="dense">
+  <div class="dense noselect">
     <div class="grid grid-flow-row-dense grid-cols-3 grid-rows-3 items-center">
       <div class="11">
         <HPComponent
@@ -29,7 +29,10 @@
         ></HPComponent>
       </div>
       <div class="31 col-span-2 ml-10">
-        <joystick-component @emitAction="playerAction"></joystick-component>
+        <joystick-component
+          :playerStatus="players[0]"
+          @emitAction="playerAction"
+        ></joystick-component>
       </div>
       <div class="33">
         <div class="showTurn mt-10 bg-blend-darken font-squirk text-xl">
