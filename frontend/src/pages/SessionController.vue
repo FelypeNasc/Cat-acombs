@@ -1,7 +1,6 @@
 <template>
   <div class="noselect flex justify-between items-center overflow-hidden">
     <div class="h-full w-full">
-      {{ currentView }}
       <ClassSelection v-if="currentView === 'class'" />
       <StoryScreen v-if="currentView === 'story'" :text="text" />
       <DungeonDoors v-if="currentView === 'doors'" />
