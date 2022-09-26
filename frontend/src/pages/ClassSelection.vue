@@ -125,6 +125,10 @@ export default {
           this.selectedClassList = msg.data;
           console.log(msg.data);
           break;
+        case "allReady":
+          console.log("allready");
+          this.$router.push({ path: `/play/encounter` });
+          break;
       }
     });
     this.getCharactersSelected();

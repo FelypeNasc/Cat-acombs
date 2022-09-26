@@ -3,6 +3,9 @@ import sendMessageToRoom from "../utils/sendMessageToRoom.js";
 import { wss } from "../server.js";
 
 export class ClassService {
+  constructor() {
+    this.roomService = new RoomService();
+  }
   async selectClass(client, msg) {
     console.log(msg.data);
     const roomIndex = rooms.map((e) => e.id).indexOf(msg.data.roomId);
@@ -55,6 +58,7 @@ export class ClassService {
       .indexOf(client.id);
 
     rooms[roomIndex].players[playerIndex].checked = true;
+
     const response = {
       type: "ready",
       data: {
@@ -80,7 +84,18 @@ export class ClassService {
         },
       },
     };
-    console.log(response);
-    sendMessageToRoom(msg.data.roomId, response);
+    const verifyAllChecked =
+      response.data.player1.checked &&
+      response.data.player2.checked &&
+      response.data.player3.checked &&
+      response.data.player4.checked;
+    7;
+
+    if (verifyAllChecked) {
+      rooms[roomIndex].currentView = "doors";
+      this.roomService.roomUpdated(msg.data.roomId);
+    } else {
+      sendMessageToRoom(msg.data.roomId, response);
+    }
   }
 }

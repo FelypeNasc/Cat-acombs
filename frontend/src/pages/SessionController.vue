@@ -17,6 +17,7 @@ import DungeonDoors from "./DungeonDoors.vue";
 import StoryScreen from "./StoryScreen.vue";
 import TestPage from "./TestPage.vue";
 import ChatComponent from "../components/ChatComponent.vue";
+import { wsConnection } from "../connection/connections";
 export default {
   components: {
     ClassSelection,
@@ -28,8 +29,20 @@ export default {
   },
   data() {
     return {
-      currentView: "combat",
+      currentView: "class",
     };
+  },
+  created() {
+    wsConnection.addEventListener("message", (msg) => {
+      msg = JSON.parse(msg.data);
+      console.log(msg);
+
+      switch (msg.type) {
+        case "roomUpdated":
+          this.currentView = msg.data.currentView;
+          break;
+      }
+    });
   },
 };
 </script>
