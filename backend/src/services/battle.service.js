@@ -1,152 +1,4 @@
-const battles = {
-  Abuble: {
-    id: "uuidv4()",
-    turnIndex: 0,
-    turnList: [
-      { id: 123, name: "felype" },
-      { id: 123, name: "felype" },
-      { id: 123, name: "felype" },
-      { id: 123, name: "felype" },
-      { name: "felype" },
-    ],
-    players: [
-      {
-        playerId: 123,
-        username: "joao",
-        level: 1,
-        class: "warrior",
-        description: "bonito",
-        dead: false,
-        stats: {
-          currentHp: 60,
-          maxHp: 100,
-          attack: 10,
-        },
-        actions: {
-          attacks: {
-            normalAttack: { type: "attack", multiplier: 1, accuracy: 100 },
-            strongAttack: { type: "attack", multiplier: 1.5, accuracy: 80 },
-          },
-          skills: [
-            {
-              id: 1,
-              name: "Ataque Furioso",
-              description:
-                "Um ataque rápido e muito forte com sua espada, machuca",
-              cooldown: 2,
-              type: "attack",
-              multiplier: 2,
-              critRate: 50,
-              critMultiplier: 1.5,
-              cooldownCount: 0,
-              onCooldown: false,
-            },
-          ],
-        },
-      },
-      {
-        playerId: 123,
-        username: "joao",
-        level: 1,
-        class: "warrior",
-        description: "bonito",
-        dead: false,
-        stats: {
-          currentHp: 60,
-          maxHp: 100,
-          attack: 10,
-        },
-        actions: {
-          attacks: {
-            normalAttack: { type: "attack", multiplier: 1, accuracy: 100 },
-            strongAttack: { type: "attack", multiplier: 1.5, accuracy: 80 },
-          },
-          skills: [
-            {
-              id: 1,
-              name: "Ataque Furioso",
-              description:
-                "Um ataque rápido e muito forte com sua espada, machuca",
-              cooldown: 2,
-              type: "attack",
-              multiplier: 2,
-              critRate: 50,
-              critMultiplier: 1.5,
-              cooldownCount: 0,
-              onCooldown: false,
-            },
-          ],
-        },
-      },
-      {
-        playerId: 123,
-        username: "joao",
-        level: 1,
-        class: "warrior",
-        description: "bonito",
-        dead: false,
-        stats: {
-          currentHp: 60,
-          maxHp: 100,
-          attack: 10,
-        },
-        actions: {
-          attacks: {
-            normalAttack: {
-              name: "Ataque Normal",
-              type: "attack",
-              multiplier: 1,
-              accuracy: 100,
-            },
-            strongAttack: {
-              name: "Ataque Forte",
-              type: "attack",
-              multiplier: 1.5,
-              accuracy: 80,
-            },
-          },
-          skills: [
-            {
-              id: 1,
-              name: "Ataque Furioso",
-              description:
-                "Um ataque rápido e muito forte com sua espada, machuca",
-              cooldown: 2,
-              type: "attack",
-              multiplier: 2,
-              critRate: 50,
-              critMultiplier: 1.5,
-              cooldownCount: 0,
-              onCooldown: false,
-            },
-          ],
-        },
-      },
-    ],
-    enemy: {
-      id: 1,
-      name: "Fra-cão",
-      stats: {
-        currentHp: 200,
-        maxHp: 200,
-        baseAttack: 20,
-      },
-      actions: {
-        attack: { type: "attack", multiplier: 1 },
-        skills: [
-          {
-            id: 5,
-            name: "Granada canina",
-            cooldown: 3,
-            type: "attack",
-            multiTarget: false,
-            multiplier: 1.5,
-          },
-        ],
-      },
-    },
-  },
-};
+const battles = {};
 
 import { rooms, RoomService } from "./room.service.js";
 import { classes } from "../data/classes.js";
@@ -164,7 +16,7 @@ export class BattleService {
   async attack(client, msg) {
     const { roomId, attackType } = msg.data;
     const battleData = battles[roomId];
-    const { id, turnIndex, turnList, players, enemy } = battleData;
+    const { turnIndex, turnList, players, enemy } = battleData;
 
     if (!battleData) return;
 
@@ -200,15 +52,80 @@ export class BattleService {
 
     this.verifyHps(roomId);
     this.verifyTurn(roomId);
+    this.battleUpdated(roomId)
   }
 
-  async skill(client, msg) {}
+  async skill(client, msg) {
+    const { roomId, attackType } = msg.data;
+    const battleData = battles[roomId];
+    const { id, turnIndex, turnList, players, enemy } = battleData;
+
+    if (!battleData) return;
+
+    if (turnList[turnIndex] !== client.id) return;
+
+    const playerIndex = players.map((e) => e.id).indexOf(client.id);
+    const playerData = players[playerIndex];
+
+    const skillIndex = playerData.skills.map((e) => e.id).indexOf(client.id);
+    const skillData = playerData.skills[skillIndex];
+
+    if (skillData.onCooldown) {
+      const response = {
+        type: "skillOnCooldown",
+      };
+      client.send(JSON.stringify(response));
+      return;
+    }
+    const critical = randomNumber(0, 100, skillData.critRate);
+
+    let skillValue = playerData.stats.attack * skillData.multiplier;
+    critical ? (skillDmg *= skillData.critMultiplier) : "";
+
+    let systemMessage = ``;
+
+    switch (skillData.type) {
+      case "attack":
+        skillValue > enemy.currentHp
+          ? (enemy.currentHp = 0)
+          : (enemy.currentHp -= skillValue);
+
+        const criticalText = "Dano crítico! ";
+        systemMessage = `${critical ? criticalText : ""}${
+          client.username
+        } usou ${skillData.name} em ${
+          enemy.name
+        } causando ${skillValue} de dano!`;
+
+        break;
+      case "cure":
+        players.forEach((p) => {
+          const { currentHp, maxHp } = p.stats;
+          skillValue > currentHp
+            ? (currentHp = maxHp)
+            : (currentHp += skillValue);
+        });
+
+        systemMessage = `${client.username} curou toda a equipe em ${skillValue} pontos!`;
+
+        break;
+    }
+
+    skillData.onCooldown = true;
+    skillData.cooldownCount = skillData.cooldown;
+
+    this.chatService.systemMessage(roomId, systemMessage);
+    this.verifyHps(roomId);
+    this.verifyTurn(roomId);
+    this.battleUpdated(roomId)
+  }
 
   async enemyTurn(roomId) {
     const battleData = battles[roomId];
     const { players, enemy } = battleData;
 
-    const attackOrSkill = "attack";
+    const sortAttack = Math.round(randomNumber(0, 1));
+    const attackOrSkill = sortAttack === 0 ? "attack" : "skill";
 
     const attackSucceded = randomNumber(0, 100, enemy.actions.attack.accuracy);
 
@@ -239,32 +156,36 @@ export class BattleService {
           Math.round(randomNumber(0, enemy.actions.skills.length))
         ];
 
-      const attackDmg = skillSorted.multiplier * enemy.stats.attack;
+      const skillDmg = skillSorted.multiplier * enemy.stats.attack;
 
       let target = {};
 
       if (skillSorted.multiTarget) {
         target = { name: "todos" };
         players.forEach((p) => {
-          attackDmg > p.stats.currentHp
+          skillDmg > p.stats.currentHp
             ? (p.stats.currentHp = 0)
-            : (p.stats.currentHp -= attackDmg);
+            : (p.stats.currentHp -= skillDmg);
         });
       } else {
         const targetIndex = Math.round(randomNumber(0, 3));
         target = players[targetIndex];
 
-        attackDmg > target.stats.currentHp
+        skillSorted.onCooldown = true;
+        skillSorted.cooldownCount = skillSorted.cooldown;
+
+        skillDmg > target.stats.currentHp
           ? (target.stats.currentHp = 0)
-          : (target.stats.currentHp -= attackDmg);
+          : (target.stats.currentHp -= skillDmg);
       }
 
-      const systemMessage = `${enemy.username} atacou ${target.name} causando ${attackDmg} de dano!`;
+      const systemMessage = `${enemy.username} atacou ${target.name} causando ${skillDmg} de dano!`;
       this.chatService.systemMessage(roomId, systemMessage);
     }
 
     this.verifyHps(roomId);
     this.verifyTurn(roomId);
+    this.battleUpdated(roomId)
   }
 
   async newBattle(doorData, roomId, floor, door) {
@@ -289,6 +210,21 @@ export class BattleService {
     newBattle.turnList.push("enemy");
 
     battles[roomId] = newBattle;
+  }
+
+  async cooldownDecrease(roomId) {
+    const battleData = battles[roomId];
+    const { players, enemy } = battleData;
+
+    players.actions.skills.forEach((s) => {
+      s.onCooldown ? s.cooldownCount-- : "";
+      s.cooldownCount <= 0 ? (s.onCooldown = false) : "";
+    });
+
+    enemy.actions.skills.forEach((s) => {
+      s.onCooldown ? s.cooldownCount-- : "";
+      s.cooldownCount <= 0 ? (s.onCooldown = false) : "";
+    });
   }
 
   async verifyHps(roomId) {
@@ -322,7 +258,9 @@ export class BattleService {
     const battleData = battles[roomId];
     const { id, turnIndex, turnList, players, enemy } = battleData;
 
-    turnIndex === 4 ? (turnIndex = 0) : turnIndex++;
+    turnIndex === 4
+      ? ((turnIndex = 0), this.cooldownDecrease(roomId))
+      : turnIndex++;
 
     if (turnList[turnIndex] === "enemy") {
       this.enemyTurn(roomId);
@@ -437,7 +375,7 @@ export class BattleService {
     const battle = battles[roomId];
 
     const messageToRoom = {
-      type: "roomUpdated",
+      type: "battleUpdated",
       data: battle,
     };
 

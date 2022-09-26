@@ -50,7 +50,7 @@ export class RoomService {
 
     const response = {
       type: "getRooms",
-      data: responseRooms,
+      data: responseRooms.filter((room) => !room.inGame),
     };
 
     client.send(JSON.stringify(response));
