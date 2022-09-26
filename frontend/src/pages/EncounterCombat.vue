@@ -3,28 +3,28 @@
     <div class="grid grid-flow-row-dense grid-cols-3 grid-rows-3 items-center">
       <div class="11">
         <HPComponent
-          class="w-[60%] h-[60%]"
+          class="w-[60%] big-screen"
           :playerStatus="playerStatus[1]"
         ></HPComponent>
       </div>
       <div class="12">
         <HPComponent
-          class="w-[60%] h-[60%]"
+          class="w-[60%] big-screen"
           :playerStatus="playerStatus[2]"
         ></HPComponent>
       </div>
-      <div class="13 row-span-2 w-32">
+      <div class="13 row-span-2 w-72">
         <BossHPComponent :bossStatus="bossStatus"></BossHPComponent>
       </div>
       <div class="21">
         <HPComponent
-          class="w-[60%] h-[60%]"
+          class="w-[60%] big-screen"
           :playerStatus="playerStatus[3]"
         ></HPComponent>
       </div>
       <div class="22">
         <HPComponent
-          class="w-[60%] h-[60%]"
+          class="w-[60%] big-screen"
           :playerStatus="playerStatus[4]"
         ></HPComponent>
       </div>
@@ -78,7 +78,7 @@ export default {
           playerName: "Tu",
           playerClass: "bard",
           hpMax: 80,
-          hpCurrent: 50,
+          hpCurrent: 39,
         },
         2: {
           playerName: "Eles",
@@ -89,7 +89,7 @@ export default {
         3: {
           playerName: "Nós",
           playerClass: "ranger",
-          hpMax: 100,
+          hpMax: 50,
           hpCurrent: 10,
         },
       },
@@ -97,7 +97,7 @@ export default {
         bossName: "Grande Chefão",
         hpCurrent: 50,
         numberFloor: 3,
-        numberDoor: 2,
+        numberDoor: 4,
       },
     };
   },

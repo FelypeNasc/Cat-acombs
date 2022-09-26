@@ -80,20 +80,11 @@ export default {
         { name: "comida", type: "item" },
         { name: "vida", type: "item" },
       ],
-      defenseItems: [
-        { name: "escudo", type: "defense" },
-        { name: "armadura", type: "defense" },
-        { name: "colete", type: "defense" },
-      ],
-      magicItems: [
-        { name: "bola", type: "magic" },
-        { name: "artefato", type: "magic" },
-        { name: "pó", type: "magic" },
-      ],
+      defenseItems: [{ name: "escudo", type: "defense" }],
+      magicItems: [{ name: "skill", type: "magic" }],
       attackItems: [
-        { name: "faca", type: "attack" },
-        { name: "arma", type: "attack" },
-        { name: "arco", type: "attack" },
+        { name: "Normal", type: "normalAttack" },
+        { name: "Forte", type: "strongAttack" },
       ],
     };
   },
