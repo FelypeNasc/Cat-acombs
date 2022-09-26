@@ -47,8 +47,8 @@ export class DoorService {
       floor,
       door
     );
-
-    rooms[roomId].currentView = "combat";
+    const roomIndex = rooms.map((e) => e.id).indexOf(roomId);
+    rooms[roomIndex].currentView = "combat";
 
     const response = {
       type: "startBattle",
