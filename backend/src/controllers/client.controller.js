@@ -4,9 +4,6 @@ export class ClientController {
   clientService = new ClientService();
 
   async redirect(route, client, msg) {
-    console.log("CLIENT CONTROLLER");
-    console.log("ROUTE: ", route);
-    console.log("MESSAGE: ", msg);
 
     const routes = {
       setUsername: () => this.clientService.setUsername(client, msg),

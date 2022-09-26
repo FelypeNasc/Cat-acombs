@@ -80,6 +80,7 @@ export class BattleService {
 
   async buildCharacter(playerData) {
     const classRawData = classes[playerData.character.class];
+    console.log("classRawData", classRawData);
     const { name, description, stats, actions } = classRawData;
     const newCharacter = {
       playerId: playerData.id,
@@ -89,9 +90,14 @@ export class BattleService {
       description,
       stats: {
         currentHp: playerData.character.currentHp,
-        maxHp: stats.baseHp + stats.hpPerLevel * level - stats.hpPerLevel,
+        maxHp:
+          stats.baseHp +
+          stats.hpPerLevel * playerData.character.level -
+          stats.hpPerLevel,
         attack:
-          stats.attack + stats.attackPerLevel * level - stats.attackPerLevel,
+          stats.attack +
+          stats.attackPerLevel * playerData.character.level -
+          stats.attackPerLevel,
       },
       actions,
     };
