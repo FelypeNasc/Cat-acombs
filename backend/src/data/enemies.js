@@ -3,81 +3,191 @@ export default enemies = {
     id: 1,
     name: "Fra-cão",
     stats: {
-      HP: 200,
-      attack: 20,
+      baseHp: 200,
+      baseAttack: 20,
     },
-    skills: [1],
+    actions: {
+      attack: { type: "attack" },
+      skills: [
+        {
+          id: 5,
+          name: "Granada canina",
+          cooldown: 3,
+          type: "attack",
+          multiTarget: false,
+          multiplyer: 1.5,
+        },
+      ],
+    },
   },
   2: {
     id: 2,
     name: "Puguerreiro",
     stats: {
-      HP: 220,
-      attack: 25,
+      baseHp: 220,
+      baseAttack: 25,
     },
-    skills: [1],
+    actions: {
+      attack: { type: "attack" },
+      skills: [
+        {
+          id: 6,
+          name: "Golpe esmagador",
+          cooldown: 2,
+          type: "attack",
+          multiTarget: false,
+          multiplyer: 1.3,
+        },
+      ],
+    },
   },
   3: {
     id: 3,
     name: "Cãoshin",
     stats: {
-      HP: 220,
-      attack: 35,
+      baseHp: 220,
+      baseAttack: 35,
     },
-    skills: [1],
+    actions: {
+      attack: { type: "attack" },
+      skills: [
+        {
+          id: 7,
+          name: "Corte mortal",
+          cooldown: 3,
+          type: "attack",
+          multiTarget: false,
+          multiplyer: 1.2,
+          critRate: 50,
+          critMultiplayer: 1.5,
+        },
+      ],
+    },
   },
   4: {
     id: 4,
     name: "Chow-tchau",
     stats: {
-      HP: 300,
-      attack: 25,
+      baseHp: 300,
+      baseAttack: 25,
     },
-    skills: [1],
+    actions: {
+      attack: { type: "attack" },
+      skills: [
+        {
+          id: 8,
+          name: "Tiroteio animal",
+          cooldown: 4,
+          type: "attack",
+          multiTarget: true,
+          multiplyer: 1.5,
+        },
+      ],
+    },
   },
   5: {
     id: 5,
     name: "Pastor Sinistrão",
     stats: {
-      HP: 300,
-      attack: 30,
+      baseHp: 300,
+      baseAttack: 30,
     },
-    skills: [1],
+    actions: {
+      attack: { type: "attack" },
+      skills: [
+        {
+          id: 9,
+          name: "Latido revigorante",
+          cooldown: 2,
+          type: "cure",
+          multiTarget: false,
+          multiplyer: 1.5,
+        },
+      ],
+    },
   },
   6: {
     id: 6,
     name: "Akitacalor",
     stats: {
-      HP: 350,
-      attack: 30,
+      baseHp: 350,
+      baseAttack: 30,
     },
-    skills: [1],
+    actions: {
+      attack: { type: "attack" },
+      skills: [
+        {
+          id: 10,
+          name: "Fogarel",
+          cooldown: 4,
+          type: "attack",
+          multiTarget: true,
+          multiplyer: 1.5,
+        },
+      ],
+    },
   },
   7: {
     id: 7,
     name: "Doberserker",
     stats: {
-      HP: 400,
-      attack: 35,
+      baseHp: 400,
+      baseAttack: 35,
     },
-    skills: [1],
+    actions: {
+      attack: { type: "attack" },
+      skills: [
+        {
+          id: 11,
+          name: "Espadada forte",
+          cooldown: 2,
+          type: "attack",
+          multiTarget: false,
+          multiplyer: 1.5,
+        },
+      ],
+    },
   },
   8: {
     id: 8,
     name: "Pit Bruto",
     stats: {
-      HP: 450,
-      attack: 40,
+      baseHp: 450,
+      baseAttack: 40,
     },
-    skills: [1],
+    actions: {
+      attack: { type: "attack" },
+      skills: [
+        {
+          id: 12,
+          name: "Porradão",
+          cooldown: 2,
+          type: "attack",
+          multiTarget: false,
+          multiplyer: 1.5,
+        },
+      ],
+    },
   },
   9: {
     id: 9,
     name: "Loboss",
     stats: {
-      HP: 500,
-      attack: 45,
+      baseHp: 500,
+      baseAttack: 45,
     },
-    skills: [1],
+    actions: {
+      attack: { type: "attack" },
+      skills: [
+        {
+          id: 13,
+          name: "Garra do lobo",
+          cooldown: 3,
+          type: "attack",
+          multiTarget: false,
+          multiplyer: 2,
+        },
+      ],
+    },
   },
 };
