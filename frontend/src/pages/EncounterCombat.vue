@@ -53,6 +53,7 @@
 import HPComponent from "../components/PlayerHPComponent.vue";
 import BossHPComponent from "../components/BossHPComponent.vue";
 import JoystickComponent from "../components/JoystickComponent.vue";
+import { wsConnection } from "../connection/connections";
 
 export default {
   components: {
@@ -68,40 +69,6 @@ export default {
   },
   data() {
     return {
-      // turn: 3,
-      // numberFloor: "1",
-      // playerStatus: {
-      //   4: {
-      //     playerName: "Eu",
-      //     playerClass: "mage",
-      //     hpMax: 100,
-      //     hpCurrent: 20,
-      //   },
-      //   1: {
-      //     playerName: "Tu",
-      //     playerClass: "bard",
-      //     hpMax: 80,
-      //     hpCurrent: 50,
-      //   },
-      //   2: {
-      //     playerName: "Eles",
-      //     playerClass: "warrior",
-      //     hpMax: 70,
-      //     hpCurrent: 40,
-      //   },
-      //   3: {
-      //     playerName: "Nós",
-      //     playerClass: "ranger",
-      //     hpMax: 100,
-      //     hpCurrent: 10,
-      //   },
-      // },
-      // bossStatus: {
-      //   bossName: "Grande Chefão",
-      //   hpCurrent: 50,
-      //   id: 9,
-      // },
-
       id: "uuidv4()",
       turnIndex: 1,
       turnList: [
@@ -313,6 +280,15 @@ export default {
   },
   created() {
     this.setBackground();
+    wsConnection.addEventListener("message", (msg) => {
+      msg = JSON.parse(msg.data);
+      console.log(msg);
+
+      switch (msg.type) {
+        case "startBattle":
+          
+      }
+    });
   },
   methods: {
     playerAction(action) {
