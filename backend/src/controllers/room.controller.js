@@ -11,7 +11,8 @@ export class RoomController {
       createRoom: () => this.roomService.createRoom(client, msg),
       enterRoom: () => this.roomService.enterRoom(client, msg),
       userOnLobby: () => this.roomService.userOnLobby(client, msg),
-      leaveRoom: () => this.roomService.leaveRoom(client, msg)
+      leaveRoom: () => this.roomService.leaveRoom(client, msg),
+      getRoomUpdated: () => this.roomService.getRoomUpdated(client, msg),
     };
 
     if (!routes.hasOwnProperty(route)) {

@@ -50,7 +50,10 @@ import { classes } from "../data/classes.js";
 import { enemies } from "../data/enemies.js";
 
 export class BattleService {
-  async newBattle(doorData, roomId, floor, door) {
+  async attack(client, msg) {}
+  async skill(client, msg) {}
+
+  async newBattle(doorData, roomId) {
     const roomIndex = rooms.map((e) => e.id).indexOf(roomId);
     const room = rooms[roomIndex];
 
@@ -58,7 +61,7 @@ export class BattleService {
       return this.buildCharacter(player);
     });
 
-    const roomEnemy = enemies[doorData.boss.id];
+    const roomEnemy = enemies[doorData.enemyId];
 
     const newBattle = {
       id: room.id,
@@ -69,10 +72,11 @@ export class BattleService {
     };
 
     newBattle.turnList.push("enemy");
+
+    battles[roomId] = newBattle;
   }
 
-  async attack(client, msg) {}
-  async skill(client, msg) {}
+  async battleEnd() {}
 
   async buildCharacter(playerData) {
     const classRawData = classes[playerData.character.class];
@@ -95,5 +99,15 @@ export class BattleService {
     return newCharacter;
   }
 
-  async buildEnemy(id) {}
+  async setInitialStats(roomId) {
+    const roomIndex = rooms.map((e) => e.id).indexOf(roomId);
+
+    rooms[roomIndex].players.forEach((player) => {
+      const classRawData = classes[player.character.class];
+      const { stats } = classRawData;
+
+      player.character.currentHp = stats.baseHp;
+      player.character.maxHp = stats.baseHp;
+    });
+  }
 }

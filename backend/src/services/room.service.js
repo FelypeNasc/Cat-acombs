@@ -5,7 +5,8 @@ export const playersOnRooms = [];
 //   {
 //     id: uuidv4(),
 //     roomName: "abacaxi",
-//     creatorName: "junin",
+//     adminName: "junin",
+//     adminId: 123,
 //     password: null,
 //     hasPassword: false,
 //     currentView: "classSelection",
@@ -68,9 +69,30 @@ export class RoomService {
           id: client.id,
           username: client.username,
           class: null,
+          level: 1,
           checked: false,
         },
       ],
+      doors: {
+        1: [
+          { name: "Porta 1", floor: 1, door: 1, access: "enabled" },
+          { name: "Porta 2", floor: 1, door: 2, access: "locked" },
+          { name: "Porta 3", floor: 1, door: 3, access: "locked" },
+          { name: "Porta 4", floor: 1, door: 4, access: "locked" },
+        ],
+        2: [
+          { name: "Porta 1", floor: 2, door: 1, access: "locked" },
+          { name: "Porta 2", floor: 2, door: 2, access: "locked" },
+          { name: "Porta 3", floor: 2, door: 3, access: "locked" },
+          { name: "Porta 4", floor: 2, door: 4, access: "locked" },
+        ],
+        3: [
+          { name: "Porta 1", floor: 3, door: 1, access: "locked" },
+          { name: "Porta 2", floor: 3, door: 2, access: "locked" },
+          { name: "Porta 3", floor: 3, door: 3, access: "locked" },
+          { name: "Porta 4", floor: 3, door: 4, access: "locked" },
+        ],
+      },
     };
 
     if (roomPassword) {
@@ -176,6 +198,7 @@ export class RoomService {
         playersOnRooms.splice(index, 1);
       }
     });
+
     rooms[roomIndex].players = rooms[roomIndex].players.filter(
       (player) => player.id !== playerId
     );
@@ -194,7 +217,16 @@ export class RoomService {
     return rooms[roomIndex];
   }
 
-  async partyReady() {}
+  async getRoomUpdated(client, msg) {
+    const roomIndex = rooms.map((e) => e.id).indexOf(msg.data.roomId);
+    console.log(msg)
+    const response = {
+      type: "roomUpdated",
+      data: rooms[roomIndex],
+    };
+
+    client.send(JSON.stringify(response));
+  }
 
   async roomUpdated(roomId) {
     const roomIndex = rooms.map((e) => e.id).indexOf(roomId);

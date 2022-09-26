@@ -2,79 +2,52 @@ export const floorsAndDoors = {
   1: {
     1: {
       type: "battle",
-      boss: {
-        id: 1,
-        name: "Fra-cão",
-      },
+      enemyId: 1,
     },
     2: {
       type: "battle",
-      boss: {
-        id: 2,
-        name: "Puguerreiro",
-      },
+      enemyId: 2,
     },
     3: {
       type: "rest",
     },
     4: {
       type: "battle",
-      boss: {
-        id: 3,
-        name: "Cãoshin",
-      },
+      enemyId: 3,
     },
   },
   2: {
     1: {
       type: "battle",
-      boss: {
-        id: 4,
-        name: "Chow-tchau",
-      },
+      enemyId: 4,
     },
     2: {
       type: "battle",
-      boss: {
-        id: 5,
-        name: "Pastor Sinistrão",
-      },
+      enemyId: 5,
     },
     3: {
       type: "rest",
     },
     4: {
       type: "battle",
-      boss: {
-        id: 6,
-        name: "Akitacalor",
-      },
+      enemyId: 6,
     },
   },
   3: {
     1: {
       type: "battle",
-      boss: {
-        id: 7,
-        name: "Doberserker",
-      },
+      enemyId: 7,
     },
     2: {
       type: "battle",
-      boss: {
-        id: 8,
-        name: "Pit Bruto",
-      },
+      enemyId: 8,
     },
     3: {
       type: "rest",
     },
     4: {
       type: "battle",
-      boss: {
-        id: 9,
-        name: "loboss",
-      },
+      enemyId: 9,
     },
   },
 };
