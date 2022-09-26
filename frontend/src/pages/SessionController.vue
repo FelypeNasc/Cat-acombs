@@ -32,23 +32,22 @@ export default {
   },
   data() {
     return {
-<<<<<<< HEAD
-      currentView: "combat",
-=======
       currentView: "class",
       storyText: null,
->>>>>>> felype
+      battleData: {},
     };
   },
   created() {
     wsConnection.addEventListener("message", (msg) => {
       msg = JSON.parse(msg.data);
-      console.log(msg);
 
       switch (msg.type) {
         case "roomUpdated":
           this.storyText = msg?.data?.storyText ?? null;
           this.currentView = msg?.data?.currentView;
+          break;
+        case "battleUpdated":
+          this.battleData = msg?.data;
           break;
       }
     });

@@ -1,47 +1,49 @@
 <template>
   <div class="dense noselect">
+    {{ battleData }}
+
     <div class="grid grid-flow-row-dense grid-cols-3 grid-rows-3 items-center">
       <div class="11">
         <HPComponent
           class="w-[60%] big-screen"
-          :playerStatus="players[0]"
+          :playerStatus="battleData.players[0]"
         ></HPComponent>
       </div>
       <div class="12">
         <HPComponent
           class="w-[60%] big-screen"
-          :playerStatus="players[1]"
+          :playerStatus="battleData.players[1]"
         ></HPComponent>
       </div>
       <div class="13 row-span-2 w-32">
-        <BossHPComponent :bossStatus="enemy"></BossHPComponent>
+        <BossHPComponent :bossStatus="battleData.enemy"></BossHPComponent>
       </div>
       <div class="21">
         <HPComponent
           class="w-[60%] big-screen"
-          :playerStatus="players[2]"
+          :playerStatus="battleData.players[2]"
         ></HPComponent>
       </div>
       <div class="22">
         <HPComponent
           class="w-[60%] big-screen"
-          :playerStatus="players[3]"
+          :playerStatus="battleData.players[3]"
         ></HPComponent>
       </div>
       <div class="31 col-span-2 ml-10">
         <joystick-component
-          :playerStatus="players[0]"
+          :playerStatus="battleData.players[0]"
           @emitAction="playerAction"
         ></joystick-component>
       </div>
       <div class="33">
         <div class="showTurn mt-10 bg-blend-darken font-squirk text-xl">
           <h1 v-for="n in 5" :key="n">
-            <div v-if="turnIndex === n">
-              <h1 class="opacity-100">{{ turnList[n - 1].name }}</h1>
+            <div v-if="battleData.turnIndex === n">
+              <h1 class="opacity-100">{{ battleData.turnList[n - 1].name }}</h1>
             </div>
             <div v-else>
-              <h1 class="opacity-30">{{ turnList[n - 1].name }}</h1>
+              <h1 class="opacity-30">{{ battleData.turnList[n - 1].name }}</h1>
             </div>
           </h1>
         </div>
@@ -286,7 +288,9 @@ export default {
 
       switch (msg.type) {
         case "startBattle":
-          
+          break;
+        case "battleUpdated":
+          break;
       }
     });
   },
