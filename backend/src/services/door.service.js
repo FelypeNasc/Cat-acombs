@@ -26,7 +26,7 @@ export class DoorService {
   }
 
   async restRoom(roomId) {
-    const roomIndex = rooms.map((e) => e.id).indexOf(userFound.roomId);
+    const roomIndex = rooms.map((e) => e.id).indexOf(roomId);
 
     rooms[roomIndex].players.forEach((player) => {
       player.character.currentHp = player.character.maxHp;
@@ -41,6 +41,22 @@ export class DoorService {
   }
 
   async battleRoom(doorData, roomId, floor, door) {
-    this.battleService.newBattle(doorData, roomId, floor, door);
+    const battleData = this.battleService.newBattle(
+      doorData,
+      roomId,
+      floor,
+      door
+    );
+
+    rooms[roomId].currentView = "combat";
+
+    const response = {
+      type: "startBattle",
+      data: battleData,
+    };
+
+    sendMessageToRoom(roomId, response);
+
+    this.roomService.roomUpdated(roomId);
   }
 }

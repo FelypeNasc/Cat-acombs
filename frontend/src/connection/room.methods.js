@@ -53,3 +53,12 @@ export const leaveRoom = (roomData) => {
   };
   sendMessage(msg);
 };
+
+export const getRoomUpdated = (roomId) => {
+  const msg = {
+    type: "room/getRoomUpdated",
+    data: { roomId },
+  };
+
+  sendMessage(msg);
+};

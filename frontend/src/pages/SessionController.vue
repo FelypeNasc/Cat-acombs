@@ -1,10 +1,14 @@
 <template>
   <div class="noselect flex justify-between items-center overflow-hidden">
     <div class="h-full w-full">
+      {{ currentView }}
       <ClassSelection v-if="currentView === 'class'" />
       <StoryScreen v-if="currentView === 'story'" />
       <DungeonDoors v-if="currentView === 'doors'" />
-      <EncounterCombat v-if="currentView === 'combat'" />
+      <EncounterCombat
+        v-if="currentView === 'combat'"
+        :battle-data="battleData"
+      />
       <TestPage v-if="currentView === 'test'" />
     </div>
     <div class="chat-container w-max"><ChatComponent /></div>

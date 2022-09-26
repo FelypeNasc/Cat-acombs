@@ -5,7 +5,8 @@ export const playersOnRooms = [];
 //   {
 //     id: uuidv4(),
 //     roomName: "abacaxi",
-//     creatorName: "junin",
+//     adminName: "junin",
+//     adminId: 123,
 //     password: null,
 //     hasPassword: false,
 //     currentView: "classSelection",
@@ -197,6 +198,7 @@ export class RoomService {
         playersOnRooms.splice(index, 1);
       }
     });
+
     rooms[roomIndex].players = rooms[roomIndex].players.filter(
       (player) => player.id !== playerId
     );
@@ -215,7 +217,16 @@ export class RoomService {
     return rooms[roomIndex];
   }
 
-  async partyReady() {}
+  async getRoomUpdated(client, msg) {
+    const roomIndex = rooms.map((e) => e.id).indexOf(msg.data.roomId);
+    console.log(msg)
+    const response = {
+      type: "roomUpdated",
+      data: rooms[roomIndex],
+    };
+
+    client.send(JSON.stringify(response));
+  }
 
   async roomUpdated(roomId) {
     const roomIndex = rooms.map((e) => e.id).indexOf(roomId);

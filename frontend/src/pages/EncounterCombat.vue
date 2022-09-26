@@ -57,6 +57,12 @@ export default {
     BossHPComponent,
     JoystickComponent,
   },
+  props: {
+    battleData: {
+      type: Object,
+      default: () => {},
+    },
+  },
   data() {
     return {
       turn: 3,
