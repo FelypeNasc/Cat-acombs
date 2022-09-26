@@ -62,7 +62,7 @@ export class DoorService {
     setTimeout(() => {
       sendMessageToRoom(roomId, response);
       this.roomService.roomUpdated(roomId);
-    }, 10000);
+    }, 5000);
 
     setTimeout(() => {
       this.battleService.battleUpdated(roomId);
