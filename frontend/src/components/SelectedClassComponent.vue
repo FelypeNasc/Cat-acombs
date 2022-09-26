@@ -3,7 +3,7 @@
     <div
       class="relative flex flex-col justify-center items-center content-center"
     >
-      <p class="text-xl break-all h-[50px]">
+      <p class="text-xl break-normal h-[50px]">
         {{ socketPlayers?.player1?.username }}
       </p>
       <img
@@ -44,7 +44,7 @@
       />
     </div>
     <div class="flex flex-col justify-center items-center content-center">
-      <p class="text-xl break-all h-[50px]">
+      <p class="text-xl break-normal h-[50px]">
         {{ socketPlayers?.player2?.username }}
       </p>
       <img
@@ -85,7 +85,7 @@
       />
     </div>
     <div class="flex flex-col justify-center items-center content-center">
-      <p class="text-xl break-all h-[50px]">
+      <p class="text-xl break-normal h-[50px]">
         {{ socketPlayers?.player3?.username }}
       </p>
       <img
@@ -126,7 +126,7 @@
       />
     </div>
     <div class="flex flex-col justify-center items-center content-center">
-      <p class="text-xl break-all h-[50px]">
+      <p class="text-xl break-normal h-[50px]">
         {{ socketPlayers?.player4?.username }}
       </p>
       <img
