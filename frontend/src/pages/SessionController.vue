@@ -33,7 +33,7 @@ export default {
   },
   data() {
     return {
-      currentView: "class",
+      currentView: "combat",
     };
   },
   created() {
