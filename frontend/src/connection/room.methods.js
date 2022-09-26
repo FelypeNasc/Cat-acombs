@@ -35,17 +35,6 @@ export const userOnLobby = () => {
   sendMessage(msg);
 };
 
-export const enterDoor = (data) => {
-  const { floor, door, roomId } = data;
-
-  const msg = {
-    type: "enterDoor",
-    data: { floor, door, roomId },
-  };
-
-  sendMessage(msg)
-};
-
 export const leaveRoom = (roomData) => {
   const msg = {
     type: "room/leaveRoom",

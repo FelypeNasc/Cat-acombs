@@ -5,14 +5,14 @@
     >
       <img class="logo w-48" src="src/assets/images/logo.svg" />
       <div
-        class="level flex flex-row text-center align-middle text-7xl font-squirk"
+        class="floor flex flex-row text-center align-middle text-7xl font-squirk"
       >
         <img
           class="pointer w-10 mr-6"
           src="src/assets/images/arrowLeft.svg"
           @click="changeLevel('-')"
         />
-        <h3>Level {{ level }}</h3>
+        <h3>Level {{ floor }}</h3>
         <img
           class="pointer w-10 ml-6"
           src="src/assets/images/arrowRight.svg"
@@ -25,13 +25,13 @@
     </div>
     <div class="doors flex flex-row justify-end gap-5 my-20">
       <div
-        v-for="(item, index) in levels[`${level}`]"
+        v-for="(item, index) in levels[`${floor}`]"
         :key="index"
         class="flex flex-col"
       >
         <img
           class="door1 pointer"
-          :src="`src/assets/images/${level}-floor-door-${item.acess}.svg`"
+          :src="`src/assets/images/${floor}-floor-door-${item.access}.svg`"
           @click="startBattle(item)"
         />
 
@@ -57,25 +57,25 @@ export default {
     return {
       levels: {
         1: [
-          { name: "Door 1", level: 1, acess: "enabled" },
-          { name: "Door 2", level: 1, acess: "enabled" },
-          { name: "Door 3", level: 1, acess: "locked" },
-          { name: "Door 4", level: 1, acess: "locked" },
+          { name: "Door 1", floor: 1, door: 1, access: "enabled" },
+          { name: "Door 2", floor: 1, door: 2, access: "enabled" },
+          { name: "Door 3", floor: 1, door: 3, access: "locked" },
+          { name: "Door 4", floor: 1, door: 4, access: "locked" },
         ],
         2: [
-          { name: "Door 1", level: 2, acess: "enabled" },
-          { name: "Door 2", level: 2, acess: "enabled" },
-          { name: "Door 3", level: 2, acess: "locked" },
-          { name: "Door 4", level: 2, acess: "locked" },
+          { name: "Door 1", floor: 2, door: 1, access: "enabled" },
+          { name: "Door 2", floor: 2, door: 2, access: "enabled" },
+          { name: "Door 3", floor: 2, door: 3, access: "locked" },
+          { name: "Door 4", floor: 2, door: 4, access: "locked" },
         ],
         3: [
-          { name: "Door 1", level: 3, acess: "enabled" },
-          { name: "Door 2", level: 3, acess: "enabled" },
-          { name: "Door 3", level: 3, acess: "locked" },
-          { name: "Door 4", level: 3, acess: "locked" },
+          { name: "Door 1", floor: 3, door: 1, access: "enabled" },
+          { name: "Door 2", floor: 3, door: 2, access: "enabled" },
+          { name: "Door 3", floor: 3, door: 3, access: "locked" },
+          { name: "Door 4", floor: 3, door: 4, access: "locked" },
         ],
       },
-      level: 1,
+      floor: 1,
       showMenu: false,
     };
   },
@@ -86,17 +86,17 @@ export default {
   methods: {
     changeLevel(event) {
       if (event === "+") {
-        if (this.level === 3) {
-          this.level = 1;
+        if (this.floor === 3) {
+          this.floor = 1;
         } else {
-          this.level++;
+          this.floor++;
         }
       }
       if (event === "-") {
-        if (this.level === 1) {
-          this.level = 3;
+        if (this.floor === 1) {
+          this.floor = 3;
         } else {
-          this.level--;
+          this.floor--;
         }
       }
     },

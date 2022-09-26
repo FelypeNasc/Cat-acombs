@@ -61,8 +61,29 @@ export class RoomService {
           id: client.id,
           username: client.username,
           class: null,
+          level: 1,
         },
       ],
+      doors: {
+        1: [
+          { name: "Porta 1", floor: 1, door: 1, access: "enabled" },
+          { name: "Porta 2", floor: 1, door: 2, access: "locked" },
+          { name: "Porta 3", floor: 1, door: 3, access: "locked" },
+          { name: "Porta 4", floor: 1, door: 4, access: "locked" },
+        ],
+        2: [
+          { name: "Porta 1", floor: 2, door: 1, access: "locked" },
+          { name: "Porta 2", floor: 2, door: 2, access: "locked" },
+          { name: "Porta 3", floor: 2, door: 3, access: "locked" },
+          { name: "Porta 4", floor: 2, door: 4, access: "locked" },
+        ],
+        3: [
+          { name: "Porta 1", floor: 3, door: 1, access: "locked" },
+          { name: "Porta 2", floor: 3, door: 2, access: "locked" },
+          { name: "Porta 3", floor: 3, door: 3, access: "locked" },
+          { name: "Porta 4", floor: 3, door: 4, access: "locked" },
+        ],
+      },
     };
 
     if (roomPassword) {
