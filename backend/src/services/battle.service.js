@@ -20,7 +20,7 @@ export class BattleService {
 
     if (!battleData) return;
 
-    if (turnList[turnIndex] !== client.id) return;
+    if (turnList[turnIndex].id !== client.id) return;
 
     const playerIndex = players.map((e) => e.id).indexOf(client.id);
     const playerData = players[playerIndex];
@@ -62,7 +62,7 @@ export class BattleService {
 
     if (!battleData) return;
 
-    if (turnList[turnIndex] !== client.id) return;
+    if (turnList[turnIndex].id !== client.id) return;
 
     const playerIndex = players.map((e) => e.id).indexOf(client.id);
     const playerData = players[playerIndex];
@@ -202,13 +202,15 @@ export class BattleService {
       id: room.id,
       doorData: { floor, door },
       turnIndex: 0,
-      turnList: room.players.map((player) => player.id),
+      turnList: room.players.map((player) => {
+        return { id: player.id, name: player.username };
+      }),
       players: playersCharacters,
       enemy: roomEnemy,
     };
     console.log("Players characters:", playersCharacters);
 
-    newBattle.turnList.push("enemy");
+    newBattle.turnList.push({ id: "enemy", name: roomEnemy.name });
 
     battles[roomId] = newBattle;
     return newBattle;
@@ -264,7 +266,7 @@ export class BattleService {
       ? ((turnIndex = 0), this.cooldownDecrease(roomId))
       : turnIndex++;
 
-    if (turnList[turnIndex] === "enemy") {
+    if (turnList[turnIndex].id === "enemy") {
       this.enemyTurn(roomId);
     }
   }

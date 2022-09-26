@@ -14,11 +14,11 @@
             type="range"
             class="windowsSliderInput"
             min="0"
-            :max="playerStatus.stats.hpMax"
+            :max="playerStatus.stats.maxHp"
           />
           <div
             class="windowsSliderProgress"
-            :style="{ width: playerStatus.stats.currentHp + '%' }"
+            :style="{ width: playerStatus.stats.currentHp / playerStatus.stats.maxHp * 100 + '%' }"
           ></div>
         </div>
       </div>
@@ -54,6 +54,11 @@ export default {
     return {
       percent: 100,
     };
+  },
+  methods: {
+    calculatePercentage(max, current) {
+      return (current * 100) / max;
+    },
   },
   watch: {
     windowsSliderProgress() {

@@ -18,7 +18,7 @@
           />
           <div
             class="windowsSliderProgress"
-            :style="{ width: bossStatus.stats.currentHp + '%' }"
+            :style="{ width: bossStatus.stats.currentHp / bossStatus.stats.maxHp *100 + '%' }"
           ></div>
         </div>
       </div>
