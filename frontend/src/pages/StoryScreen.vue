@@ -1,5 +1,5 @@
 <template>
-  <div class="history">Texto da Historia</div>
+  <div class="history text-center">{{ text }}</div>
 </template>
 <script>
 export default {

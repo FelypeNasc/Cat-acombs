@@ -10,7 +10,9 @@
       />
       <TestPage v-if="currentView === 'test'" />
     </div>
-    <div class="chat-container w-max"><ChatComponent /></div>
+    <div v-if="currentView !== 'story'" class="chat-container w-max">
+      <ChatComponent />
+    </div>
   </div>
 </template>
 <script>
