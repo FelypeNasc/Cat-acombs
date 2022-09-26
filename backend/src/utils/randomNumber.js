@@ -1,6 +1,7 @@
-export function randomNumber(rate) {
-  const min = 0;
-  const max = 100;
+export function randomNumber(min = 0, max = 100, rate = null) {
   const randomNum = Math.random() * (max - min) + min;
-  return randomNum < rate;
+
+  if (rate) return randomNum < rate;
+
+  return randomNum;
 }

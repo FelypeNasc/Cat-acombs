@@ -2,7 +2,11 @@
   <div class="history">Texto da Historia</div>
 </template>
 <script>
-export default {};
+export default {
+  props: {
+    text: { type: String, default: () => "texto da história" },
+  },
+};
 </script>
 <style>
 .history {

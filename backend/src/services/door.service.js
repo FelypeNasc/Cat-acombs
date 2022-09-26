@@ -17,10 +17,10 @@ export class DoorService {
 
     switch (doorData.type) {
       case "rest":
-        restRoom(roomId);
+        this.restRoom(roomId);
         break;
       case "battle":
-        battleRoom(doorData, roomId, floor, door);
+        this.battleRoom(doorData, roomId, floor, door);
         break;
     }
   }
@@ -63,5 +63,9 @@ export class DoorService {
       sendMessageToRoom(roomId, response);
       this.roomService.roomUpdated(roomId);
     }, 10000);
+
+    setTimeout(() => {
+      this.battleService.battleUpdated(roomId);
+    }, 500);
   }
 }

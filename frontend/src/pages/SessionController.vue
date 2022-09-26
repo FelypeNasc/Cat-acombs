@@ -1,9 +1,8 @@
 <template>
   <div class="noselect flex justify-between items-center overflow-hidden">
     <div class="h-full w-full">
-      {{ currentView }}
       <ClassSelection v-if="currentView === 'class'" />
-      <StoryScreen v-if="currentView === 'story'" :story-text="storyText" />
+      <StoryScreen v-if="currentView === 'story'" :text="storyText" />
       <DungeonDoors v-if="currentView === 'doors'" />
       <EncounterCombat
         v-if="currentView === 'combat'"
@@ -33,7 +32,12 @@ export default {
   },
   data() {
     return {
+<<<<<<< HEAD
       currentView: "combat",
+=======
+      currentView: "class",
+      storyText: null,
+>>>>>>> felype
     };
   },
   created() {
@@ -43,7 +47,8 @@ export default {
 
       switch (msg.type) {
         case "roomUpdated":
-          this.currentView = msg.data.currentView;
+          this.storyText = msg?.data?.storyText ?? null;
+          this.currentView = msg?.data?.currentView;
           break;
       }
     });
