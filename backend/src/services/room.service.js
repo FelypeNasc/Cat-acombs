@@ -41,7 +41,8 @@ export class RoomService {
       return {
         id: room.id,
         roomName: room.roomName,
-        creatorName: room.creatorName,
+        adminId: room.adminId,
+        adminUsername: room.adminUsername,
         inGame: room.inGame,
         players: [...room.players],
       };
@@ -61,7 +62,8 @@ export class RoomService {
     const newRoom = {
       id: uuidv4(),
       roomName: roomName,
-      creatorName: client.username,
+      adminId: client.id,
+      adminUsername: client.username,
       password: null,
       inGame: false,
       players: [
@@ -125,6 +127,14 @@ export class RoomService {
       class: null,
     };
     const roomIndex = rooms.map((e) => e.id).indexOf(msg.data.roomId);
+
+    if (rooms[roomIndex].inGame) {
+      const response = {
+        type: "inGame",
+      };
+      client.send(JSON.stringify(response));
+      return;
+    }
 
     if (rooms[roomIndex].hasPassword) {
       const passwordMatch = bcrypt.compareSync(
@@ -219,7 +229,7 @@ export class RoomService {
 
   async getRoomUpdated(client, msg) {
     const roomIndex = rooms.map((e) => e.id).indexOf(msg.data.roomId);
-    console.log(msg)
+    console.log(msg);
     const response = {
       type: "roomUpdated",
       data: rooms[roomIndex],
