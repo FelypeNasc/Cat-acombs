@@ -30,7 +30,10 @@
         class="flex flex-col"
       >
         <img
-          class="door1 pointer"
+          :disabled="item.access === 'locked'"
+          :class="`door1 ${
+            item.access === 'enabled' ? 'pointer' : 'not-allowed'
+          }`"
           :src="`../src/assets/images/${floor}-floor-door-${item.access}.svg`"
           @click="startBattle(item)"
         />
@@ -67,7 +70,7 @@ export default {
   created() {
     wsConnection.addEventListener("message", (msg) => {
       msg = JSON.parse(msg.data);
-      console.log(msg);
+      console.log(msg.data);
 
       switch (msg.type) {
         case "restRoom":
@@ -79,9 +82,8 @@ export default {
         case "roomUpdated":
           this.levels = msg.data.doors;
       }
-
-      this.getRoomUpdated(this.$route.params.id);
     });
+    this.getRoomUpdated(this.$route.params.id);
   },
   methods: {
     changeLevel(event) {
@@ -111,8 +113,13 @@ export default {
     },
     startBattle(item) {
       console.log(item);
+      item.access === "enabled"
+        ? this.$router.push("/combat")
+        : console.log("sala bloqueada");
       /* enviar as informações para o back e retornar com o a mudança de tela */
-      this.$router.push("/combat");
+    },
+    logout() {
+      this.$router.push("/");
     },
   },
 };
@@ -123,5 +130,8 @@ export default {
 } */
 .pointer {
   cursor: pointer;
+}
+.not-allowed {
+  cursor: not-allowed;
 }
 </style>

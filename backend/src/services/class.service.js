@@ -94,6 +94,7 @@ export class ClassService {
 
     if (verifyAllChecked) {
       rooms[roomIndex].currentView = "doors";
+      rooms[roomIndex].inGame = true;
       this.roomService.roomUpdated(msg.data.roomId);
     } else {
       sendMessageToRoom(msg.data.roomId, response);
