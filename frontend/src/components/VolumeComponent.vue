@@ -5,7 +5,7 @@
     </div>
     <div class="flex justify-between items-center">
       <div class="sound mr-5">
-        <img src="src/assets/icons/sound-icon.svg" />
+        <img src="../assets/icons/sound-icon.svg" />
       </div>
       <div class="windowsSlider flex justify-center items-center">
         <input

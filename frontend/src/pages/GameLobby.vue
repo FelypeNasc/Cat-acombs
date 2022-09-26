@@ -16,7 +16,7 @@
     <div class="flex flex-col justify-center items-center w-full">
       <div class="w-max">
         <div class="inline-flex w-full justify-end">
-          <MiniButtonComponent @onclick="getRoomList">
+          <MiniButtonComponent @onclick="getRoomList()">
             <img src="../assets/icons/refresh-icon.svg" alt="refresh icon" />
           </MiniButtonComponent>
           <ButtonComponent
@@ -72,6 +72,7 @@
       @confirm="createRoom"
     />
     <CardPassword
+      :room-data="roomData"
       v-if="showCardPassword"
       :roomData="roomData"
       @close="toogleCardPassword"
@@ -106,6 +107,7 @@ export default {
   },
   data() {
     return {
+      players: [],
       createRoom,
       enterRoom,
       getRoomList,
@@ -120,8 +122,8 @@ export default {
     };
   },
   created() {
+    this.setBackground();
     this.getRoomList();
-
     // ws listeners
     wsConnection.addEventListener("message", (msg) => {
       msg = JSON.parse(msg.data);
@@ -132,9 +134,11 @@ export default {
           this.rooms = msg.data;
           break;
         case "roomCreated":
+          console.log(msg.data);
           this.$router.push({ path: `/play/${msg.data.id}` });
           break;
         case "enterRoom":
+          console.log(msg.data);
           this.$router.push({ path: `/play/${msg.data.id}` });
           break;
         case "disconnectedFromRoom":
@@ -147,7 +151,7 @@ export default {
     });
   },
   mounted() {
-    document.addEventListener("backbutton", this.userOnLobby(), false);
+    document.addEventListener("backbutton", this.backButton(), false);
   },
   computed: {
     pageTotal() {
@@ -160,6 +164,11 @@ export default {
     },
   },
   methods: {
+    setBackground() {
+      document.querySelector(
+        "body"
+      ).style.backgroundImage = `url(../src/assets/images/backgroundblue.png)`;
+    },
     changePageNumber(operation) {
       const increasePageNumber = () => {
         if (this.pageNumber !== this.pageTotal) {
@@ -172,6 +181,10 @@ export default {
         }
       };
       operation === "plus" ? increasePageNumber() : decreasePageNumber();
+    },
+    backButton() {
+      this.getRoomList();
+      this.userOnLobby();
     },
     logout() {
       this.$router.push("/");
@@ -194,8 +207,9 @@ export default {
       }
       this.toogleCardPassword();
     },
-    confirmPassword(verifyRoom) {
-      enterRoom(verifyRoom);
+    confirmPassword(roomData) {
+      console.log("confirmacao", roomData);
+      enterRoom(roomData);
     },
   },
 };

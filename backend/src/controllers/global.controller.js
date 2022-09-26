@@ -24,7 +24,7 @@ export class GlobalController {
       client: () => this.clientController.redirect(secondaryRoute, client, msg),
       battle: () => this.battleController.redirect(secondaryRoute, client, msg),
       door: () => this.doorController.redirect(secondaryRoute, client, msg),
-      class: () => this.classController.redirect(secondaryRoute, client),
+      class: () => this.classController.redirect(secondaryRoute, client, msg),
       chat: () => this.chatController.redirect(secondaryRoute, client, msg),
       room: () => this.roomController.redirect(secondaryRoute, client, msg),
     };

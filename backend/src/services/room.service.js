@@ -35,9 +35,16 @@ export class RoomService {
   }
 
   async getRooms(client, msg) {
-    const responseRooms = rooms;
-
-    responseRooms.forEach((room) => delete room.password);
+    const responseRooms = Array.from(rooms);
+    responseRooms.forEach((room) => {
+      return {
+        id: room.id,
+        roomName: room.roomName,
+        creatorName: room.creatorName,
+        inGame: room.inGame,
+        players: [...room.players],
+      };
+    });
 
     const response = {
       type: "getRooms",
@@ -55,13 +62,14 @@ export class RoomService {
       roomName: roomName,
       creatorName: client.username,
       password: null,
-      hasPassword: false,
+      inGame: false,
       players: [
         {
           id: client.id,
           username: client.username,
           class: null,
           level: 1,
+          checked: false,
         },
       ],
       doors: {
@@ -115,12 +123,11 @@ export class RoomService {
       username: client.username,
       class: null,
     };
-
     const roomIndex = rooms.map((e) => e.id).indexOf(msg.data.roomId);
 
     if (rooms[roomIndex].hasPassword) {
       const passwordMatch = bcrypt.compareSync(
-        msg.roomPassword,
+        msg.data.roomPassword,
         rooms[roomIndex].password
       );
 
@@ -218,6 +225,6 @@ export class RoomService {
       data: rooms[roomIndex],
     };
 
-    sendMessageToRoom(userFound.roomId, messageToRoom);
+    sendMessageToRoom(roomId, messageToRoom);
   }
 }

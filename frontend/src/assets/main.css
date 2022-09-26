@@ -32,7 +32,7 @@
 }
 
 body {
-  background-image: url("src/assets/images/backgroundblue.png");
+  background-image: url(./images/backgroundblue.png);
   display: flex;
   align-items: center;
   justify-content: center;

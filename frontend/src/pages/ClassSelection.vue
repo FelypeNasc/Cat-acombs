@@ -26,31 +26,41 @@
           class="selected flex flex-col pr-3 items-center w-2/12 lg:min-w-[250px] md:min-w-[150px] sm:min-w-[100px]"
         >
           <img
-            v-if="selectedClass"
+            v-if="selectedClass === 'warrior'"
             class=""
-            :src="`src/assets/images/${selectedClass}-card.png`"
+            src="../assets/images/warrior-card.png"
+          />
+          <img
+            v-if="selectedClass === 'bard'"
+            class=""
+            src="../assets/images/bard-card.png"
+          />
+          <img
+            v-if="selectedClass === 'mage'"
+            class=""
+            src="../assets/images/mage-card.png"
+          />
+          <img
+            v-if="selectedClass === 'ranger'"
+            class=""
+            src="../assets/images/ranger-card.png"
           />
         </div>
         <div class="flex flex-col items-center">
           <ClassListComponent
             :class-list="classList"
             class="lg:min-w-[400px] md:min-w-[350px] sm:min-w-[300px]"
-            @selectClass="selectClass"
+            @selectClass="selectionClass"
           ></ClassListComponent>
           <button
-            class="font-squirk mt-8 bg-white text-3xl rounded-lg flat text-blue-600 h-20 w-40"
+            class="font-squirk mt-8 bg-white text-3xl rounded-lg flat ready-btn-color h-20 w-40"
+            :disabled="!selectedClass"
+            @click="readySection"
           >
             READY !
           </button>
         </div>
         <div class="ml-3"></div>
-      </div>
-      <div class="footer flex justify-center m-4">
-        <button
-          class="font-squirk bg-white text-3xl rounded-lg flat text-blue-600 h-20 w-40"
-        >
-          READY!
-        </button>
       </div>
     </div>
     <CardMenu v-if="showMenu" @close="toogleMenu" @confirm="logout" />
@@ -61,6 +71,8 @@ import SelectedClassComponent from "../components/SelectedClassComponent.vue";
 import ClassListComponent from "../components/ClassListComponent.vue";
 import MiniButtonComponent from "../components/MiniButtonComponent.vue";
 import CardMenu from "../components/CardMenu.vue";
+import { wsConnection } from "../connection/connections";
+import { selectClass, ready } from "../connection/classSelection.methods";
 
 export default {
   components: {
@@ -79,30 +91,81 @@ export default {
           { class: "ranger", route: "../assets/images/ranger-class.svg" },
         ],
       ],
-      selectedClassList: {
-        player1: { name: "joao", class: null },
-        player2: { name: "felype", class: null },
-        player3: { name: "gislene", class: null },
-        player4: { name: "augusto", class: null },
-      },
+      selectedClassList: {},
       selectedClass: null,
       showMenu: false,
+      selectClass,
+      ready,
     };
+  },
+  created() {
+    wsConnection.addEventListener("message", (msg) => {
+      msg = JSON.parse(msg.data);
+      console.log(msg);
+
+      switch (msg.type) {
+        case "getRooms":
+          this.rooms = msg.data;
+          break;
+        case "roomCreated":
+          this.$router.push({ path: `/play/${msg.data.id}` });
+          break;
+        case "enterRoom":
+          this.$router.push({ path: `/play/${msg.data.id}` });
+          break;
+        case "roomFull":
+          break;
+        case "wrongPassword":
+          break;
+        case "classSelected":
+          this.selectedClassList = msg.data;
+          console.log(msg.data);
+          break;
+        case "ready":
+          this.selectedClassList = msg.data;
+          console.log(msg.data);
+          break;
+        case "allReady":
+          console.log("allready");
+          this.$router.push({ path: `/play/encounter` });
+          break;
+      }
+    });
+    this.getCharactersSelected();
   },
   methods: {
     toogleMenu() {
-      this.showMenu === !this.showMenu;
+      this.showMenu = !this.showMenu;
     },
     logout() {
       this.$router.push("/");
     },
-    selectClass(item) {
+    selectionClass(item) {
       this.selectedClass = item.class;
-      this.selectedClassList["player2"].class = item.class;
-      console.log(item);
+      const roomId = this.$route.params.id;
+      const userId = sessionStorage.getItem("userId");
+      const username = sessionStorage.getItem("username");
+      const roomData = { roomId, userId, username, class: item.class };
+      this.selectClass(roomData);
     },
-    getUsersSocket() {},
-    socketClassChange() {},
+    getCharactersSelected() {
+      this.selectedClass = null;
+      const roomId = this.$route.params.id;
+      const userId = sessionStorage.getItem("userId");
+      const username = sessionStorage.getItem("username");
+      const roomData = { roomId, userId, username, class: this.selectedClass };
+      this.selectClass(roomData);
+    },
+    readySection() {
+      if (this.selectedClass) {
+        const roomId = this.$route.params.id;
+        const roomData = {
+          roomId,
+        };
+        console.log(roomData);
+        this.ready(roomData);
+      }
+    },
   },
 };
 </script>
@@ -126,7 +189,9 @@ export default {
 .config {
   width: 5%;
 }
-
+.ready-btn-color {
+  color: var(--dark-blue);
+}
 .tableRoom {
   display: flex;
   justify-content: center;

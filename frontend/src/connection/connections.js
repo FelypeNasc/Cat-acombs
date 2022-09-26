@@ -18,7 +18,8 @@ export function createWS(username) {
     wsConnection.addEventListener("message", (msg) => {
       msg = JSON.parse(msg.data);
       if (msg.type === "userConnected") {
-        sessionStorage.setItem("userData", msg.data);
+        sessionStorage.setItem("username", msg.data.username);
+        sessionStorage.setItem("userId", msg.data.id);
       }
     });
 
