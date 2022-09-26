@@ -52,6 +52,7 @@ import MiniButtonComponent from "../components/MiniButtonComponent.vue";
 import CardMenu from "../components/CardMenu.vue";
 import { wsConnection } from "../connection/connections";
 import { getRoomUpdated } from "../connection/room.methods";
+import { enterDoor } from "../connection/doors.methods";
 
 export default {
   components: {
@@ -62,6 +63,7 @@ export default {
     return {
       levels: {},
       getRoomUpdated,
+      enterDoor,
       floor: 1,
       showMenu: false,
       battleData: null,
@@ -112,9 +114,14 @@ export default {
       console.log("requisição dos dados da sessão");
     },
     startBattle(item) {
-      console.log(item);
+      console.log(item.access);
+      /* const userId = sessionStorage.getItem("userId"); */
       item.access === "enabled"
-        ? this.$router.push("/combat")
+        ? this.enterDoor({
+            door: item.door,
+            floor: item.floor,
+            roomId: this.$route.params.id,
+          })
         : console.log("sala bloqueada");
       /* enviar as informações para o back e retornar com o a mudança de tela */
     },

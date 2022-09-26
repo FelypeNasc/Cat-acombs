@@ -128,14 +128,14 @@ export class RoomService {
     };
     const roomIndex = rooms.map((e) => e.id).indexOf(msg.data.roomId);
 
-    if (rooms[roomIndex].inGame) {
+    /*  if (rooms[roomIndex].inGame) {
       const response = {
         type: "inGame",
       };
       client.send(JSON.stringify(response));
       return;
     }
-
+ */
     if (rooms[roomIndex].hasPassword) {
       const passwordMatch = bcrypt.compareSync(
         msg.data.roomPassword,
@@ -219,10 +219,18 @@ export class RoomService {
       }
     });
 
-    const systemMessage = `${userFound.username} saiu na sala`;
+    const systemMessage = `${userFound.username} saiu da sala`;
 
     this.chatService.systemMessage(userFound.roomId, systemMessage);
     this.roomUpdated(userFound.roomId);
+
+    if (rooms[roomIndex].adminId !== rooms[roomIndex].players[0].id) {
+      rooms[roomIndex].adminId = rooms[roomIndex].players[0].id;
+      rooms[roomIndex].adminUsername = rooms[roomIndex].players[0].username;
+
+      const message = `${rooms[roomIndex].adminUsername} agora é admin da sala`;
+      this.chatService.systemMessage(userFound.roomId, message);
+    }
 
     return rooms[roomIndex];
   }
