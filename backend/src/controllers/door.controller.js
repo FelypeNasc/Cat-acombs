@@ -1,12 +1,13 @@
-import { ClassService } from "../services/class.service.js";
+import { DoorService } from "../services/door.service.js";
 
-export class ClassController {
-  classService = new ClassService();
+export class DoorController {
+  constructor() {
+    this.doorService = new DoorService();
+  }
 
   async redirect(route, client, msg) {
     const routes = {
-      selectClass: () => this.classService.selectClass(client, msg),
-      ready: () => this.classService.ready(client, msg),
+      enterDoor: () => this.doorService.enterDoor(client, msg),
     };
 
     if (!routes.hasOwnProperty(route)) {

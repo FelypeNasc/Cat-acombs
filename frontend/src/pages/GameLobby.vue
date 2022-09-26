@@ -123,7 +123,7 @@ export default {
   },
   created() {
     this.setBackground();
-    getRoomList();
+    this.getRoomList();
     // ws listeners
     wsConnection.addEventListener("message", (msg) => {
       msg = JSON.parse(msg.data);
@@ -151,7 +151,7 @@ export default {
     });
   },
   mounted() {
-    document.addEventListener("backbutton", this.userOnLobby(), false);
+    document.addEventListener("backbutton", this.backButton(), false);
   },
   computed: {
     pageTotal() {
@@ -181,6 +181,10 @@ export default {
         }
       };
       operation === "plus" ? increasePageNumber() : decreasePageNumber();
+    },
+    backButton() {
+      this.getRoomList();
+      this.userOnLobby();
     },
     logout() {
       this.$router.push("/");

@@ -5,7 +5,8 @@ export class BattleController {
 
   async redirect(route, client, msg) {
     const routes = {
-      test: () => this.battleService.test(client, msg),
+      attack: () => this.battleService.attack(client, msg),
+      skill: () => this.battleService.skill(client, msg),
     };
 
     if (!routes.hasOwnProperty(route)) {

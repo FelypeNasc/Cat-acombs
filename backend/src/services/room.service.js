@@ -5,21 +5,20 @@ export const playersOnRooms = [];
 //   {
 //     id: uuidv4(),
 //     roomName: "abacaxi",
-//     creatorName: "junin",
+//     adminName: "junin",
+//     adminId: 123,
 //     password: null,
 //     hasPassword: false,
 //     currentView: "classSelection",
 //     players: [
 //       {
-//         id: client.id,
+//         id: 'abuble',
 //         username: client.username,
 //         character: {
 //           class: null,
 //           level: 1,
-//           hp: 100,
-//           maxHp: 100,
-//           attack: 10,
-//           actions: {},
+//           currentHp: 100,
+//           maxHp: 100
 //         },
 //       },
 //     ],
@@ -42,7 +41,8 @@ export class RoomService {
       return {
         id: room.id,
         roomName: room.roomName,
-        creatorName: room.creatorName,
+        adminId: room.adminId,
+        adminUsername: room.adminUsername,
         inGame: room.inGame,
         players: [...room.players],
       };
@@ -62,7 +62,8 @@ export class RoomService {
     const newRoom = {
       id: uuidv4(),
       roomName: roomName,
-      creatorName: client.username,
+      adminId: client.id,
+      adminUsername: client.username,
       password: null,
       inGame: false,
       players: [
@@ -70,8 +71,30 @@ export class RoomService {
           id: client.id,
           username: client.username,
           class: null,
+          level: 1,
+          checked: false,
         },
       ],
+      doors: {
+        1: [
+          { name: "Porta 1", floor: 1, door: 1, access: "enabled" },
+          { name: "Porta 2", floor: 1, door: 2, access: "locked" },
+          { name: "Porta 3", floor: 1, door: 3, access: "locked" },
+          { name: "Porta 4", floor: 1, door: 4, access: "locked" },
+        ],
+        2: [
+          { name: "Porta 1", floor: 2, door: 1, access: "locked" },
+          { name: "Porta 2", floor: 2, door: 2, access: "locked" },
+          { name: "Porta 3", floor: 2, door: 3, access: "locked" },
+          { name: "Porta 4", floor: 2, door: 4, access: "locked" },
+        ],
+        3: [
+          { name: "Porta 1", floor: 3, door: 1, access: "locked" },
+          { name: "Porta 2", floor: 3, door: 2, access: "locked" },
+          { name: "Porta 3", floor: 3, door: 3, access: "locked" },
+          { name: "Porta 4", floor: 3, door: 4, access: "locked" },
+        ],
+      },
     };
 
     if (roomPassword) {
@@ -104,6 +127,14 @@ export class RoomService {
       class: null,
     };
     const roomIndex = rooms.map((e) => e.id).indexOf(msg.data.roomId);
+
+    if (rooms[roomIndex].inGame) {
+      const response = {
+        type: "inGame",
+      };
+      client.send(JSON.stringify(response));
+      return;
+    }
 
     if (rooms[roomIndex].hasPassword) {
       const passwordMatch = bcrypt.compareSync(
@@ -162,8 +193,8 @@ export class RoomService {
   async leaveRoom(client, msg) {
     deletePlayerFromRooms(client.id);
   }
-  async exitRoom() {}
-  async deleteRoom(client, msg) {}
+
+  async deleteRoom(client, msg) {} // TO DO
 
   async deletePlayerFromRooms(playerId) {
     const userFound = playersOnRooms.find((player) => player.id === playerId);
@@ -177,6 +208,7 @@ export class RoomService {
         playersOnRooms.splice(index, 1);
       }
     });
+
     rooms[roomIndex].players = rooms[roomIndex].players.filter(
       (player) => player.id !== playerId
     );
@@ -190,14 +222,30 @@ export class RoomService {
     const systemMessage = `${userFound.username} saiu na sala`;
 
     this.chatService.systemMessage(userFound.roomId, systemMessage);
+    this.roomUpdated(userFound.roomId);
+
+    return rooms[roomIndex];
+  }
+
+  async getRoomUpdated(client, msg) {
+    const roomIndex = rooms.map((e) => e.id).indexOf(msg.data.roomId);
+    console.log(msg);
+    const response = {
+      type: "roomUpdated",
+      data: rooms[roomIndex],
+    };
+
+    client.send(JSON.stringify(response));
+  }
+
+  async roomUpdated(roomId) {
+    const roomIndex = rooms.map((e) => e.id).indexOf(roomId);
 
     const messageToRoom = {
       type: "roomUpdated",
       data: rooms[roomIndex],
     };
 
-    sendMessageToRoom(userFound.roomId, messageToRoom);
-
-    return rooms[roomIndex];
+    sendMessageToRoom(roomId, messageToRoom);
   }
 }

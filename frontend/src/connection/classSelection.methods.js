@@ -8,3 +8,13 @@ export const selectClass = (roomData) => {
   };
   sendMessage(msg);
 };
+
+export const ready = (roomData) => {
+  console.log(roomData);
+  const msg = {
+    type: "class/ready",
+    data: roomData,
+  };
+  console.log("READY:", msg);
+  sendMessage(msg);
+};
