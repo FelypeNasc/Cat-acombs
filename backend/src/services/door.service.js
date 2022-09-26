@@ -47,16 +47,21 @@ export class DoorService {
       floor,
       door
     );
+    const roomIndex = rooms.map((e) => e.id).indexOf(roomId);
 
-    rooms[roomId].currentView = "combat";
+    rooms[roomIndex].currentView = "story";
+    this.roomService.roomUpdated(roomId, true, doorData.storyText);
+
+    rooms[roomIndex].currentView = "combat";
 
     const response = {
       type: "startBattle",
       data: battleData,
     };
 
-    sendMessageToRoom(roomId, response);
-
-    this.roomService.roomUpdated(roomId);
+    setTimeout(() => {
+      sendMessageToRoom(roomId, response);
+      this.roomService.roomUpdated(roomId);
+    }, 10000);
   }
 }

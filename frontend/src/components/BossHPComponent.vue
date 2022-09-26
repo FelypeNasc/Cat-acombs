@@ -2,7 +2,7 @@
   <div class="w-72 flex-col p-1">
     <div class="bg-white rounded-md p-2">
       <h2 class="font-squirk text-blue-900 text-center">
-        {{ bossStatus.bossName }}
+        {{ bossStatus.name }}
       </h2>
       <div class="flex items-center">
         <div class="heart">
@@ -18,7 +18,7 @@
           />
           <div
             class="windowsSliderProgress"
-            :style="{ width: bossStatus.hpCurrent + '%' }"
+            :style="{ width: bossStatus.stats.currentHp + '%' }"
           ></div>
         </div>
       </div>
@@ -27,7 +27,7 @@
       <div>
         <img
           class="w-full"
-          :src="`../src/assets/images/${bossStatus.numberFloor}-floor-boss-${bossStatus.numberDoor}.svg`"
+          :src="`../src/assets/images/boss-${bossStatus.id}.svg`"
         />
       </div>
     </div>

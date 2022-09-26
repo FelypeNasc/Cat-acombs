@@ -2,7 +2,7 @@
   <div class="noselect flex justify-between items-center overflow-hidden">
     <div class="h-full w-full">
       <ClassSelection v-if="currentView === 'class'" />
-      <StoryScreen v-if="currentView === 'story'" :text="text" />
+      <StoryScreen v-if="currentView === 'story'" :story-text="storyText" />
       <DungeonDoors v-if="currentView === 'doors'" />
       <EncounterCombat
         v-if="currentView === 'combat'"
@@ -32,8 +32,7 @@ export default {
   },
   data() {
     return {
-      currentView: "class",
-      storyText: null,
+      currentView: "combat",
     };
   },
   created() {

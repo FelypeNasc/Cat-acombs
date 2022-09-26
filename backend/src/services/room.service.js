@@ -227,9 +227,18 @@ export class RoomService {
     return rooms[roomIndex];
   }
 
+  async unlockNextRoom(roomId) {
+    const roomIndex = rooms.map((e) => e.id).indexOf(roomId);
+    const room = rooms[roomIndex];
+
+    const nextDoor = this.checkNextDoor(room.lastUnlocked);
+
+    room.doors[nextDoor.floor][nextDoor.door - 1].access = "enabled";
+    room.doors.lastUnlocked = nextDoor;
+  }
+
   async getRoomUpdated(client, msg) {
     const roomIndex = rooms.map((e) => e.id).indexOf(msg.data.roomId);
-    console.log(msg);
     const response = {
       type: "roomUpdated",
       data: rooms[roomIndex],
@@ -238,14 +247,25 @@ export class RoomService {
     client.send(JSON.stringify(response));
   }
 
-  async roomUpdated(roomId) {
+  async roomUpdated(roomId, isStory = false, storyText = null) {
     const roomIndex = rooms.map((e) => e.id).indexOf(roomId);
+    const roomData = rooms[roomIndex];
+
+    if (isStory) roomData.storyText = storyText;
 
     const messageToRoom = {
       type: "roomUpdated",
-      data: rooms[roomIndex],
+      data: roomData,
     };
 
     sendMessageToRoom(roomId, messageToRoom);
+  }
+
+  async checkNextDoor(lastUnlocked) {
+    return {
+      floor:
+        lastUnlocked.door === 4 ? lastUnlocked.floor + 1 : lastUnlocked.floor,
+      door: lastUnlocked.door === 4 ? 1 : lastUnlocked.door + 1,
+    };
   }
 }

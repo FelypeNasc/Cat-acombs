@@ -74,7 +74,6 @@
     <CardPassword
       :room-data="roomData"
       v-if="showCardPassword"
-      :roomData="roomData"
       @close="toogleCardPassword"
       @confirm="confirmPassword"
     />
