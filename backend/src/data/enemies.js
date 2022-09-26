@@ -8,7 +8,7 @@ export const enemies = {
       baseAttack: 20,
     },
     actions: {
-      attack: { type: "attack", multiplier: 1 },
+      attack: { type: "attack", multiplier: 1, accuracy: 100 },
       skills: [
         {
           id: 5,
@@ -30,7 +30,7 @@ export const enemies = {
       baseAttack: 25,
     },
     actions: {
-      attack: { type: "attack", multiplier: 1 },
+      attack: { type: "attack", multiplier: 1, accuracy: 100 },
       skills: [
         {
           id: 6,
@@ -52,7 +52,7 @@ export const enemies = {
       baseAttack: 35,
     },
     actions: {
-      attack: { type: "attack", multiplier: 1 },
+      attack: { type: "attack", multiplier: 1, accuracy: 100 },
       skills: [
         {
           id: 7,
@@ -76,7 +76,7 @@ export const enemies = {
       baseAttack: 25,
     },
     actions: {
-      attack: { type: "attack", multiplier: 1 },
+      attack: { type: "attack", multiplier: 1, accuracy: 100 },
       skills: [
         {
           id: 8,
@@ -98,7 +98,7 @@ export const enemies = {
       baseAttack: 30,
     },
     actions: {
-      attack: { type: "attack", multiplier: 1 },
+      attack: { type: "attack", multiplier: 1, accuracy: 100 },
       skills: [
         {
           id: 9,
@@ -120,7 +120,7 @@ export const enemies = {
       baseAttack: 30,
     },
     actions: {
-      attack: { type: "attack", multiplier: 1 },
+      attack: { type: "attack", multiplier: 1, accuracy: 100 },
       skills: [
         {
           id: 10,
@@ -142,7 +142,7 @@ export const enemies = {
       baseAttack: 35,
     },
     actions: {
-      attack: { type: "attack", multiplier: 1 },
+      attack: { type: "attack", multiplier: 1, accuracy: 100 },
       skills: [
         {
           id: 11,
@@ -164,7 +164,7 @@ export const enemies = {
       baseAttack: 40,
     },
     actions: {
-      attack: { type: "attack", multiplier: 1 },
+      attack: { type: "attack", multiplier: 1, accuracy: 100 },
       skills: [
         {
           id: 12,
@@ -186,7 +186,7 @@ export const enemies = {
       baseAttack: 45,
     },
     actions: {
-      attack: { type: "attack", multiplier: 1 },
+      attack: { type: "attack", multiplier: 1, accuracy: 100 },
       skills: [
         {
           id: 13,

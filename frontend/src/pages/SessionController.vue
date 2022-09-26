@@ -3,7 +3,7 @@
     <div class="h-full w-full">
       {{ currentView }}
       <ClassSelection v-if="currentView === 'class'" />
-      <StoryScreen v-if="currentView === 'story'" />
+      <StoryScreen v-if="currentView === 'story'" :story-text="storyText" />
       <DungeonDoors v-if="currentView === 'doors'" />
       <EncounterCombat
         v-if="currentView === 'combat'"
