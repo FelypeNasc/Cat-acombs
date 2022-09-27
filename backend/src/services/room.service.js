@@ -200,7 +200,9 @@ export class RoomService {
     deletePlayerFromRooms(client.id);
   }
 
-  async deleteRoom(client, msg) {} // TO DO
+  async deleteRoom(roomId) {
+    rooms.splice(roomId, 1);
+  } // TO DO
 
   async deletePlayerFromRooms(playerId) {
     const userFound = playersOnRooms.find((player) => player.id === playerId);
@@ -231,7 +233,7 @@ export class RoomService {
     this.roomUpdated(userFound.roomId);
 
     if (rooms[roomIndex].players.length === 0) {
-      rooms.splice(roomIndex, 1);
+      this.deleteRoom(userFound.roomId);
       return;
     }
 
