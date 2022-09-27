@@ -5,12 +5,15 @@ import { classes } from "../data/classes.js";
 import { enemies } from "../data/enemies.js";
 import { randomNumber } from "../utils/randomNumber.js";
 import { ChatService } from "./chat.service.js";
+import { RoomClient } from "../clients/room.clients.js";
 import sendMessageToRoom from "../utils/sendMessageToRoom.js";
+import structuredClone from "../utils/structuredClone.js";
 
 export class BattleService {
   constructor() {
     this.chatService = new ChatService();
     this.roomService = new RoomService();
+    this.roomClient = new RoomClient();
   }
 
   async attack(client, msg) {
@@ -24,10 +27,6 @@ export class BattleService {
 
     const playerIndex = players.map((e) => e.playerId).indexOf(client.id);
     const playerData = players[playerIndex];
-
-    console.log("ROOM PLAYERS: ", players);
-    console.log("PLAYER INDEX: ", playerIndex);
-    console.log("PLAYER DATA: ", playerData);
 
     const attackSucceded = randomNumber(
       0,
@@ -68,7 +67,7 @@ export class BattleService {
   async skill(client, msg) {
     const { roomId, skillId } = msg.data;
     const battleData = battles[roomId];
-    const { id, turnIndex, turnList, players, enemy } = battleData;
+    const { turnIndex, turnList, players, enemy } = battleData;
 
     if (!battleData) return;
 
@@ -142,8 +141,7 @@ export class BattleService {
     console.log("ENEMY: ", enemy);
 
     const sortAttack = Math.round(randomNumber(0, 1));
-    // let attackOrSkill = sortAttack === 0 ? "attack" : "skill";
-    let attackOrSkill = "attack";
+    let attackOrSkill = sortAttack === 0 ? "attack" : "skill";
 
     const allSkillsOnCooldown = enemy.actions.skills.every((e) => e.onCooldown);
 
@@ -216,14 +214,14 @@ export class BattleService {
   }
 
   async newBattle(doorData, roomId, floor, door) {
-    const roomIndex = rooms.map((e) => e.id).indexOf(roomId);
-    const room = rooms[roomIndex];
-
+    /*  const roomIndex = rooms.map((e) => e.id).indexOf(roomId);
+    const room = rooms[roomIndex]; */
+    const room = await this.roomClient.getRoom(roomId);
     const playersCharacters = room.players.map((player) => {
       return this.buildCharacter(player);
     });
 
-    const roomEnemy = enemies[doorData.enemyId];
+    const roomEnemy = structuredClone(enemies[doorData.enemyId]);
 
     const newBattle = {
       id: room.id,
@@ -306,66 +304,80 @@ export class BattleService {
   }
 
   async battleEnd(dead, roomId) {
-    const roomIndex = rooms.map((e) => e.id).indexOf(roomId);
-    const room = rooms[roomIndex];
+    /* const roomIndex = rooms.map((e) => e.id).indexOf(roomId);
+    const room = rooms[roomIndex]; */
+    const room = await this.roomClient.getRoom(roomId);
 
     if (dead === "players") {
       const response = {
         type: "playersDied",
       };
+      this.battleUpdated(roomId);
       sendMessageToRoom(roomId, response);
 
       delete battles[roomId];
 
-      setTimeout(() => {
+      setTimeout(async () => {
         room.currentView = "doors";
+        await this.roomClient.updateRoom(roomId, room);
         this.roomService.roomUpdated(roomId);
       }, 5000);
     }
+
     if (dead === "enemy") {
       const response = {
         type: "enemyDied",
       };
+      this.battleUpdated(roomId);
       sendMessageToRoom(roomId, response);
 
+      const battleDoor = battles[roomId].doorData;
+      const lastDoor = room.lastUnlocked;
       const isLastRoomUnlocked =
-        battles[roomId].floorData === room.lastUnlocked;
+        battleDoor.floor === lastDoor.floor &&
+        battleDoor.door === lastDoor.door;
 
-      // TODO: fazer final de jogo
-      // const isEndgame = () => {}
+      const isEndgame = battleDoor.floor === 4 && battleDoor.door === 4;
 
-      if (isLastRoomUnlocked) {
-        this.roomService.unlockNextRoom(roomId);
+      if (isEndgame) {
+        return;
       }
 
-      this.levelUpPlayers(roomId);
-      this.saveHps(roomId);
+      if (isLastRoomUnlocked) {
+        await this.roomService.unlockNextRoom(roomId);
+      }
+
+      await this.levelUpPlayers(roomId);
+      await this.saveHps(roomId);
 
       delete battles[roomId];
 
-      setTimeout(() => {
+      setTimeout(async () => {
         room.currentView = "doors";
-        this.roomService.roomUpdated(roomId);
+        await this.roomClient.updateRoom(roomId, room);
+        await this.roomService.roomUpdated(roomId);
       }, 5000);
     }
   }
 
   async levelUpPlayers(roomId) {
-    const roomIndex = rooms.map((e) => e.id).indexOf(roomId);
-    const room = rooms[roomIndex];
+    const room = await this.roomClient.getRoom(roomId);
 
-    room.players.forEach((p) => {
+    room.players.forEach(async (p) => {
       const classRawData = classes[p.character.class];
-      const { stats } = classRawData;
+      const { stats } = structuredClone(classRawData);
 
-      p.level++;
-      p.character.maxHp = stats.baseHp + (p.level - 1) * stats.hpPerLevel;
+      p.character.level++;
+      p.character.maxHp =
+        stats.baseHp + (p.character.level - 1) * stats.hpPerLevel;
     });
+
+    await this.roomClient.updateRoom(roomId, room);
+    console.log("PLAYERS LEVEL UP: ", room.players);
   }
 
   async saveHps(roomId) {
-    const roomIndex = rooms.map((e) => e.id).indexOf(roomId);
-    const room = rooms[roomIndex];
+    const room = await this.roomClient.getRoom(roomId);
 
     room.players.forEach((p) => {
       const playerOnRoom = battles[roomId].players.find(
@@ -379,11 +391,12 @@ export class BattleService {
         ? (playerOnRoom.stats.currentHp = playerOnRoom.stats.maxHp)
         : (playerOnRoom.stats.currentHp = newHp);
     });
+    await this.roomClient.updateRoom(roomId, room);
   }
 
   buildCharacter(playerData) {
     const classRawData = classes[playerData.character.class];
-    const { name, description, stats, actions } = classRawData;
+    const { name, description, stats, actions } = structuredClone(classRawData);
     const newCharacter = {
       playerId: playerData.id,
       username: playerData.username,
@@ -420,14 +433,16 @@ export class BattleService {
   }
 
   async setInitialStats(roomId) {
-    const roomIndex = rooms.map((e) => e.id).indexOf(roomId);
+    const room = await this.roomClient.getRoom(roomId);
 
-    rooms[roomIndex].players.forEach((player) => {
+    room.players.forEach((player) => {
       const classRawData = classes[player.character.class];
-      const { stats } = classRawData;
+      const { stats } = structuredClone(classRawData);
 
       player.character.currentHp = stats.baseHp;
       player.character.maxHp = stats.baseHp;
     });
+
+    await this.roomClient.updateRoom(roomId, room);
   }
 }

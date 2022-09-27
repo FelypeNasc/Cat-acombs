@@ -38,10 +38,14 @@
         <div class="showTurn mt-10 bg-blend-darken font-squirk text-xl">
           <h1 v-for="n in 5" :key="n">
             <div v-if="battleData.turnIndex === n - 1">
-              <h1 class="opacity-100">{{ battleData.turnList[n - 1].name }}</h1>
+              <h1 class="opacity-100">
+                {{ `>  ${battleData.turnList[n - 1].name}` }}
+              </h1>
             </div>
             <div v-else>
-              <h1 class="opacity-30">{{ battleData.turnList[n - 1].name }}</h1>
+              <h1 class="opacity-30">
+                {{ battleData.turnList[n - 1].name }}
+              </h1>
             </div>
           </h1>
         </div>

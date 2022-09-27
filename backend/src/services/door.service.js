@@ -3,24 +3,27 @@ import { floorsAndDoors } from "../data/floorsAndDoors.js";
 import sendMessageToRoom from "../utils/sendMessageToRoom.js";
 import { BattleService } from "./battle.service.js";
 import { rooms, RoomService } from "./room.service.js";
+import { RoomClient } from "../clients/room.clients.js";
 import { ChatService } from "./chat.service.js";
+import structuredClone from "../utils/structuredClone.js";
 
 export class DoorService {
   constructor() {
     this.roomService = new RoomService();
     this.battleService = new BattleService();
     this.chatService = new ChatService();
+    this.roomClient = new RoomClient();
   }
 
   async enterDoor(client, msg) {
     const { floor, door, roomId } = msg.data;
-    const roomIndex = rooms.map((e) => e.id).indexOf(roomId);
-    const playerAdmin = rooms[roomIndex].adminId;
-    const adminUsername = rooms[roomIndex].adminUsername;
+    const room = await this.roomClient.getRoom(roomId);
+
+    const playerAdmin = room.adminId;
 
     if (client.id !== playerAdmin) return;
 
-    const doorData = floorsAndDoors[floor][door];
+    const doorData = structuredClone(floorsAndDoors[floor][door]);
 
     switch (doorData.type) {
       case "rest":
@@ -33,9 +36,9 @@ export class DoorService {
   }
 
   async restRoom(roomId) {
-    const roomIndex = rooms.map((e) => e.id).indexOf(roomId);
+    const room = await this.roomClient.getRoom(roomId);
 
-    rooms[roomIndex].players.forEach((player) => {
+    room.players.forEach((player) => {
       player.character.currentHp = player.character.maxHp;
     });
 
@@ -43,8 +46,10 @@ export class DoorService {
       type: "restRoom",
     };
 
-    sendMessageToRoom(rooms[roomIndex].id, response);
-    this.roomService.roomUpdated();
+    await this.roomClient.updateRoom(roomId, room);
+    sendMessageToRoom(roomId, response);
+    this.roomService.unlockNextRoom(roomId);
+    this.roomService.roomUpdated(roomId);
   }
 
   async battleRoom(doorData, roomId, floor, door) {
@@ -54,12 +59,14 @@ export class DoorService {
       floor,
       door
     );
-    const roomIndex = rooms.map((e) => e.id).indexOf(roomId);
 
-    rooms[roomIndex].currentView = "story";
+    const room = await this.roomClient.getRoom(roomId);
+
     this.roomService.roomUpdated(roomId, true, doorData.storyText);
 
-    rooms[roomIndex].currentView = "combat";
+    room.currentView = "combat";
+
+    await this.roomClient.updateRoom(roomId, room);
 
     const response = {
       type: "startBattle",

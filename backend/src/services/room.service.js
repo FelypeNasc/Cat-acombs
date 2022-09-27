@@ -207,16 +207,12 @@ export class RoomService {
     deletePlayerFromRooms(client.id);
   }
 
-  async deleteRoom(client, msg) {} // TO DO
-
   async deletePlayerFromRooms(playerId) {
     const userFound = playersOnRooms.find((player) => player.id === playerId);
     console.log("userFound", userFound);
     if (!userFound) return;
 
     const room = await this.roomClient.getRoom(userFound.roomId);
-
-    //const roomIndex = rooms.map((e) => e.id).indexOf(userFound.roomId);
 
     playersOnRooms.forEach((el, index) => {
       if (el.id === playerId) {
@@ -244,8 +240,8 @@ export class RoomService {
     if (updatedRoom.players.length === 0) {
       const deletedRoom = await this.roomClient.deleteRoom(userFound.roomId);
       this.getRooms();
+      return;
     }
-
     if (updatedRoom.adminId !== updatedRoom.players[0].id) {
       updatedRoom.adminId = updatedRoom.players[0].id;
       updatedRoom.adminUsername = updatedRoom.players[0].username;
@@ -264,13 +260,14 @@ export class RoomService {
     const room = await this.roomClient.getRoom(roomId);
     // const roomIndex = rooms.map((e) => e.id).indexOf(roomId);
 
-    //room.lastUnlocked = { floor: 1, door: 2 }
     const nextDoor = this.checkNextDoor(room.lastUnlocked);
+    console.log("NEXT DOOR: ", nextDoor);
 
-    room.doors[`${nextDoor.floor}`][nextDoor.door - 1].access = "enabled";
+    room.doors[nextDoor.floor][nextDoor.door - 1].access = "enabled";
     room.lastUnlocked = nextDoor;
 
-    const updatedRoom = await this.roomClient.updateRoom(roomId, room);
+    const updated = await this.roomClient.updateRoom(roomId, room);
+    console.log("ROOM DOORS AFTER UNLOCK: ", updated.doors);
   }
 
   async getRoomUpdated(client, msg) {
@@ -285,21 +282,22 @@ export class RoomService {
 
   async roomUpdated(roomId, isStory = false, storyText = null) {
     const room = await this.roomClient.getRoom(roomId);
+    console.log("ENTRA DEGRAÇA", room.doors);
 
     if (isStory) {
+      room.currentView = "story";
       room.storyText = storyText;
     }
-    const updatedRoom = await this.roomClient.updateRoom(roomId, room);
 
     const messageToRoom = {
       type: "roomUpdated",
-      data: updatedRoom,
+      data: room,
     };
 
     sendMessageToRoom(roomId, messageToRoom);
   }
 
-  async checkNextDoor(lastUnlocked) {
+  checkNextDoor(lastUnlocked) {
     return {
       floor:
         lastUnlocked.door === 4 ? lastUnlocked.floor + 1 : lastUnlocked.floor,
