@@ -230,7 +230,10 @@ export class RoomService {
     this.chatService.systemMessage(userFound.roomId, systemMessage);
     this.roomUpdated(userFound.roomId);
 
-    if (rooms[roomIndex].players.length === 0) rooms.splice(roomIndex, 1);
+    if (rooms[roomIndex].players.length === 0) {
+      rooms.splice(roomIndex, 1);
+      return;
+    }
 
     if (rooms[roomIndex].adminId !== rooms[roomIndex].players[0].id) {
       rooms[roomIndex].adminId = rooms[roomIndex].players[0].id;
