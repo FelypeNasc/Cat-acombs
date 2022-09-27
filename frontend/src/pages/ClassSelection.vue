@@ -52,13 +52,12 @@
             class="lg:min-w-[400px] md:min-w-[350px] sm:min-w-[300px]"
             @selectClass="selectionClass"
           ></ClassListComponent>
-          <button
-            class="font-squirk mt-8 bg-white text-3xl rounded-lg flat ready-btn-color h-20 w-40"
+          <ButtonComponent
+            :text="'READY !'"
+            class="font-squirk mt-8 text-3xl rounded-lg flat h-20 w-40"
             :disabled="!selectedClass"
-            @click="readySection"
-          >
-            READY !
-          </button>
+            :buttonFunction="readySection"
+          />
         </div>
         <div class="ml-3"></div>
       </div>
@@ -71,11 +70,13 @@ import SelectedClassComponent from "../components/SelectedClassComponent.vue";
 import ClassListComponent from "../components/ClassListComponent.vue";
 import MiniButtonComponent from "../components/MiniButtonComponent.vue";
 import CardMenu from "../components/CardMenu.vue";
+import ButtonComponent from "../components/ButtonComponent.vue";
 import { wsConnection } from "../connection/connections";
 import { selectClass, ready } from "../connection/classSelection.methods";
 
 export default {
   components: {
+    ButtonComponent,
     ClassListComponent,
     SelectedClassComponent,
     MiniButtonComponent,

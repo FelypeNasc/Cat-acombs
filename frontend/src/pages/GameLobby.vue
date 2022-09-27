@@ -22,7 +22,7 @@
           <ButtonComponent
             text="Criar Sala"
             class="mx-5"
-            @onclick="toogleCreateRoom"
+            :buttonFunction="toogleCreateRoom"
           />
         </div>
         <div v-if="rooms.length">
