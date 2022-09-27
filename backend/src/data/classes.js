@@ -6,7 +6,7 @@ export const classes = {
       "Resistente e robusto, um guerreiro que faria de tudo por um sachê",
     stats: {
       baseHp: 100,
-      baseAttack: 10,
+      baseAttack: 100, //TODO: DADO ORIGINAL: 10
       hpPerLevel: 10,
       attackPerLevel: 2,
     },
