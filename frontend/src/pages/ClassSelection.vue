@@ -52,13 +52,6 @@
             class="lg:min-w-[400px] md:min-w-[350px] sm:min-w-[300px]"
             @selectClass="selectionClass"
           ></ClassListComponent>
-          <!-- <button
-            class="font-squirk mt-8 bg-white text-3xl rounded-lg flat ready-btn-color h-20 w-40"
-            :disabled="!selectedClass"
-            @click="readySection"
-          >
-            READY !
-          </button> -->
           <ButtonComponent
             :text="'READY !'"
             class="font-squirk mt-8 text-3xl rounded-lg flat h-20 w-40"

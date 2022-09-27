@@ -2,12 +2,12 @@
   <div class="flex flex-row items-center font-squirk text-xl">
     <div class="joystick mr-10 flex">
       <img
-        class="h-14 ml-14 rounded-full hover:bg-[#1a2661] cursor-pointer"
+        class="h-14 ml-14 rounded-full duration-200 hover:bg-[#1a2661] cursor-pointer"
         @click="action = 'attack'"
         src="/src/assets/images/attack-btn.svg"
       />
       <img
-        class="h-14 ml-14 rounded-full hover:bg-[#1a2661] cursor-pointer"
+        class="h-14 ml-14 rounded-full duration-200 hover:bg-[#1a2661] cursor-pointer"
         @click="action = 'magic'"
         src="/src/assets/images/magic-btn.svg"
       />

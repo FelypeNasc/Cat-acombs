@@ -18,7 +18,12 @@
           />
           <div
             class="windowsSliderProgress"
-            :style="{ width: playerStatus.stats.currentHp / playerStatus.stats.maxHp * 100 + '%' }"
+            :style="{
+              width:
+                (playerStatus.stats.currentHp / playerStatus.stats.maxHp) *
+                  100 +
+                '%',
+            }"
           ></div>
         </div>
       </div>
@@ -104,6 +109,7 @@ export default {
   border-radius: 5px;
   background: green;
   z-index: 1;
+  transition: 0.5s;
 }
 .catImage {
   height: 100px;
