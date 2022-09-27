@@ -3,9 +3,11 @@ import { ClientController } from "./client.controller.js";
 import { ChatController } from "./chat.controller.js";
 import { ClassController } from "./class.controller.js";
 import { DoorController } from "./door.controller.js";
+import { BattleController } from "./battle.controller.js";
 
 export class GlobalController {
   constructor() {
+    this.battleController = new BattleController();
     this.roomController = new RoomController();
     this.clientController = new ClientController();
     this.chatController = new ChatController();

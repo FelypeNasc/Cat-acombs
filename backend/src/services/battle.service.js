@@ -22,8 +22,12 @@ export class BattleService {
 
     if (turnList[turnIndex].id !== client.id) return;
 
-    const playerIndex = players.map((e) => e.id).indexOf(client.id);
+    const playerIndex = players.map((e) => e.playerId).indexOf(client.id);
     const playerData = players[playerIndex];
+
+    console.log("ROOM PLAYERS: ", players);
+    console.log("PLAYER INDEX: ", playerIndex);
+    console.log("PLAYER DATA: ", playerData);
 
     const attackSucceded = randomNumber(
       0,
@@ -31,10 +35,13 @@ export class BattleService {
       playerData.actions.attacks[attackType].accuracy
     );
 
+    console.log("ACERTOU? ", attackSucceded);
+
     if (!attackSucceded) {
       const systemMessage = `${client.username} errou o ataque!`;
       this.chatService.systemMessage(roomId, systemMessage);
       this.verifyTurn(roomId);
+      this.battleUpdated(roomId);
 
       return;
     }
@@ -43,9 +50,12 @@ export class BattleService {
       playerData.actions.attacks[attackType].multiplier *
       playerData.stats.attack;
 
-    attackDmg > enemy.currentHp
-      ? (enemy.currentHp = 0)
-      : (enemy.currentHp -= attackDmg);
+    console.log("DANO: ", attackDmg);
+    console.log("ENEMY CURRENT HP", enemy.stats.currentHp);
+    attackDmg > enemy.stats.currentHp
+      ? (enemy.stats.currentHp = 0)
+      : (enemy.stats.currentHp -= attackDmg);
+    console.log("ENEMY CURRENT HP DEPOIS DO DANO:", enemy.stats.currentHp);
 
     const systemMessage = `${client.username} atacou ${enemy.name} causando ${attackDmg} de dano!`;
     this.chatService.systemMessage(roomId, systemMessage);
@@ -56,7 +66,7 @@ export class BattleService {
   }
 
   async skill(client, msg) {
-    const { roomId, attackType } = msg.data;
+    const { roomId, skillId } = msg.data;
     const battleData = battles[roomId];
     const { id, turnIndex, turnList, players, enemy } = battleData;
 
@@ -64,12 +74,15 @@ export class BattleService {
 
     if (turnList[turnIndex].id !== client.id) return;
 
-    const playerIndex = players.map((e) => e.id).indexOf(client.id);
+    const playerIndex = players.map((e) => e.playerId).indexOf(client.id);
     const playerData = players[playerIndex];
 
-    const skillIndex = playerData.skills.map((e) => e.id).indexOf(client.id);
-    const skillData = playerData.skills[skillIndex];
+    const skillIndex = playerData.actions.skills
+      .map((e) => e.id)
+      .indexOf(skillId);
+    const skillData = playerData.actions.skills[skillIndex];
 
+    console.log("SKILL DATA: ", skillData);
     if (skillData.onCooldown) {
       const response = {
         type: "skillOnCooldown",
@@ -80,15 +93,16 @@ export class BattleService {
     const critical = randomNumber(0, 100, skillData.critRate);
 
     let skillValue = playerData.stats.attack * skillData.multiplier;
-    critical ? (skillDmg *= skillData.critMultiplier) : "";
+
+    if (critical) skillValue *= skillData.critMultiplier;
 
     let systemMessage = ``;
 
     switch (skillData.type) {
       case "attack":
-        skillValue > enemy.currentHp
-          ? (enemy.currentHp = 0)
-          : (enemy.currentHp -= skillValue);
+        skillValue > enemy.stats.currentHp
+          ? (enemy.stats.currentHp = 0)
+          : (enemy.stats.currentHp -= skillValue);
 
         const criticalText = "Dano crítico! ";
         systemMessage = `${critical ? criticalText : ""}${
@@ -100,10 +114,10 @@ export class BattleService {
         break;
       case "cure":
         players.forEach((p) => {
-          const { currentHp, maxHp } = p.stats;
-          skillValue > currentHp
-            ? (currentHp = maxHp)
-            : (currentHp += skillValue);
+          const { maxHp } = p.stats;
+          skillValue + p.stats.currentHp > maxHp
+            ? (p.stats.currentHp = maxHp)
+            : (p.stats.currentHp += skillValue);
         });
 
         systemMessage = `${client.username} curou toda a equipe em ${skillValue} pontos!`;
@@ -121,23 +135,36 @@ export class BattleService {
   }
 
   async enemyTurn(roomId) {
+    console.log("TURNO DO INIMIGO");
     const battleData = battles[roomId];
     const { players, enemy } = battleData;
 
+    console.log("ENEMY: ", enemy);
+
     const sortAttack = Math.round(randomNumber(0, 1));
-    const attackOrSkill = sortAttack === 0 ? "attack" : "skill";
+    // let attackOrSkill = sortAttack === 0 ? "attack" : "skill";
+    let attackOrSkill = "attack";
+
+    const allSkillsOnCooldown = enemy.actions.skills.every((e) => e.onCooldown);
+
+    if (allSkillsOnCooldown) attackOrSkill = "attack";
 
     const attackSucceded = randomNumber(0, 100, enemy.actions.attack.accuracy);
+
+    console.log("ACERTOU? ", attackSucceded);
 
     if (!attackSucceded) {
       const systemMessage = `${enemy.name} errou o ataque!`;
       this.chatService.systemMessage(roomId, systemMessage);
       this.verifyTurn(roomId);
+      this.battleUpdated(roomId);
+
       return;
     }
 
     if (attackOrSkill === "attack") {
-      const attackDmg = enemy.actions.attack.multiplier * enemy.stats.attack;
+      const attackDmg =
+        enemy.actions.attack.multiplier * enemy.stats.baseAttack;
 
       const targetIndex = Math.round(randomNumber(0, 3));
       const target = players[targetIndex];
@@ -146,14 +173,14 @@ export class BattleService {
         ? (target.stats.currentHp = 0)
         : (target.stats.currentHp -= attackDmg);
 
-      const systemMessage = `${enemy.username} atacou ${target.name} causando ${attackDmg} de dano!`;
+      const systemMessage = `${enemy.name} atacou ${target.username} causando ${attackDmg} de dano!`;
       this.chatService.systemMessage(roomId, systemMessage);
     }
 
     if (attackOrSkill === "skill") {
       const skillSorted =
         enemy.actions.skills[
-          Math.round(randomNumber(0, enemy.actions.skills.length))
+          Math.round(randomNumber(0, enemy.actions.skills.length - 1))
         ];
 
       const skillDmg = skillSorted.multiplier * enemy.stats.attack;
@@ -208,7 +235,6 @@ export class BattleService {
       players: playersCharacters,
       enemy: roomEnemy,
     };
-    console.log("Players characters:", playersCharacters);
 
     newBattle.turnList.push({ id: "enemy", name: roomEnemy.name });
 
@@ -220,9 +246,11 @@ export class BattleService {
     const battleData = battles[roomId];
     const { players, enemy } = battleData;
 
-    players.actions.skills.forEach((s) => {
-      s.onCooldown ? s.cooldownCount-- : "";
-      s.cooldownCount <= 0 ? (s.onCooldown = false) : "";
+    players.forEach((p) => {
+      p.actions.skills.forEach((s) => {
+        s.onCooldown ? s.cooldownCount-- : "";
+        s.cooldownCount <= 0 ? (s.onCooldown = false) : "";
+      });
     });
 
     enemy.actions.skills.forEach((s) => {
@@ -236,7 +264,7 @@ export class BattleService {
     const { players, enemy } = battleData;
 
     players.forEach((p) => {
-      if (p.currentHp <= 0) {
+      if (p.stats.currentHp <= 0) {
         p.dead = true;
         const systemMessage = `${p.username} morreu!`;
         this.chatService.systemMessage(roomId, systemMessage);
@@ -260,13 +288,19 @@ export class BattleService {
 
   async verifyTurn(roomId) {
     const battleData = battles[roomId];
-    const { id, turnIndex, turnList, players, enemy } = battleData;
 
-    turnIndex === 4
-      ? ((turnIndex = 0), this.cooldownDecrease(roomId))
-      : turnIndex++;
+    if (!battleData) return;
 
-    if (turnList[turnIndex].id === "enemy") {
+    const { id, turnList, players, enemy } = battleData;
+
+    console.log("TURN INDEX: ", battleData.turnIndex);
+    battleData.turnIndex === 4
+      ? ((battleData.turnIndex = 0), this.cooldownDecrease(roomId))
+      : battleData.turnIndex++;
+
+    console.log("TURN INDEX DEPOIS: ", battleData.turnIndex);
+
+    if (turnList[battleData.turnIndex].id === "enemy") {
       this.enemyTurn(roomId);
     }
   }
@@ -295,7 +329,7 @@ export class BattleService {
       sendMessageToRoom(roomId, response);
 
       const isLastRoomUnlocked =
-        battles[roomId].floorData === room.doors.lastUnlocked;
+        battles[roomId].floorData === room.lastUnlocked;
 
       // TODO: fazer final de jogo
       // const isEndgame = () => {}
@@ -321,11 +355,11 @@ export class BattleService {
     const room = rooms[roomIndex];
 
     room.players.forEach((p) => {
-      const classRawData = classes[player.character.class];
+      const classRawData = classes[p.character.class];
       const { stats } = classRawData;
 
       p.level++;
-      player.character.currentHp = stats.baseHp + p.level * stats.hpPerLevel;
+      p.character.maxHp = stats.baseHp + (p.level - 1) * stats.hpPerLevel;
     });
   }
 
@@ -339,7 +373,7 @@ export class BattleService {
       );
 
       const defeatHealMultiplier = 1.5;
-      const newHp = p.stats.currentHp * defeatHealMultiplier;
+      const newHp = p.character.currentHp * defeatHealMultiplier;
 
       newHp <= playerOnRoom.stats.maxHp
         ? (playerOnRoom.stats.currentHp = playerOnRoom.stats.maxHp)
@@ -349,7 +383,6 @@ export class BattleService {
 
   buildCharacter(playerData) {
     const classRawData = classes[playerData.character.class];
-    console.log("classRawData", classRawData);
     const { name, description, stats, actions } = classRawData;
     const newCharacter = {
       playerId: playerData.id,
@@ -371,8 +404,6 @@ export class BattleService {
       },
       actions,
     };
-
-    console.log("new character", newCharacter);
 
     return newCharacter;
   }
@@ -397,8 +428,6 @@ export class BattleService {
 
       player.character.currentHp = stats.baseHp;
       player.character.maxHp = stats.baseHp;
-
-      console.log("stats base hp: ", stats.baseHp);
     });
   }
 }
