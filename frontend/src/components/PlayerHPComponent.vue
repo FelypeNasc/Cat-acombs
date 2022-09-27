@@ -14,26 +14,26 @@
             type="range"
             class="windowsSliderInput"
             min="0"
-            :max="playerStatus.stats.hpMax"
+            :max="playerStatus.stats.maxHp"
           />
           <div
             class="windowsSliderProgress"
-            :style="{ width: playerStatus.stats.currentHp + '%' }"
+            :style="{ width: playerStatus.stats.currentHp / playerStatus.stats.maxHp * 100 + '%' }"
           ></div>
         </div>
       </div>
     </div>
     <div class="flex justify-center m-6">
-      <div v-if="playerStatus.class == 'warrior'">
+      <div v-if="playerStatus.class == 'Warrior'">
         <img src="../assets/images/warrior-full.svg" class="warrior catImage" />
       </div>
-      <div v-else-if="playerStatus.class == 'mage'">
+      <div v-else-if="playerStatus.class == 'Mage'">
         <img src="../assets/images/mage-full.svg" class="mage catImage" />
       </div>
-      <div v-else-if="playerStatus.class == 'ranger'">
+      <div v-else-if="playerStatus.class == 'Ranger'">
         <img src="../assets/images/ranger-full.svg" class="ranger catImage" />
       </div>
-      <div v-else-if="playerStatus.class == 'bard'">
+      <div v-else-if="playerStatus.class == 'Bard'">
         <img src="../assets/images/bard-full.svg" class="bard catImage" />
       </div>
     </div>
@@ -54,6 +54,11 @@ export default {
     return {
       percent: 100,
     };
+  },
+  methods: {
+    calculatePercentage(max, current) {
+      return (current * 100) / max;
+    },
   },
   watch: {
     windowsSliderProgress() {

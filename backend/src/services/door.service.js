@@ -3,25 +3,36 @@ import { floorsAndDoors } from "../data/floorsAndDoors.js";
 import sendMessageToRoom from "../utils/sendMessageToRoom.js";
 import { BattleService } from "./battle.service.js";
 import { rooms, RoomService } from "./room.service.js";
+import { ChatService } from "./chat.service.js";
 
 export class DoorService {
   constructor() {
     this.roomService = new RoomService();
     this.battleService = new BattleService();
+    this.chatService = new ChatService();
   }
 
   async enterDoor(client, msg) {
     const { floor, door, roomId } = msg.data;
+    const roomIndex = rooms.map((e) => e.id).indexOf(roomId);
+    const playerAdmin = rooms[roomIndex].adminId;
+    const adminUsername = rooms[roomIndex].adminUsername;
 
-    const doorData = floorsAndDoors[floor][door];
+    if (client.id === playerAdmin) {
+      const doorData = floorsAndDoors[floor][door];
 
-    switch (doorData.type) {
-      case "rest":
-        restRoom(roomId);
-        break;
-      case "battle":
-        battleRoom(doorData, roomId, floor, door);
-        break;
+      switch (doorData.type) {
+        case "rest":
+          this.restRoom(roomId);
+          break;
+        case "battle":
+          this.battleRoom(doorData, roomId, floor, door);
+          break;
+      }
+    } else {
+      const messageToRoom = `Apenas o jogador ${adminUsername}, Admin da sala pode selecionar a porta`;
+      this.chatService.systemMessage(rooms[roomIndex].id, messageToRoom);
+      sendMessageToRoom(rooms[roomIndex].id, response);
     }
   }
 
@@ -62,6 +73,10 @@ export class DoorService {
     setTimeout(() => {
       sendMessageToRoom(roomId, response);
       this.roomService.roomUpdated(roomId);
-    }, 10000);
+    }, 5000);
+
+    setTimeout(() => {
+      this.battleService.battleUpdated(roomId);
+    }, 500);
   }
 }

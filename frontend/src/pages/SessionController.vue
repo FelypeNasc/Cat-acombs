@@ -2,7 +2,7 @@
   <div class="noselect flex justify-between items-center overflow-hidden">
     <div class="h-full w-full">
       <ClassSelection v-if="currentView === 'class'" />
-      <StoryScreen v-if="currentView === 'story'" :story-text="storyText" />
+      <StoryScreen v-if="currentView === 'story'" :text="storyText" />
       <DungeonDoors v-if="currentView === 'doors'" />
       <EncounterCombat
         v-if="currentView === 'combat'"
@@ -10,7 +10,9 @@
       />
       <TestPage v-if="currentView === 'test'" />
     </div>
-    <div class="chat-container w-max"><ChatComponent /></div>
+    <div v-if="currentView !== 'story'" class="chat-container w-max">
+      <ChatComponent />
+    </div>
   </div>
 </template>
 <script>
@@ -32,18 +34,22 @@ export default {
   },
   data() {
     return {
-      currentView: "combat",
+      currentView: "class",
+      storyText: null,
+      battleData: {},
     };
   },
   created() {
     wsConnection.addEventListener("message", (msg) => {
       msg = JSON.parse(msg.data);
-      console.log(msg);
 
       switch (msg.type) {
         case "roomUpdated":
           this.storyText = msg?.data?.storyText ?? null;
           this.currentView = msg?.data?.currentView;
+          break;
+        case "battleUpdated":
+          this.battleData = msg?.data;
           break;
       }
     });

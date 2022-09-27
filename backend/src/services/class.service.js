@@ -2,10 +2,12 @@ import { rooms } from "./room.service.js";
 import sendMessageToRoom from "../utils/sendMessageToRoom.js";
 import { RoomService } from "../services/room.service.js";
 import { wss } from "../server.js";
+import { BattleService } from "./battle.service.js";
 
 export class ClassService {
   constructor() {
     this.roomService = new RoomService();
+    this.battleService = new BattleService();
   }
   async selectClass(client, msg) {
     console.log(msg.data);
@@ -15,34 +17,38 @@ export class ClassService {
       .indexOf(client.id);
 
     if (
-      rooms[roomIndex].players[playerIndex].class !== msg.data.class &&
+      rooms[roomIndex].players[playerIndex].character.class !==
+        msg.data.class &&
       rooms[roomIndex].players[playerIndex].checked
     ) {
       rooms[roomIndex].players[playerIndex].checked = false;
     }
-    rooms[roomIndex].players[playerIndex].class = msg.data.class;
-    console.log("rooms ", rooms[roomIndex].players[playerIndex].class);
+    rooms[roomIndex].players[playerIndex].character.class = msg.data.class;
+    console.log(
+      "rooms ",
+      rooms[roomIndex].players[playerIndex].character.class
+    );
     const response = {
       type: "classSelected",
       data: {
         player1: {
           username: rooms[roomIndex]?.players[0]?.username ?? null,
-          class: rooms[roomIndex]?.players[0]?.class ?? null,
+          class: rooms[roomIndex]?.players[0]?.character.class ?? null,
           checked: rooms[roomIndex]?.players[0]?.checked ?? null,
         },
         player2: {
           username: rooms[roomIndex]?.players[1]?.username ?? null,
-          class: rooms[roomIndex]?.players[1]?.class ?? null,
+          class: rooms[roomIndex]?.players[1]?.character.class ?? null,
           checked: rooms[roomIndex]?.players[1]?.checked ?? null,
         },
         player3: {
           username: rooms[roomIndex]?.players[2]?.username ?? null,
-          class: rooms[roomIndex]?.players[2]?.class ?? null,
+          class: rooms[roomIndex]?.players[2]?.character.class ?? null,
           checked: rooms[roomIndex]?.players[2]?.checked ?? null,
         },
         player4: {
           username: rooms[roomIndex]?.players[3]?.username ?? null,
-          class: rooms[roomIndex]?.players[3]?.class ?? null,
+          class: rooms[roomIndex]?.players[3]?.character.class ?? null,
           checked: rooms[roomIndex]?.players[3]?.checked ?? null,
         },
       },
@@ -65,22 +71,22 @@ export class ClassService {
       data: {
         player1: {
           username: rooms[roomIndex]?.players[0]?.username ?? null,
-          class: rooms[roomIndex]?.players[0]?.class ?? null,
+          class: rooms[roomIndex]?.players[0]?.character.class ?? null,
           checked: rooms[roomIndex]?.players[0]?.checked ?? null,
         },
         player2: {
           username: rooms[roomIndex]?.players[1]?.username ?? null,
-          class: rooms[roomIndex]?.players[1]?.class ?? null,
+          class: rooms[roomIndex]?.players[1]?.character.class ?? null,
           checked: rooms[roomIndex]?.players[1]?.checked ?? null,
         },
         player3: {
           username: rooms[roomIndex]?.players[2]?.username ?? null,
-          class: rooms[roomIndex]?.players[2]?.class ?? null,
+          class: rooms[roomIndex]?.players[2]?.character.class ?? null,
           checked: rooms[roomIndex]?.players[2]?.checked ?? null,
         },
         player4: {
           username: rooms[roomIndex]?.players[3]?.username ?? null,
-          class: rooms[roomIndex]?.players[3]?.class ?? null,
+          class: rooms[roomIndex]?.players[3]?.character.class ?? null,
           checked: rooms[roomIndex]?.players[3]?.checked ?? null,
         },
       },
@@ -96,6 +102,7 @@ export class ClassService {
       rooms[roomIndex].currentView = "doors";
       rooms[roomIndex].inGame = true;
       this.roomService.roomUpdated(msg.data.roomId);
+      this.battleService.setInitialStats(msg.data.roomId);
     } else {
       sendMessageToRoom(msg.data.roomId, response);
     }

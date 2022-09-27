@@ -12,8 +12,18 @@ export const classes = {
     },
     actions: {
       attacks: {
-        normalAttack: { type: "attack", multiplier: 1, accuracy: 100 },
-        strongAttack: { type: "attack", multiplier: 1.5, accuracy: 80 },
+        normalAttack: {
+          name: "Ataque Normal",
+          type: "attack",
+          multiplier: 1,
+          accuracy: 100,
+        },
+        strongAttack: {
+          name: "Ataque Forte",
+          type: "attack",
+          multiplier: 1.5,
+          accuracy: 80,
+        },
       },
       skills: [
         {
@@ -44,8 +54,18 @@ export const classes = {
     },
     actions: {
       attacks: {
-        normalAttack: { type: "attack", multiplier: 1, accuracy: 100 },
-        strongAttack: { type: "attack", multiplier: 1.5, accuracy: 80 },
+        normalAttack: {
+          name: "Ataque Normal",
+          type: "attack",
+          multiplier: 1,
+          accuracy: 100,
+        },
+        strongAttack: {
+          name: "Ataque Forte",
+          type: "attack",
+          multiplier: 1.5,
+          accuracy: 80,
+        },
       },
       skills: [
         {
@@ -77,8 +97,18 @@ export const classes = {
     },
     actions: {
       attacks: {
-        normalAttack: { type: "attack", multiplier: 1, accuracy: 100 },
-        strongAttack: { type: "attack", multiplier: 1.5, accuracy: 80 },
+        normalAttack: {
+          name: "Ataque Normal",
+          type: "attack",
+          multiplier: 1,
+          accuracy: 100,
+        },
+        strongAttack: {
+          name: "Ataque Forte",
+          type: "attack",
+          multiplier: 1.5,
+          accuracy: 80,
+        },
       },
       skills: [
         {
@@ -109,8 +139,18 @@ export const classes = {
     },
     actions: {
       attacks: {
-        normalAttack: { type: "attack", multiplier: 1, accuracy: 100 },
-        strongAttack: { type: "attack", multiplier: 1.5, accuracy: 80 },
+        normalAttack: {
+          name: "Ataque Normal",
+          type: "attack",
+          multiplier: 1,
+          accuracy: 100,
+        },
+        strongAttack: {
+          name: "Ataque Forte",
+          type: "attack",
+          multiplier: 1.5,
+          accuracy: 80,
+        },
       },
       skills: [
         {

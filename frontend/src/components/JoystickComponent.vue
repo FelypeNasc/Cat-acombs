@@ -1,59 +1,37 @@
 <template>
-  <div class="flex flex-row">
-    <div class="joystick mr-10">
+  <div class="flex flex-row items-center">
+    <div class="joystick mr-10 flex">
       <img
-        class="h-14 ml-14 rounded-full hover:bg-[#1a2661]"
+        class="h-14 ml-14 rounded-full hover:bg-[#1a2661] cursor-pointer"
         @click="action = 'attack'"
         src="/src/assets/images/attack-btn.svg"
       />
-      <div class="flex flex-row">
-        <img
-          class="h-14 rounded-full hover:bg-[#1a2661]"
-          @click="action = 'defense'"
-          src="/src/assets/images/defense-btn.svg"
-        />
-        <img
-          class="h-14 ml-14 rounded-full hover:bg-[#1a2661]"
-          @click="action = 'inventory'"
-          src="/src/assets/images/inventory-btn.svg"
-        />
-      </div>
       <img
-        class="h-14 ml-14 rounded-full hover:bg-[#1a2661]"
+        class="h-14 ml-14 rounded-full hover:bg-[#1a2661] cursor-pointer"
         @click="action = 'magic'"
         src="/src/assets/images/magic-btn.svg"
       />
     </div>
-    <div class="showAction mt-10 bg-blend-darken font-squirk text-xl">
-      <div class="attackItems" v-if="action === 'attack'">
-        <h1
+    <div class="showAction bg-blend-darken font-squirk text-xl cursor-pointer">
+      <div class="flex flex-col justify-center" v-if="action === 'attack'">
+        <p
           class="opacity-30 hover:opacity-100"
           v-for="(item, index) in attackItems"
           :key="index"
           @click="emitAction(item)"
         >
           {{ item.name }}
-        </h1>
+        </p>
       </div>
-      <div class="defenseItems" v-if="action === 'defense'">
-        <h1
-          class="opacity-30 hover:opacity-100"
-          v-for="(item, index) in defenseItems"
-          :key="index"
-          @click="emitAction(item)"
-        >
-          {{ item.name }}
-        </h1>
-      </div>
-      <div class="magicItems" v-if="action === 'magic'">
-        <h1
+      <div class="flex flex-col justify-center" v-if="action === 'magic'">
+        <p
           class="opacity-30 hover:opacity-100"
           v-for="(item, index) in magicItems"
           :key="index"
           @click="emitAction(item)"
         >
           {{ item.name }}
-        </h1>
+        </p>
       </div>
       <div class="inventoryItems" v-if="action === 'inventory'">
         <h1
@@ -72,16 +50,24 @@
 <script>
 export default {
   name: "JoystickComponent",
+  props: {
+    playerStatus: {
+      type: Object,
+      default: () => {},
+      required: true,
+    },
+  },
   data() {
     return {
       action: "",
       inventoryItems: [
-        { name: "pedra", type: "item" },
-        { name: "comida", type: "item" },
-        { name: "vida", type: "item" },
+        { name: "Biscoito de gato", type: "item" },
+        { name: "Sachê", type: "item" },
       ],
       defenseItems: [{ name: "escudo", type: "defense" }],
-      magicItems: [{ name: "skill", type: "magic" }],
+      magicItems: [
+        { name: this.playerStatus.actions.skills[0].name, type: "skill" },
+      ],
       attackItems: [
         { name: "Normal", type: "normalAttack" },
         { name: "Forte", type: "strongAttack" },
