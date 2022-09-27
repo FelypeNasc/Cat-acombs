@@ -11,7 +11,7 @@
         <ButtonComponent
           text="Sair"
           mode="red"
-          @onclick="confirm"
+          :buttonFunction="confirm"
         ></ButtonComponent>
       </div>
     </div>
