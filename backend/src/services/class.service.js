@@ -12,6 +12,7 @@ export class ClassService {
   async selectClass(client, msg) {
     console.log(msg.data);
     const roomIndex = rooms.map((e) => e.id).indexOf(msg.data.roomId);
+
     const playerIndex = rooms[roomIndex].players
       .map((e) => e.id)
       .indexOf(client.id);

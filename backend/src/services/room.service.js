@@ -29,6 +29,7 @@ import { v4 as uuidv4 } from "uuid";
 import sendMessageToRoom from "../utils/sendMessageToRoom.js";
 import bcrypt from "bcrypt";
 import { ChatService } from "./chat.service.js";
+import { RoomClient } from "..clients/room.clients.js";
 
 export class RoomService {
   constructor() {
@@ -106,13 +107,14 @@ export class RoomService {
       newRoom.hasPassword = true;
     }
 
+    /* chamar o client createRoom */
+
     const player = {
       id: client.id,
       username: client.username,
       roomId: newRoom.id,
     };
-
-    rooms.push(newRoom);
+    RoomClient.createRoom(newRoom);
     playersOnRooms.push(player);
 
     const response = {
@@ -132,7 +134,7 @@ export class RoomService {
       },
     };
     const roomIndex = rooms.map((e) => e.id).indexOf(msg.data.roomId);
-
+    const room = RoomClient.getRoom(msg.data.roomId);
     /*  if (rooms[roomIndex].inGame) {
       const response = {
         type: "inGame",
@@ -141,7 +143,7 @@ export class RoomService {
       return;
     }
  */
-    if (rooms[roomIndex].hasPassword) {
+    if (room.hasPassword) {
       const passwordMatch = bcrypt.compareSync(
         msg.data.roomPassword,
         rooms[roomIndex].password
