@@ -35,7 +35,7 @@ export class DoorService {
 
   async restRoom(roomId) {
     const roomIndex = rooms.map((e) => e.id).indexOf(roomId);
-
+    
     rooms[roomIndex].players.forEach((player) => {
       player.character.currentHp = player.character.maxHp;
     });
@@ -44,8 +44,9 @@ export class DoorService {
       type: "restRoom",
     };
 
-    sendMessageToRoom(rooms[roomIndex].id, response);
-    this.roomService.roomUpdated();
+    sendMessageToRoom(roomId, response);
+    this.roomService.unlockNextRoom(roomId);
+    this.roomService.roomUpdated(roomId);
   }
 
   async battleRoom(doorData, roomId, floor, door) {

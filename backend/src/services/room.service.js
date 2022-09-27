@@ -251,11 +251,13 @@ export class RoomService {
   async unlockNextRoom(roomId) {
     const roomIndex = rooms.map((e) => e.id).indexOf(roomId);
     const room = rooms[roomIndex];
-    //room.lastUnlocked = { floor: 1, door: 2 }
+    console.log("ROOM DOORS: ", room.doors);
     const nextDoor = this.checkNextDoor(room.lastUnlocked);
+    console.log("NEXT DOOR: ", nextDoor);
 
     room.doors[nextDoor.floor][nextDoor.door - 1].access = "enabled";
     room.lastUnlocked = nextDoor;
+    console.log("ROOM DOORS AFTER UNLOCK: ", room.doors);
   }
 
   async getRoomUpdated(client, msg) {
@@ -282,7 +284,7 @@ export class RoomService {
     sendMessageToRoom(roomId, messageToRoom);
   }
 
-  async checkNextDoor(lastUnlocked) {
+  checkNextDoor(lastUnlocked) {
     return {
       floor:
         lastUnlocked.door === 4 ? lastUnlocked.floor + 1 : lastUnlocked.floor,

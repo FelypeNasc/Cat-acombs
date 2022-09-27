@@ -26,9 +26,7 @@ export class BattleService {
     const playerIndex = players.map((e) => e.playerId).indexOf(client.id);
     const playerData = players[playerIndex];
 
-    console.log("ROOM PLAYERS: ", players);
-    console.log("PLAYER INDEX: ", playerIndex);
-    console.log("PLAYER DATA: ", playerData);
+
 
     const attackSucceded = randomNumber(
       0,
@@ -314,6 +312,7 @@ export class BattleService {
       const response = {
         type: "playersDied",
       };
+      this.battleUpdated(roomId);
       sendMessageToRoom(roomId, response);
 
       delete battles[roomId];
@@ -327,13 +326,22 @@ export class BattleService {
       const response = {
         type: "enemyDied",
       };
+      this.battleUpdated(roomId);
       sendMessageToRoom(roomId, response);
 
+      const battleDoor = battles[roomId].doorData;
+      const lastDoor = room.lastUnlocked;
       const isLastRoomUnlocked =
-        battles[roomId].floorData === room.lastUnlocked;
+        battleDoor.floor === lastDoor.floor &&
+        battleDoor.door === lastDoor.door;
 
       // TODO: fazer final de jogo
       // const isEndgame = () => {}
+      const isEndgame = battleDoor.floor === 4 && battleDoor.door === 4;
+
+      if (isEndgame) {
+        return;
+      }
 
       if (isLastRoomUnlocked) {
         this.roomService.unlockNextRoom(roomId);
@@ -359,11 +367,12 @@ export class BattleService {
       const classRawData = classes[p.character.class];
       const { stats } = structuredClone(classRawData);
 
-      p.level++;
-      p.character.maxHp = stats.baseHp + (p.level - 1) * stats.hpPerLevel;
+      p.character.level++;
+      p.character.maxHp =
+        stats.baseHp + (p.character.level - 1) * stats.hpPerLevel;
     });
 
-    console.log(room.players);
+    console.log("PLAYERS LEVEL UP: ", room.players);
   }
 
   async saveHps(roomId) {
@@ -427,7 +436,7 @@ export class BattleService {
 
     rooms[roomIndex].players.forEach((player) => {
       const classRawData = classes[player.character.class];
-      const { stats } = classRawData(classRawData);
+      const { stats } = structuredClone(classRawData);
 
       player.character.currentHp = stats.baseHp;
       player.character.maxHp = stats.baseHp;
