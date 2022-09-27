@@ -15,7 +15,7 @@
     <div class="showAction bg-blend-darken cursor-pointer">
       <div class="flex flex-col justify-center" v-if="action === 'attack'">
         <p
-          class="opacity-30 hover:opacity-100"
+          class="opacity-70 duration-200 hover:opacity-100"
           v-for="(item, index) in attackItems"
           :key="index"
           @click="emitAction(item)"
@@ -26,7 +26,7 @@
       <div class="flex" v-if="action === 'magic'">
         <div class="flex-col justify-center">
           <p
-            class="opacity-30 hover:opacity-100"
+            class="opacity-70 duration-200 hover:opacity-100"
             v-for="(item, index) in magicItems"
             :key="index"
             @click="emitAction(item)"
@@ -39,8 +39,9 @@
           v-if="playerStatus.actions.skills[0].onCooldown"
           class="flex flex-col items-center ml-4 text-red-700 text-border"
         >
-          <p>Cooldown</p>
-          <p>{{ playerStatus.actions.skills[0].cooldownCount }}</p>
+          <p>
+            Recarga: {{ playerStatus.actions.skills[0].cooldownCount }} turnos
+          </p>
         </div>
       </div>
       <div class="inventoryItems" v-if="action === 'inventory'">
