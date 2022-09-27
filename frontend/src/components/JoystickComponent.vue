@@ -40,7 +40,7 @@
           :key="index"
           @click="emitAction(item)"
         >
-          {{ item.name }}
+          {{ item.name }} <!--TODO: ADICIONAR ON COOLDOWN -->
         </h1>
       </div>
     </div>
@@ -60,18 +60,21 @@ export default {
   data() {
     return {
       action: "",
-      inventoryItems: [
-        { name: "Biscoito de gato", type: "item" },
-        { name: "Sachê", type: "item" },
-      ],
-      defenseItems: [{ name: "escudo", type: "defense" }],
-      magicItems: [
-        { name: this.playerStatus.actions.skills[0].name, type: "skill" },
-      ],
-      attackItems: [
-        { name: "Normal", type: "normalAttack" },
-        { name: "Forte", type: "strongAttack" },
-      ],
+      // inventoryItems: [
+      //   { name: "Biscoito de gato", type: "item" },
+      //   { name: "Sachê", type: "item" },
+      // ],
+      // defenseItems: [{ name: "escudo", type: "defense" }],
+      magicItems: Object.keys(this.playerStatus.actions.skills).map((k) => {
+        return { ...this.playerStatus.actions.skills[k], actionType: "skill" };
+      }),
+      attackItems: Object.keys(this.playerStatus.actions.attacks).map((k) => {
+        return {
+          ...this.playerStatus.actions.attacks[k],
+          keyName: k,
+          actionType: "attack",
+        };
+      }),
     };
   },
   methods: {

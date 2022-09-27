@@ -1,6 +1,5 @@
 <template>
   <div class="dense noselect">
-    {{ battleData.turnIndex }}
     <div class="grid grid-flow-row-dense grid-cols-3 grid-rows-3 items-center">
       <div class="11">
         <HPComponent
@@ -55,6 +54,7 @@ import HPComponent from "../components/PlayerHPComponent.vue";
 import BossHPComponent from "../components/BossHPComponent.vue";
 import JoystickComponent from "../components/JoystickComponent.vue";
 import { wsConnection } from "../connection/connections";
+import { attack, skill } from "../connection/battle.methods";
 
 export default {
   components: {
@@ -69,7 +69,7 @@ export default {
     },
   },
   data() {
-    return {};
+    return { attack, skill };
   },
   created() {
     this.setBackground();
@@ -88,6 +88,10 @@ export default {
   methods: {
     playerAction(action) {
       console.log(action);
+      if (action.actionType === "attack")
+        this.attack(this.$route.params.id, action);
+      if (action.actionType === "skill")
+        this.skill(this.$route.params.id, action);
     },
     setBackground() {
       if (
@@ -120,8 +124,6 @@ export default {
           return e.playerId;
         })
         .indexOf(sessionId);
-
-      console.log(userIndex, 'AAAAOBA')
       return userIndex;
     },
   },

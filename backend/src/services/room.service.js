@@ -98,6 +98,7 @@ export class RoomService {
           { name: "Porta 4", floor: 3, door: 4, access: "locked" },
         ],
       },
+      lastUnlocked: { floor: 1, door: 1 },
     };
 
     if (roomPassword) {
@@ -231,6 +232,8 @@ export class RoomService {
     this.chatService.systemMessage(userFound.roomId, systemMessage);
     this.roomUpdated(userFound.roomId);
 
+    if (rooms[roomIndex].players.length === 0) rooms.splice(roomIndex, 1);
+
     if (rooms[roomIndex].adminId !== rooms[roomIndex].players[0].id) {
       rooms[roomIndex].adminId = rooms[roomIndex].players[0].id;
       rooms[roomIndex].adminUsername = rooms[roomIndex].players[0].username;
@@ -245,11 +248,11 @@ export class RoomService {
   async unlockNextRoom(roomId) {
     const roomIndex = rooms.map((e) => e.id).indexOf(roomId);
     const room = rooms[roomIndex];
-
+    //room.lastUnlocked = { floor: 1, door: 2 }
     const nextDoor = this.checkNextDoor(room.lastUnlocked);
 
     room.doors[nextDoor.floor][nextDoor.door - 1].access = "enabled";
-    room.doors.lastUnlocked = nextDoor;
+    room.lastUnlocked = nextDoor;
   }
 
   async getRoomUpdated(client, msg) {

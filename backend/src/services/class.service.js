@@ -10,7 +10,6 @@ export class ClassService {
     this.battleService = new BattleService();
   }
   async selectClass(client, msg) {
-    console.log(msg.data);
     const roomIndex = rooms.map((e) => e.id).indexOf(msg.data.roomId);
 
     const playerIndex = rooms[roomIndex].players
@@ -25,10 +24,7 @@ export class ClassService {
       rooms[roomIndex].players[playerIndex].checked = false;
     }
     rooms[roomIndex].players[playerIndex].character.class = msg.data.class;
-    console.log(
-      "rooms ",
-      rooms[roomIndex].players[playerIndex].character.class
-    );
+
     const response = {
       type: "classSelected",
       data: {
@@ -54,12 +50,10 @@ export class ClassService {
         },
       },
     };
-    console.log(response);
     sendMessageToRoom(msg.data.roomId, response);
   }
 
   async ready(client, msg) {
-    console.log(msg.data);
     const roomIndex = rooms.map((e) => e.id).indexOf(msg.data.roomId);
     const playerIndex = rooms[roomIndex].players
       .map((e) => e.id)

@@ -18,21 +18,17 @@ export class DoorService {
     const playerAdmin = rooms[roomIndex].adminId;
     const adminUsername = rooms[roomIndex].adminUsername;
 
-    if (client.id === playerAdmin) {
-      const doorData = floorsAndDoors[floor][door];
+    if (client.id !== playerAdmin) return;
 
-      switch (doorData.type) {
-        case "rest":
-          this.restRoom(roomId);
-          break;
-        case "battle":
-          this.battleRoom(doorData, roomId, floor, door);
-          break;
-      }
-    } else {
-      const messageToRoom = `Apenas o jogador ${adminUsername}, Admin da sala pode selecionar a porta`;
-      this.chatService.systemMessage(rooms[roomIndex].id, messageToRoom);
-      sendMessageToRoom(rooms[roomIndex].id, response);
+    const doorData = floorsAndDoors[floor][door];
+
+    switch (doorData.type) {
+      case "rest":
+        this.restRoom(roomId);
+        break;
+      case "battle":
+        this.battleRoom(doorData, roomId, floor, door);
+        break;
     }
   }
 
