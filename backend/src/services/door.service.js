@@ -4,6 +4,7 @@ import sendMessageToRoom from "../utils/sendMessageToRoom.js";
 import { BattleService } from "./battle.service.js";
 import { rooms, RoomService } from "./room.service.js";
 import { ChatService } from "./chat.service.js";
+import structuredClone from "../utils/structuredClone.js";
 
 export class DoorService {
   constructor() {
@@ -20,7 +21,7 @@ export class DoorService {
 
     if (client.id !== playerAdmin) return;
 
-    const doorData = floorsAndDoors[floor][door];
+    const doorData = structuredClone(floorsAndDoors[floor][door]);
 
     switch (doorData.type) {
       case "rest":

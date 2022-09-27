@@ -6,6 +6,7 @@ import { enemies } from "../data/enemies.js";
 import { randomNumber } from "../utils/randomNumber.js";
 import { ChatService } from "./chat.service.js";
 import sendMessageToRoom from "../utils/sendMessageToRoom.js";
+import structuredClone from "../utils/structuredClone.js";
 
 export class BattleService {
   constructor() {
@@ -223,7 +224,7 @@ export class BattleService {
       return this.buildCharacter(player);
     });
 
-    const roomEnemy = enemies[doorData.enemyId];
+    const roomEnemy = structuredClone(enemies[doorData.enemyId]);
 
     const newBattle = {
       id: room.id,
@@ -356,11 +357,13 @@ export class BattleService {
 
     room.players.forEach((p) => {
       const classRawData = classes[p.character.class];
-      const { stats } = classRawData;
+      const { stats } = structuredClone(classRawData);
 
       p.level++;
       p.character.maxHp = stats.baseHp + (p.level - 1) * stats.hpPerLevel;
     });
+
+    console.log(room.players);
   }
 
   async saveHps(roomId) {
@@ -383,7 +386,7 @@ export class BattleService {
 
   buildCharacter(playerData) {
     const classRawData = classes[playerData.character.class];
-    const { name, description, stats, actions } = classRawData;
+    const { name, description, stats, actions } = structuredClone(classRawData);
     const newCharacter = {
       playerId: playerData.id,
       username: playerData.username,
@@ -424,7 +427,7 @@ export class BattleService {
 
     rooms[roomIndex].players.forEach((player) => {
       const classRawData = classes[player.character.class];
-      const { stats } = classRawData;
+      const { stats } = classRawData(classRawData);
 
       player.character.currentHp = stats.baseHp;
       player.character.maxHp = stats.baseHp;
