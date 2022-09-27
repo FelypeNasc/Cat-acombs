@@ -1,8 +1,11 @@
 import { wss } from "../server.js";
 import { rooms } from "../services/room.service.js";
+import { RoomClient } from "../clients/room.clients.js";
 
-export default function sendMessageToRoom(roomId, msg) {
-  const room = rooms.find((room) => room.id === roomId);
+export default async function sendMessageToRoom(roomId, msg) {
+  const roomClient = new RoomClient();
+
+  const room = await roomClient.getRoom(roomId);
   const roomPlayersIds = room.players.map((player) => player.id);
 
   [...wss.clients]

@@ -3,50 +3,51 @@ import sendMessageToRoom from "../utils/sendMessageToRoom.js";
 import { RoomService } from "../services/room.service.js";
 import { wss } from "../server.js";
 import { BattleService } from "./battle.service.js";
+import { RoomClient } from "../clients/room.clients.js";
 
 export class ClassService {
   constructor() {
     this.roomService = new RoomService();
     this.battleService = new BattleService();
+    this.roomClient = new RoomClient();
   }
   async selectClass(client, msg) {
-    const roomIndex = rooms.map((e) => e.id).indexOf(msg.data.roomId);
-
-    const playerIndex = rooms[roomIndex].players
-      .map((e) => e.id)
-      .indexOf(client.id);
+    // const roomIndex = rooms.map((e) => e.id).indexOf(msg.data.roomId);
+    const room = await this.roomClient.getRoom(msg.data.roomId);
+    const playerIndex = room.players.map((e) => e.id).indexOf(client.id);
 
     if (
-      rooms[roomIndex].players[playerIndex].character.class !==
-        msg.data.class &&
-      rooms[roomIndex].players[playerIndex].checked
+      room.players[playerIndex].character.class !== msg.data.class &&
+      room.players[playerIndex].checked
     ) {
-      rooms[roomIndex].players[playerIndex].checked = false;
+      room.players[playerIndex].checked = false;
     }
-    rooms[roomIndex].players[playerIndex].character.class = msg.data.class;
+    room.players[playerIndex].character.class = msg.data.class;
+
+    const updatedRoom = await this.roomClient.updateRoom(msg.data.roomId, room);
 
     const response = {
       type: "classSelected",
       data: {
         player1: {
-          username: rooms[roomIndex]?.players[0]?.username ?? null,
-          class: rooms[roomIndex]?.players[0]?.character.class ?? null,
-          checked: rooms[roomIndex]?.players[0]?.checked ?? null,
+          username: updatedRoom?.players[0]?.username ?? null,
+          class: updatedRoom?.players[0]?.character.class ?? null,
+          checked: updatedRoom?.players[0]?.checked ?? null,
         },
         player2: {
-          username: rooms[roomIndex]?.players[1]?.username ?? null,
-          class: rooms[roomIndex]?.players[1]?.character.class ?? null,
-          checked: rooms[roomIndex]?.players[1]?.checked ?? null,
+          username: updatedRoom?.players[1]?.username ?? null,
+          class: updatedRoom?.players[1]?.character.class ?? null,
+          checked: updatedRoom?.players[1]?.checked ?? null,
         },
         player3: {
-          username: rooms[roomIndex]?.players[2]?.username ?? null,
-          class: rooms[roomIndex]?.players[2]?.character.class ?? null,
-          checked: rooms[roomIndex]?.players[2]?.checked ?? null,
+          username: updatedRoom?.players[2]?.username ?? null,
+          class: updatedRoom?.players[2]?.character.class ?? null,
+          checked: updatedRoom?.players[2]?.checked ?? null,
         },
         player4: {
-          username: rooms[roomIndex]?.players[3]?.username ?? null,
-          class: rooms[roomIndex]?.players[3]?.character.class ?? null,
-          checked: rooms[roomIndex]?.players[3]?.checked ?? null,
+          username: updatedRoom?.players[3]?.username ?? null,
+          class: updatedRoom?.players[3]?.character.class ?? null,
+          checked: updatedRoom?.players[3]?.checked ?? null,
         },
       },
     };
@@ -54,35 +55,35 @@ export class ClassService {
   }
 
   async ready(client, msg) {
-    const roomIndex = rooms.map((e) => e.id).indexOf(msg.data.roomId);
-    const playerIndex = rooms[roomIndex].players
-      .map((e) => e.id)
-      .indexOf(client.id);
+    const room = await this.roomClient.getRoom(msg.data.roomId);
+    // const roomIndex = rooms.map((e) => e.id).indexOf(msg.data.roomId);
+    const playerIndex = room.players.map((e) => e.id).indexOf(client.id);
 
-    rooms[roomIndex].players[playerIndex].checked = true;
+    room.players[playerIndex].checked = true;
+    const updatedRoom = await this.roomClient.updateRoom(msg.data.roomId, room);
 
     const response = {
       type: "ready",
       data: {
         player1: {
-          username: rooms[roomIndex]?.players[0]?.username ?? null,
-          class: rooms[roomIndex]?.players[0]?.character.class ?? null,
-          checked: rooms[roomIndex]?.players[0]?.checked ?? null,
+          username: updatedRoom?.players[0]?.username ?? null,
+          class: updatedRoom?.players[0]?.character.class ?? null,
+          checked: updatedRoom?.players[0]?.checked ?? null,
         },
         player2: {
-          username: rooms[roomIndex]?.players[1]?.username ?? null,
-          class: rooms[roomIndex]?.players[1]?.character.class ?? null,
-          checked: rooms[roomIndex]?.players[1]?.checked ?? null,
+          username: updatedRoom?.players[1]?.username ?? null,
+          class: updatedRoom?.players[1]?.character.class ?? null,
+          checked: updatedRoom?.players[1]?.checked ?? null,
         },
         player3: {
-          username: rooms[roomIndex]?.players[2]?.username ?? null,
-          class: rooms[roomIndex]?.players[2]?.character.class ?? null,
-          checked: rooms[roomIndex]?.players[2]?.checked ?? null,
+          username: updatedRoom?.players[2]?.username ?? null,
+          class: updatedRoom?.players[2]?.character.class ?? null,
+          checked: updatedRoom?.players[2]?.checked ?? null,
         },
         player4: {
-          username: rooms[roomIndex]?.players[3]?.username ?? null,
-          class: rooms[roomIndex]?.players[3]?.character.class ?? null,
-          checked: rooms[roomIndex]?.players[3]?.checked ?? null,
+          username: updatedRoom?.players[3]?.username ?? null,
+          class: updatedRoom?.players[3]?.character.class ?? null,
+          checked: updatedRoom?.players[3]?.checked ?? null,
         },
       },
     };
@@ -91,11 +92,14 @@ export class ClassService {
       response.data.player2.checked &&
       response.data.player3.checked &&
       response.data.player4.checked;
-    7;
 
     if (verifyAllChecked) {
-      rooms[roomIndex].currentView = "doors";
-      rooms[roomIndex].inGame = true;
+      updatedRoom.currentView = "doors";
+      updatedRoom.inGame = true;
+      const updatedRoom2 = await this.roomClient.updateRoom(
+        msg.data.roomId,
+        updatedRoom
+      );
       this.roomService.roomUpdated(msg.data.roomId);
       this.battleService.setInitialStats(msg.data.roomId);
     } else {

@@ -29,16 +29,18 @@ import { v4 as uuidv4 } from "uuid";
 import sendMessageToRoom from "../utils/sendMessageToRoom.js";
 import bcrypt from "bcrypt";
 import { ChatService } from "./chat.service.js";
-import { RoomClient } from "..clients/room.clients.js";
+import { RoomClient } from "../clients/room.clients.js";
 
 export class RoomService {
   constructor() {
     this.chatService = new ChatService();
+    this.roomClient = new RoomClient();
   }
 
   async getRooms(client, msg) {
-    const responseRooms = Array.from(rooms);
-    responseRooms.forEach((room) => {
+    const allRooms = await this.roomClient.getAllRooms();
+
+    allRooms.forEach((room) => {
       return {
         id: room.id,
         roomName: room.roomName,
@@ -51,7 +53,7 @@ export class RoomService {
 
     const response = {
       type: "getRooms",
-      data: responseRooms.filter((room) => !room.inGame),
+      data: allRooms.filter((room) => !room.inGame),
     };
 
     client.send(JSON.stringify(response));
@@ -99,6 +101,7 @@ export class RoomService {
         ],
       },
       lastUnlocked: { floor: 1, door: 1 },
+      currentView: "class",
     };
 
     if (roomPassword) {
@@ -115,7 +118,7 @@ export class RoomService {
       username: client.username,
       roomId: newRoom.id,
     };
-    RoomClient.createRoom(newRoom);
+    const createdRoom = await this.roomClient.createRoom(newRoom);
     playersOnRooms.push(player);
 
     const response = {
@@ -134,8 +137,8 @@ export class RoomService {
         level: 1,
       },
     };
-    const roomIndex = rooms.map((e) => e.id).indexOf(msg.data.roomId);
-    const room = RoomClient.getRoom(msg.data.roomId);
+    // const roomIndex = rooms.map((e) => e.id).indexOf(msg.data.roomId);
+    const room = await this.roomClient.getRoom(msg.data.roomId);
     /*  if (rooms[roomIndex].inGame) {
       const response = {
         type: "inGame",
@@ -147,7 +150,7 @@ export class RoomService {
     if (room.hasPassword) {
       const passwordMatch = bcrypt.compareSync(
         msg.data.roomPassword,
-        rooms[roomIndex].password
+        room.password
       );
 
       if (!passwordMatch) {
@@ -159,7 +162,7 @@ export class RoomService {
       }
     }
 
-    if (rooms[roomIndex].players.length >= 4) {
+    if (room.players.length >= 4) {
       const response = {
         type: "roomFull",
       };
@@ -173,19 +176,21 @@ export class RoomService {
       roomId: msg.data.roomId,
     };
 
-    rooms[roomIndex].players.push(newPlayer);
+    room.players.push(newPlayer);
+    const updatedRoom = await this.roomClient.updateRoom(msg.data.roomId, room);
+
     playersOnRooms.push(player);
 
     const response = {
       type: "enterRoom",
-      data: rooms[roomIndex],
+      data: updatedRoom,
     };
 
     client.send(JSON.stringify(response));
 
     const messageToRoom = `O jogador ${client.username} entrou na sala`;
 
-    this.chatService.systemMessage(rooms[roomIndex].id, messageToRoom);
+    this.chatService.systemMessage(room.id, messageToRoom);
   }
 
   async userOnLobby(client, msg) {
@@ -206,10 +211,12 @@ export class RoomService {
 
   async deletePlayerFromRooms(playerId) {
     const userFound = playersOnRooms.find((player) => player.id === playerId);
-
+    console.log("userFound", userFound);
     if (!userFound) return;
 
-    const roomIndex = rooms.map((e) => e.id).indexOf(userFound.roomId);
+    const room = await this.roomClient.getRoom(userFound.roomId);
+
+    //const roomIndex = rooms.map((e) => e.id).indexOf(userFound.roomId);
 
     playersOnRooms.forEach((el, index) => {
       if (el.id === playerId) {
@@ -217,63 +224,76 @@ export class RoomService {
       }
     });
 
-    rooms[roomIndex].players = rooms[roomIndex].players.filter(
-      (player) => player.id !== playerId
+    room.players = room.players.filter((player) => player.id !== playerId);
+
+    playersOnRooms.forEach((el, index) => {
+      if (el.id === playerId) {
+        playersOnRooms.splice(index, 1);
+      }
+    });
+
+    const updatedRoom = await this.roomClient.updateRoom(
+      userFound.roomId,
+      room
     );
-
-    playersOnRooms.forEach((el, index) => {
-      if (el.id === playerId) {
-        playersOnRooms.splice(index, 1);
-      }
-    });
-
     const systemMessage = `${userFound.username} saiu da sala`;
 
     this.chatService.systemMessage(userFound.roomId, systemMessage);
     this.roomUpdated(userFound.roomId);
 
-    if (rooms[roomIndex].players.length === 0) rooms.splice(roomIndex, 1);
-
-    if (rooms[roomIndex].adminId !== rooms[roomIndex].players[0].id) {
-      rooms[roomIndex].adminId = rooms[roomIndex].players[0].id;
-      rooms[roomIndex].adminUsername = rooms[roomIndex].players[0].username;
-
-      const message = `${rooms[roomIndex].adminUsername} agora é admin da sala`;
-      this.chatService.systemMessage(userFound.roomId, message);
+    if (updatedRoom.players.length === 0) {
+      const deletedRoom = await this.roomClient.deleteRoom(userFound.roomId);
+      this.getRooms();
     }
 
-    return rooms[roomIndex];
+    if (updatedRoom.adminId !== updatedRoom.players[0].id) {
+      updatedRoom.adminId = updatedRoom.players[0].id;
+      updatedRoom.adminUsername = updatedRoom.players[0].username;
+      const updatedAdminRoom = await this.roomClient.updateRoom(
+        userFound.roomId,
+        updatedRoom
+      );
+      const message = `${updatedAdminRoom.adminUsername} agora é admin da sala`;
+      this.chatService.systemMessage(userFound.roomId, message);
+    }
+    const newDataRoom = await this.roomClient.getRoom(userFound.roomId);
+    return newDataRoom;
   }
 
   async unlockNextRoom(roomId) {
-    const roomIndex = rooms.map((e) => e.id).indexOf(roomId);
-    const room = rooms[roomIndex];
+    const room = await this.roomClient.getRoom(roomId);
+    // const roomIndex = rooms.map((e) => e.id).indexOf(roomId);
+
     //room.lastUnlocked = { floor: 1, door: 2 }
     const nextDoor = this.checkNextDoor(room.lastUnlocked);
 
-    room.doors[nextDoor.floor][nextDoor.door - 1].access = "enabled";
+    room.doors[`${nextDoor.floor}`][nextDoor.door - 1].access = "enabled";
     room.lastUnlocked = nextDoor;
+
+    const updatedRoom = await this.roomClient.updateRoom(roomId, room);
   }
 
   async getRoomUpdated(client, msg) {
-    const roomIndex = rooms.map((e) => e.id).indexOf(msg.data.roomId);
+    const room = await this.roomClient.getRoom(msg.data.roomId);
     const response = {
       type: "roomUpdated",
-      data: rooms[roomIndex],
+      data: room,
     };
 
     client.send(JSON.stringify(response));
   }
 
   async roomUpdated(roomId, isStory = false, storyText = null) {
-    const roomIndex = rooms.map((e) => e.id).indexOf(roomId);
-    const roomData = rooms[roomIndex];
+    const room = await this.roomClient.getRoom(roomId);
 
-    if (isStory) roomData.storyText = storyText;
+    if (isStory) {
+      room.storyText = storyText;
+    }
+    const updatedRoom = await this.roomClient.updateRoom(roomId, room);
 
     const messageToRoom = {
       type: "roomUpdated",
-      data: roomData,
+      data: updatedRoom,
     };
 
     sendMessageToRoom(roomId, messageToRoom);

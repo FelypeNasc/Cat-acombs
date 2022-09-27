@@ -33,7 +33,6 @@ wss.on("connection", (c) => {
       return;
     }
 
-    console.log(`CLIENT: ${c.username}`);
     globalController.redirect(c, msg);
   });
 
