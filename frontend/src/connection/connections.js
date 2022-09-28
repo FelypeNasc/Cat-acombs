@@ -3,7 +3,7 @@ export let wsConnection = null;
 
 export function createWS(username) {
   return new Promise(function (resolve, reject) {
-    wsConnection = new WebSocket("ws://localhost:8080");
+    wsConnection = new WebSocket("wss://backendcatacombs.zapto.org");
 
     wsConnection.onopen = function () {
       const msg = {
