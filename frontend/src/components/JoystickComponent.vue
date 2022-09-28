@@ -4,12 +4,12 @@
       <img
         class="h-14 ml-14 rounded-full duration-200 hover:bg-[#1a2661] cursor-pointer"
         @click="action = 'attack'"
-        src="/src/assets/images/attack-btn.svg"
+        src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/attack-btn.svg"
       />
       <img
         class="h-14 ml-14 rounded-full duration-200 hover:bg-[#1a2661] cursor-pointer"
         @click="action = 'magic'"
-        src="/src/assets/images/magic-btn.svg"
+        src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/magic-btn.svg"
       />
     </div>
     <div class="showAction bg-blend-darken cursor-pointer">

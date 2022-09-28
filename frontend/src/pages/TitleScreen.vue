@@ -4,7 +4,7 @@
     @click.once="playSound"
   >
     <div class="flex flex-col justify-center items-center">
-      <img src="../assets/images/logo.png" class="w-6/12" />
+      <img src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/logo.png" class="w-6/12" />
       <h2 class="text-3xl mt-2 tracking-wider font-chainwhacks">
         E O ATAQUE DOS DOGMANÍACOS
       </h2>
@@ -58,7 +58,7 @@ export default {
       });
     },
     playSound() {
-      const audio = new Audio("../assets/music/Medieval_music.mp3");
+      const audio = new Audio("http://s3.amazonaws.com/catacombs-game-bucket/assets/music/Medieval_music.mp3");
       audio.play();
       audio.loop = true;
       audio.volume = 0.15;

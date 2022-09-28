@@ -6,7 +6,7 @@
       </h2>
       <div class="flex items-center">
         <div class="heart">
-          <img src="../assets/icons/heart-icon.svg" />
+          <img src="http://s3.amazonaws.com/catacombs-game-bucket/assets/icons/heart-icon.svg" />
         </div>
         <div class="windowsSlider flex justify-center items-center">
           <input
@@ -30,16 +30,16 @@
     </div>
     <div class="flex justify-center m-6">
       <div v-if="playerStatus.class == 'Warrior'">
-        <img src="../assets/images/warrior-full.png" class="warrior catImage" />
+        <img src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/warrior-full.png" class="warrior catImage" />
       </div>
       <div v-else-if="playerStatus.class == 'Mage'">
-        <img src="../assets/images/mage-full.png" class="mage catImage" />
+        <img src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/mage-full.png" class="mage catImage" />
       </div>
       <div v-else-if="playerStatus.class == 'Ranger'">
-        <img src="../assets/images/ranger-full.png" class="ranger catImage" />
+        <img src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/ranger-full.png" class="ranger catImage" />
       </div>
       <div v-else-if="playerStatus.class == 'Bard'">
-        <img src="../assets/images/bard-full.png" class="bard catImage" />
+        <img src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/bard-full.png" class="bard catImage" />
       </div>
     </div>
   </div>

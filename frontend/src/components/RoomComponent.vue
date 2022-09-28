@@ -6,7 +6,7 @@
     </div>
 
     <div id="players">
-      <img src="../assets/icons/cat-icon.svg" alt="" />
+      <img src="http://s3.amazonaws.com/catacombs-game-bucket/assets/icons/cat-icon.svg" alt="" />
       <h3>{{ playersNumber }}/4</h3>
     </div>
   </div>

@@ -19,22 +19,22 @@
         <img
           v-if="item.class === 'warrior'"
           class="class"
-          src="../assets/images/warrior-class.png"
+          src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/warrior-class.png"
         />
         <img
           v-if="item.class === 'bard'"
           class="class"
-          src="../assets/images/bard-class.png"
+          src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/bard-class.png"
         />
         <img
           v-if="item.class === 'mage'"
           class="class"
-          src="../assets/images/mage-class.png"
+          src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/mage-class.png"
         />
         <img
           v-if="item.class === 'ranger'"
           class="class"
-          src="../assets/images/ranger-class.png"
+          src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/ranger-class.png"
         />
 
         <label

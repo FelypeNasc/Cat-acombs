@@ -3,24 +3,24 @@
     <div
       class="header flex flex-row text-white text-xl justify-between font-chainwhacks"
     >
-      <img class="logo w-48" src="../assets/images/logo.png" />
+      <img class="logo w-48" src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/logo.png" />
       <div
         class="floor flex flex-row text-center align-middle text-7xl font-squirk"
       >
         <img
           class="pointer w-10 mr-6 hover:drop-shadow-md duration-200"
-          src="../assets/images/arrowLeft.svg"
+          src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/arrowLeft.svg"
           @click="changeLevel('-')"
         />
         <h3>Level {{ floor }}</h3>
         <img
           class="pointer w-10 ml-6 hover:drop-shadow-md duration-200"
-          src="../assets/images/arrowRight.svg"
+          src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/arrowRight.svg"
           @click="changeLevel('+')"
         />
       </div>
       <MiniButtonComponent @onclick="toogleMenu">
-        <img src="../assets/icons/settings-icon.svg" alt="settings icon"
+        <img src="http://s3.amazonaws.com/catacombs-game-bucket/assets/icons/settings-icon.svg" alt="settings icon"
       /></MiniButtonComponent>
     </div>
     <div
@@ -36,7 +36,7 @@
           :class="`door1 ${
             item.access === 'enabled' ? 'pointer' : 'not-allowed'
           } hover:brightness-125 duration-200`"
-          :src="`../assets/images/${floor}-floor-door-${item.access}.png`"
+          :src="`http://s3.amazonaws.com/catacombs-game-bucket/assets/images/${floor}-floor-door-${item.access}.png`"
           @click="startBattle(item)"
         />
 
@@ -88,7 +88,7 @@ export default {
     });
     this.getRoomUpdated(this.$route.params.id);
     document.querySelector("body").style.backgroundImage =
-      "url(../assets/images/backgroundblue.png)";
+      "url(http://s3.amazonaws.com/catacombs-game-bucket/assets/images/backgroundblue.png)";
   },
   methods: {
     changeLevel(event) {

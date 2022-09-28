@@ -28,7 +28,7 @@
         v-on:click="sendMessage()"
         class="absolute button-size mr-2 blue-color rounded-full cursor-pointer flex items-center justify-center"
       >
-        <img src="../assets/icons/send-icon.svg" class="w-5" />
+        <img src="http://s3.amazonaws.com/catacombs-game-bucket/assets/icons/send-icon.svg" class="w-5" />
       </div>
     </div>
   </div>

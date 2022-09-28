@@ -102,21 +102,21 @@ export default {
         this.battleData.enemy.id === 3
       ) {
         document.querySelector("body").style.backgroundImage =
-          "url(../assets/images/1-floor-background.png)";
+          "url(http://s3.amazonaws.com/catacombs-game-bucket/assets/images/1-floor-background.png)";
       } else if (
         this.battleData.enemy.id === 4 ||
         this.battleData.enemy.id === 5 ||
         this.battleData.enemy.id === 6
       ) {
         document.querySelector("body").style.backgroundImage =
-          "url(../assets/images/2-floor-background.png)";
+          "url(http://s3.amazonaws.com/catacombs-game-bucket/assets/images/2-floor-background.png)";
       } else if (
         this.battleData.enemy.id === 7 ||
         this.battleData.enemy.id === 8 ||
         this.battleData.enemy.id === 9
       ) {
         document.querySelector("body").style.backgroundImage =
-          "url(../assets/images/3-floor-background.png)";
+          "url(http://s3.amazonaws.com/catacombs-game-bucket/assets/images/3-floor-background.png)";
       }
     },
     userIndex() {

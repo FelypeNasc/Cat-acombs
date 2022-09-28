@@ -5,7 +5,7 @@
     </div>
     <div class="flex justify-between items-center">
       <div class="sound mr-5">
-        <img src="../assets/icons/sound-icon.svg" />
+        <img src="http://s3.amazonaws.com/catacombs-game-bucket/assets/icons/sound-icon.svg" />
       </div>
       <div class="windowsSlider flex justify-center items-center">
         <input
@@ -39,12 +39,12 @@ export default {
     },
   },
   mounted() {
-    this.audio = new Audio("../assets/music/Medieval_music.mp3");
+    this.audio = new Audio("http://s3.amazonaws.com/catacombs-game-bucket/assets/music/Medieval_music.mp3");
     this.audio.volume = 0.25;
   },
   methods: {
     playSound() {
-      const audio = new Audio("../assets/music/Medieval_music.mp3");
+      const audio = new Audio("http://s3.amazonaws.com/catacombs-game-bucket/assets/music/Medieval_music.mp3");
       audio.loop = true;
       audio.volume = 0.25;
     },

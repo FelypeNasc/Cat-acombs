@@ -32,7 +32,7 @@
 }
 
 body {
-  background-image: url(./images/backgroundblue.png);
+  background-image: url(http://s3.amazonaws.com/catacombs-game-bucket/assets/images/backgroundblue.png);
   display: flex;
   align-items: center;
   justify-content: center;

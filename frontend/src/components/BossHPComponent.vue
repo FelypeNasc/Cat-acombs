@@ -6,7 +6,7 @@
       </h2>
       <div class="flex items-center">
         <div class="heart">
-          <img src="../assets/icons/heart-icon.svg" />
+          <img src="http://s3.amazonaws.com/catacombs-game-bucket/assets/icons/heart-icon.svg" />
         </div>
         <div class="windowsSlider flex justify-center items-center">
           <input
@@ -31,7 +31,7 @@
       <div>
         <img
           class="w-full"
-          :src="`../assets/images/boss-${bossStatus.id}.png`"
+          :src="`http://s3.amazonaws.com/catacombs-game-bucket/assets/images/boss-${bossStatus.id}.png`"
         />
       </div>
     </div>

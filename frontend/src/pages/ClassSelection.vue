@@ -15,7 +15,7 @@
       </div>
       <div class="flex justify-end items-start w-2/12">
         <MiniButtonComponent @onclick="toogleMenu">
-          <img src="../assets/icons/settings-icon.svg" alt="settings icon" />
+          <img src="http://s3.amazonaws.com/catacombs-game-bucket/assets/icons/settings-icon.svg" alt="settings icon" />
         </MiniButtonComponent>
       </div>
     </div>
@@ -28,22 +28,22 @@
           <img
             v-if="selectedClass === 'warrior'"
             class=""
-            src="../assets/images/warrior-card.png"
+            src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/warrior-card.png"
           />
           <img
             v-if="selectedClass === 'bard'"
             class=""
-            src="../assets/images/bard-card.png"
+            src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/bard-card.png"
           />
           <img
             v-if="selectedClass === 'mage'"
             class=""
-            src="../assets/images/mage-card.png"
+            src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/mage-card.png"
           />
           <img
             v-if="selectedClass === 'ranger'"
             class=""
-            src="../assets/images/ranger-card.png"
+            src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/ranger-card.png"
           />
         </div>
         <div class="flex flex-col items-center">
@@ -89,10 +89,10 @@ export default {
       roomName: "",
       classList: [
         [
-          { class: "warrior", route: "../assets/images/warrior-class.png" },
-          { class: "bard", route: "../assets/images/bard-class.png" },
-          { class: "mage", route: "../assets/images/mage-class.png" },
-          { class: "ranger", route: "../assets/images/ranger-class.png" },
+          { class: "warrior", route: "http://s3.amazonaws.com/catacombs-game-bucket/assets/images/warrior-class.png" },
+          { class: "bard", route: "http://s3.amazonaws.com/catacombs-game-bucket/assets/images/bard-class.png" },
+          { class: "mage", route: "http://s3.amazonaws.com/catacombs-game-bucket/assets/images/mage-class.png" },
+          { class: "ranger", route: "http://s3.amazonaws.com/catacombs-game-bucket/assets/images/ranger-class.png" },
         ],
       ],
       selectedClassList: {},

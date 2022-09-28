@@ -2,14 +2,14 @@
   <div class="main noselect flex flex-col">
     <header class="header flex justify-center mt-4 mb-10 noselect">
       <div class="w-1/3 flex justify-start items-center">
-        <img class="w-44" src="../assets/images/logo.png" />
+        <img class="w-44" src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/logo.png" />
       </div>
       <div class="w-1/3 flex justify-center items-center">
         <h2 class="font-squirk text-6xl stroke-black lobby-text">GAME LOBBY</h2>
       </div>
       <div class="w-1/3 flex justify-end items-center">
         <MiniButtonComponent @onclick="toogleMenu">
-          <img src="../assets/icons/settings-icon.svg" alt="settings icon" />
+          <img src="http://s3.amazonaws.com/catacombs-game-bucket/assets/icons/settings-icon.svg" alt="settings icon" />
         </MiniButtonComponent>
       </div>
     </header>
@@ -17,7 +17,7 @@
       <div class="w-max">
         <div class="inline-flex w-full justify-end">
           <MiniButtonComponent @onclick="getRoomList()">
-            <img src="../assets/icons/refresh-icon.svg" alt="refresh icon" />
+            <img src="http://s3.amazonaws.com/catacombs-game-bucket/assets/icons/refresh-icon.svg" alt="refresh icon" />
           </MiniButtonComponent>
           <ButtonComponent
             text="Criar Sala"
@@ -49,7 +49,7 @@
             shape="circle"
             @onclick="changePageNumber('minus')"
           >
-            <img src="../assets/icons/arrow-left.svg" alt="left arrow" />
+            <img src="http://s3.amazonaws.com/catacombs-game-bucket/assets/icons/arrow-left.svg" alt="left arrow" />
           </MiniButtonComponent>
           <div
             class="bg-white rounded-md mx-4 page-display font-squirk flex justify-center items-center text-2xl"
@@ -61,7 +61,7 @@
             class="mr-4"
             @onclick="changePageNumber('plus')"
           >
-            <img src="../assets/icons/right-arrow.svg" alt="right arrow" />
+            <img src="http://s3.amazonaws.com/catacombs-game-bucket/assets/icons/right-arrow.svg" alt="right arrow" />
           </MiniButtonComponent>
         </div>
       </div>
@@ -162,7 +162,7 @@ export default {
     setBackground() {
       document.querySelector(
         "body"
-      ).style.backgroundImage = `url(../assets/images/backgroundblue.png)`;
+      ).style.backgroundImage = `url(http://s3.amazonaws.com/catacombs-game-bucket/assets/images/backgroundblue.png)`;
     },
     changePageNumber(operation) {
       const increasePageNumber = () => {

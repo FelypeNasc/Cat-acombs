@@ -9,37 +9,37 @@
       <img
         v-if="!socketPlayers?.player1?.class"
         id="player1"
-        src="../assets/images/undefined-class-selected.png"
+        src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/undefined-class-selected.png"
         class="w-2/4 min-w-[80px]"
       />
       <img
         v-if="socketPlayers?.player1?.class === 'warrior'"
         id="player1"
-        src="../assets/images/warrior-class-selected.png"
+        src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/warrior-class-selected.png"
         class="w-2/4 min-w-[80px]"
       />
       <img
         v-if="socketPlayers?.player1?.class === 'mage'"
         id="player1"
-        src="../assets/images/mage-class-selected.png"
+        src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/mage-class-selected.png"
         class="w-2/4 min-w-[80px]"
       />
       <img
         v-if="socketPlayers?.player1?.class === 'bard'"
         id="player1"
-        src="../assets/images/bard-class-selected.png"
+        src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/bard-class-selected.png"
         class="w-2/4 min-w-[80px]"
       />
       <img
         v-if="socketPlayers?.player1?.class === 'ranger'"
         id="player1"
-        src="../assets/images/ranger-class-selected.png"
+        src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/ranger-class-selected.png"
         class="w-2/4 min-w-[80px]"
       />
       <img
         v-if="socketPlayers?.player1?.checked"
         id="player1"
-        src="../assets/icons/check-icon.svg"
+        src="http://s3.amazonaws.com/catacombs-game-bucket/assets/icons/check-icon.svg"
         class="absolute right-0 bottom-0 w-2/4 z-10"
       />
     </div>
@@ -50,37 +50,37 @@
       <img
         v-if="!socketPlayers?.player2?.class"
         id="player2"
-        src="../assets/images/undefined-class-selected.png"
+        src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/undefined-class-selected.png"
         class="w-2/4 min-w-[80px]"
       />
       <img
         v-if="socketPlayers?.player2?.class === 'warrior'"
         id="player2"
-        src="../assets/images/warrior-class-selected.png"
+        src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/warrior-class-selected.png"
         class="w-2/4 min-w-[80px]"
       />
       <img
         v-if="socketPlayers?.player2?.class === 'mage'"
         id="player2"
-        src="../assets/images/mage-class-selected.png"
+        src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/mage-class-selected.png"
         class="w-2/4 min-w-[80px]"
       />
       <img
         v-if="socketPlayers?.player2?.class === 'bard'"
         id="player2"
-        src="../assets/images/bard-class-selected.png"
+        src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/bard-class-selected.png"
         class="w-2/4 min-w-[80px]"
       />
       <img
         v-if="socketPlayers?.player2?.class === 'ranger'"
         id="player1"
-        src="../assets/images/ranger-class-selected.png"
+        src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/ranger-class-selected.png"
         class="w-2/4 min-w-[80px]"
       />
       <img
         v-if="socketPlayers?.player2?.checked"
         id="player2"
-        src="../assets/icons/check-icon.svg"
+        src="http://s3.amazonaws.com/catacombs-game-bucket/assets/icons/check-icon.svg"
         class="absolute right-0 bottom-0 w-2/4 z-10"
       />
     </div>
@@ -91,37 +91,37 @@
       <img
         v-if="!socketPlayers?.player3?.class"
         id="player3"
-        src="../assets/images/undefined-class-selected.png"
+        src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/undefined-class-selected.png"
         class="w-2/4 min-w-[80px]"
       />
       <img
         v-if="socketPlayers?.player3?.class === 'warrior'"
         id="player3"
-        src="../assets/images/warrior-class-selected.png"
+        src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/warrior-class-selected.png"
         class="w-2/4 min-w-[80px]"
       />
       <img
         v-if="socketPlayers?.player3?.class === 'mage'"
         id="player3"
-        src="../assets/images/mage-class-selected.png"
+        src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/mage-class-selected.png"
         class="w-2/4 min-w-[80px]"
       />
       <img
         v-if="socketPlayers?.player3?.class === 'bard'"
         id="player3"
-        src="../assets/images/bard-class-selected.png"
+        src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/bard-class-selected.png"
         class="w-2/4 min-w-[80px]"
       />
       <img
         v-if="socketPlayers?.player3?.class === 'ranger'"
         id="player3"
-        src="../assets/images/ranger-class-selected.png"
+        src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/ranger-class-selected.png"
         class="w-2/4 min-w-[80px]"
       />
       <img
         v-if="socketPlayers?.player3?.checked"
         id="player3"
-        src="../assets/icons/check-icon.svg"
+        src="http://s3.amazonaws.com/catacombs-game-bucket/assets/icons/check-icon.svg"
         class="absolute right-0 bottom-0 w-2/4 z-10"
       />
     </div>
@@ -132,37 +132,37 @@
       <img
         v-if="!socketPlayers?.player4?.class"
         id="player4"
-        src="../assets/images/undefined-class-selected.png"
+        src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/undefined-class-selected.png"
         class="w-2/4 min-w-[80px]"
       />
       <img
         v-if="socketPlayers?.player4?.class === 'warrior'"
         id="player4"
-        src="../assets/images/warrior-class-selected.png"
+        src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/warrior-class-selected.png"
         class="w-2/4 min-w-[80px]"
       />
       <img
         v-if="socketPlayers?.player4?.class === 'mage'"
         id="player4"
-        src="../assets/images/mage-class-selected.png"
+        src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/mage-class-selected.png"
         class="w-2/4 min-w-[80px]"
       />
       <img
         v-if="socketPlayers?.player4?.class === 'bard'"
         id="player4"
-        src="../assets/images/bard-class-selected.png"
+        src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/bard-class-selected.png"
         class="w-2/4 min-w-[80px]"
       />
       <img
         v-if="socketPlayers?.player4?.class === 'ranger'"
         id="player4"
-        src="../assets/images/ranger-class-selected.png"
+        src="http://s3.amazonaws.com/catacombs-game-bucket/assets/images/ranger-class-selected.png"
         class="w-2/4 min-w-[80px]"
       />
       <img
         v-if="socketPlayers?.player4?.checked"
         id="player1"
-        src="../assets/icons/check-icon.svg"
+        src="http://s3.amazonaws.com/catacombs-game-bucket/assets/icons/check-icon.svg"
         class="absolute right-0 bottom-0 w-2/4 z-10"
       />
     </div>
@@ -186,7 +186,7 @@ export default {
   },
   data() {
     return {
-      route: "../assets/images/undefined-class-selected.png",
+      route: "http://s3.amazonaws.com/catacombs-game-bucket/assets/images/undefined-class-selected.png",
     };
   },
   computed: {
