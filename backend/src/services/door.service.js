@@ -50,7 +50,7 @@ export class DoorService {
     };
 
     currentDoor.used = true;
-    
+
     await this.roomClient.updateRoom(roomId, room);
     sendMessageToRoom(roomId, response);
     this.roomService.unlockNextRoom(roomId, roomData);
@@ -61,7 +61,7 @@ export class DoorService {
 
     setTimeout(() => {
       this.roomService.roomUpdated(roomId);
-    }, 10000);
+    }, 15000);
   }
 
   async battleRoom(doorData, roomId, floor, door) {
@@ -88,7 +88,7 @@ export class DoorService {
     setTimeout(() => {
       sendMessageToRoom(roomId, response);
       this.roomService.roomUpdated(roomId);
-    }, 10000);
+    }, 15000);
 
     setTimeout(() => {
       this.battleService.battleUpdated(roomId);

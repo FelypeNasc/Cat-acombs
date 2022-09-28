@@ -28,6 +28,7 @@ export class BattleService {
     const playerIndex = players.map((e) => e.playerId).indexOf(client.id);
     const playerData = players[playerIndex];
 
+    setTimeout(() => {}, 2000);
     const attackSucceded = randomNumber(
       0,
       100,
@@ -43,9 +44,10 @@ export class BattleService {
       return;
     }
 
-    const attackDmg =
+    const attackDmg = Math.round(
       playerData.actions.attacks[attackType].multiplier *
-      playerData.stats.attack;
+        playerData.stats.attack
+    );
 
     attackDmg > enemy.stats.currentHp
       ? (enemy.stats.currentHp = 0)
@@ -88,7 +90,7 @@ export class BattleService {
     let skillValue = playerData.stats.attack * skillData.multiplier;
 
     if (critical) skillValue *= skillData.critMultiplier;
-
+    skillValue = Math.round(skillValue);
     let systemMessage = ``;
 
     switch (skillData.type) {

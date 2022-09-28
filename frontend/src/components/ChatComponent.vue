@@ -28,7 +28,10 @@
         v-on:click="sendMessage()"
         class="absolute button-size mr-2 blue-color rounded-full cursor-pointer flex items-center justify-center"
       >
-        <img src="http://s3.amazonaws.com/catacombs-game-bucket/assets/icons/send-icon.svg" class="w-5" />
+        <img
+          src="http://s3.amazonaws.com/catacombs-game-bucket/assets/icons/send-icon.svg"
+          class="w-5"
+        />
       </div>
     </div>
   </div>
@@ -43,6 +46,11 @@ export default {
       messages: [],
       chatMessage: "",
     };
+  },
+  watch: {
+    messages() {
+      this.chatEvent();
+    },
   },
   created() {
     wsConnection.addEventListener("message", (msg) => {
@@ -66,16 +74,14 @@ export default {
         this.handleScroll();
       }
     },
-    handleScroll() {
+    chatEvent() {
       const el = document.getElementById("messages-container");
-      el.scrollTo({
-        botton: 0,
-        top: el.scrollHeight,
-        behavior: "smooth",
-      });
+
+      if (el) {
+        el.scrollTop = el.scrollHeight;
+      }
     },
   },
-  setWsListener() {},
 };
 </script>
 <style scoped>

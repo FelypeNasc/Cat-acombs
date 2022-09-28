@@ -10,6 +10,7 @@
       <input
         v-model="nickname"
         type="text"
+        maxlength="10"
         class="card-input-background rounded-md mb-5 w-11/12 h-3/12 p-2 text-lg"
         v-on:keyup.enter="confirm"
       />

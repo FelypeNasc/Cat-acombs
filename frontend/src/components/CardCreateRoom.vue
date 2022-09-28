@@ -12,6 +12,7 @@
           v-model="roomData.name"
           type="text"
           class="card-input-background rounded-md mb-5 w-11/12 h-3/12 p-2 text-lg max-w-min"
+          v-on:keyup.enter="confirm"
         />
       </div>
       <div class="flex flex-col justify-center items-center text-center mb-10">
@@ -20,6 +21,7 @@
           v-model="roomData.password"
           type="password"
           class="card-input-background rounded-md mb-5 w-11/12 h-3/12 p-2 text-lg max-w-min"
+          v-on:keyup.enter="confirm"
         />
       </div>
       <div class="flex justify-center content-center">
