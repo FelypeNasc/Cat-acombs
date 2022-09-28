@@ -4,7 +4,7 @@
     @click.once="playSound"
   >
     <div class="flex flex-col justify-center items-center">
-      <img src="src/assets/images/logo.svg" class="w-6/12" />
+      <img src="../assets/images/logo.svg" class="w-6/12" />
       <h2 class="text-3xl mt-2 tracking-wider font-chainwhacks">
         E O ATAQUE DOS DOGMANÍACOS
       </h2>
