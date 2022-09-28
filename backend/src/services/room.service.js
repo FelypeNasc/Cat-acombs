@@ -84,19 +84,19 @@ export class RoomService {
         1: [
           { name: "Porta 1", floor: 1, door: 1, access: "enabled" },
           { name: "Porta 2", floor: 1, door: 2, access: "locked" },
-          { name: "Porta 3", floor: 1, door: 3, access: "locked" },
+          { name: "Porta 3", floor: 1, door: 3, access: "locked", used: false },
           { name: "Porta 4", floor: 1, door: 4, access: "locked" },
         ],
         2: [
           { name: "Porta 1", floor: 2, door: 1, access: "locked" },
           { name: "Porta 2", floor: 2, door: 2, access: "locked" },
-          { name: "Porta 3", floor: 2, door: 3, access: "locked" },
+          { name: "Porta 3", floor: 2, door: 3, access: "locked", used: false },
           { name: "Porta 4", floor: 2, door: 4, access: "locked" },
         ],
         3: [
           { name: "Porta 1", floor: 3, door: 1, access: "locked" },
           { name: "Porta 2", floor: 3, door: 2, access: "locked" },
-          { name: "Porta 3", floor: 3, door: 3, access: "locked" },
+          { name: "Porta 3", floor: 3, door: 3, access: "locked", used: false },
           { name: "Porta 4", floor: 3, door: 4, access: "locked" },
         ],
       },
@@ -111,14 +111,14 @@ export class RoomService {
       newRoom.hasPassword = true;
     }
 
-    /* chamar o client createRoom */
-
     const player = {
       id: client.id,
       username: client.username,
       roomId: newRoom.id,
     };
-    const createdRoom = await this.roomClient.createRoom(newRoom);
+
+    await this.roomClient.createRoom(newRoom);
+
     playersOnRooms.push(player);
 
     const response = {
@@ -137,7 +137,6 @@ export class RoomService {
         level: 1,
       },
     };
-    // const roomIndex = rooms.map((e) => e.id).indexOf(msg.data.roomId);
     const room = await this.roomClient.getRoom(msg.data.roomId);
     /*  if (rooms[roomIndex].inGame) {
       const response = {
@@ -201,6 +200,7 @@ export class RoomService {
     };
 
     client.send(JSON.stringify(response));
+    return;
   }
 
   async leaveRoom(client, msg) {
@@ -209,7 +209,7 @@ export class RoomService {
 
   async deletePlayerFromRooms(playerId) {
     const userFound = playersOnRooms.find((player) => player.id === playerId);
-    console.log("userFound", userFound);
+
     if (!userFound) return;
 
     const room = await this.roomClient.getRoom(userFound.roomId);
@@ -220,28 +220,25 @@ export class RoomService {
       }
     });
 
+    if (!room) return;
+
     room.players = room.players.filter((player) => player.id !== playerId);
 
-    playersOnRooms.forEach((el, index) => {
-      if (el.id === playerId) {
-        playersOnRooms.splice(index, 1);
-      }
-    });
+    if (room.players.length === 0) {
+      await this.roomClient.deleteRoom(userFound.roomId);
+      return;
+    }
 
     const updatedRoom = await this.roomClient.updateRoom(
       userFound.roomId,
       room
     );
+
     const systemMessage = `${userFound.username} saiu da sala`;
 
     this.chatService.systemMessage(userFound.roomId, systemMessage);
     this.roomUpdated(userFound.roomId);
 
-    if (updatedRoom.players.length === 0) {
-      const deletedRoom = await this.roomClient.deleteRoom(userFound.roomId);
-      this.getRooms();
-      return;
-    }
     if (updatedRoom.adminId !== updatedRoom.players[0].id) {
       updatedRoom.adminId = updatedRoom.players[0].id;
       updatedRoom.adminUsername = updatedRoom.players[0].username;
@@ -256,18 +253,14 @@ export class RoomService {
     return newDataRoom;
   }
 
-  async unlockNextRoom(roomId) {
+  async unlockNextRoom(roomId, currentDoor) {
     const room = await this.roomClient.getRoom(roomId);
-    // const roomIndex = rooms.map((e) => e.id).indexOf(roomId);
 
-    const nextDoor = this.checkNextDoor(room.lastUnlocked);
-    console.log("NEXT DOOR: ", nextDoor);
+    const nextDoor = this.checkNextDoor(currentDoor);
 
     room.doors[nextDoor.floor][nextDoor.door - 1].access = "enabled";
-    room.lastUnlocked = nextDoor;
 
     const updated = await this.roomClient.updateRoom(roomId, room);
-    console.log("ROOM DOORS AFTER UNLOCK: ", updated.doors);
   }
 
   async getRoomUpdated(client, msg) {
@@ -282,7 +275,6 @@ export class RoomService {
 
   async roomUpdated(roomId, isStory = false, storyText = null) {
     const room = await this.roomClient.getRoom(roomId);
-    console.log("ENTRA DEGRAÇA", room.doors);
 
     if (isStory) {
       room.currentView = "story";
@@ -297,11 +289,10 @@ export class RoomService {
     sendMessageToRoom(roomId, messageToRoom);
   }
 
-  checkNextDoor(lastUnlocked) {
+  checkNextDoor(currentDoor) {
     return {
-      floor:
-        lastUnlocked.door === 4 ? lastUnlocked.floor + 1 : lastUnlocked.floor,
-      door: lastUnlocked.door === 4 ? 1 : lastUnlocked.door + 1,
+      floor: currentDoor.door === 4 ? currentDoor.floor + 1 : currentDoor.floor,
+      door: currentDoor.door === 4 ? 1 : currentDoor.door + 1,
     };
   }
 }

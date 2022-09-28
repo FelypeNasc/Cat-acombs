@@ -7,6 +7,5 @@ export const enterDoor = (data) => {
     type: "door/enterDoor",
     data: { floor, door, roomId },
   };
-  console.log("EnterDoor ", msg);
   sendMessage(msg);
 };

@@ -34,8 +34,6 @@ export class BattleService {
       playerData.actions.attacks[attackType].accuracy
     );
 
-    console.log("ACERTOU? ", attackSucceded);
-
     if (!attackSucceded) {
       const systemMessage = `${client.username} errou o ataque!`;
       this.chatService.systemMessage(roomId, systemMessage);
@@ -49,12 +47,9 @@ export class BattleService {
       playerData.actions.attacks[attackType].multiplier *
       playerData.stats.attack;
 
-    console.log("DANO: ", attackDmg);
-    console.log("ENEMY CURRENT HP", enemy.stats.currentHp);
     attackDmg > enemy.stats.currentHp
       ? (enemy.stats.currentHp = 0)
       : (enemy.stats.currentHp -= attackDmg);
-    console.log("ENEMY CURRENT HP DEPOIS DO DANO:", enemy.stats.currentHp);
 
     const systemMessage = `${client.username} atacou ${enemy.name} causando ${attackDmg} de dano!`;
     this.chatService.systemMessage(roomId, systemMessage);
@@ -81,7 +76,6 @@ export class BattleService {
       .indexOf(skillId);
     const skillData = playerData.actions.skills[skillIndex];
 
-    console.log("SKILL DATA: ", skillData);
     if (skillData.onCooldown) {
       const response = {
         type: "skillOnCooldown",
@@ -134,11 +128,8 @@ export class BattleService {
   }
 
   async enemyTurn(roomId) {
-    console.log("TURNO DO INIMIGO");
     const battleData = battles[roomId];
     const { players, enemy } = battleData;
-
-    console.log("ENEMY: ", enemy);
 
     const sortAttack = Math.round(randomNumber(0, 1));
     let attackOrSkill = sortAttack === 0 ? "attack" : "skill";
@@ -148,8 +139,6 @@ export class BattleService {
     if (allSkillsOnCooldown) attackOrSkill = "attack";
 
     const attackSucceded = randomNumber(0, 100, enemy.actions.attack.accuracy);
-
-    console.log("ACERTOU? ", attackSucceded);
 
     if (!attackSucceded) {
       const systemMessage = `${enemy.name} errou o ataque!`;
@@ -291,12 +280,9 @@ export class BattleService {
 
     const { id, turnList, players, enemy } = battleData;
 
-    console.log("TURN INDEX: ", battleData.turnIndex);
     battleData.turnIndex === 4
       ? ((battleData.turnIndex = 0), this.cooldownDecrease(roomId))
       : battleData.turnIndex++;
-
-    console.log("TURN INDEX DEPOIS: ", battleData.turnIndex);
 
     if (turnList[battleData.turnIndex].id === "enemy") {
       this.enemyTurn(roomId);
@@ -321,7 +307,7 @@ export class BattleService {
         room.currentView = "doors";
         await this.roomClient.updateRoom(roomId, room);
         this.roomService.roomUpdated(roomId);
-      }, 5000);
+      }, 10000);
     }
 
     if (dead === "enemy") {
@@ -332,19 +318,12 @@ export class BattleService {
       sendMessageToRoom(roomId, response);
 
       const battleDoor = battles[roomId].doorData;
-      const lastDoor = room.lastUnlocked;
-      const isLastRoomUnlocked =
-        battleDoor.floor === lastDoor.floor &&
-        battleDoor.door === lastDoor.door;
+      await this.roomService.unlockNextRoom(roomId, battleDoor);
 
       const isEndgame = battleDoor.floor === 4 && battleDoor.door === 4;
 
       if (isEndgame) {
         return;
-      }
-
-      if (isLastRoomUnlocked) {
-        await this.roomService.unlockNextRoom(roomId);
       }
 
       await this.levelUpPlayers(roomId);
@@ -353,27 +332,28 @@ export class BattleService {
       delete battles[roomId];
 
       setTimeout(async () => {
+        const room = await this.roomClient.getRoom(roomId);
         room.currentView = "doors";
         await this.roomClient.updateRoom(roomId, room);
         await this.roomService.roomUpdated(roomId);
-      }, 5000);
+      }, 10000);
     }
   }
 
   async levelUpPlayers(roomId) {
     const room = await this.roomClient.getRoom(roomId);
 
-    room.players.forEach(async (p) => {
+    room.players.forEach((p) => {
       const classRawData = classes[p.character.class];
       const { stats } = structuredClone(classRawData);
 
       p.character.level++;
       p.character.maxHp =
         stats.baseHp + (p.character.level - 1) * stats.hpPerLevel;
+      p.character.currentHp += stats.hpPerLevel
     });
 
     await this.roomClient.updateRoom(roomId, room);
-    console.log("PLAYERS LEVEL UP: ", room.players);
   }
 
   async saveHps(roomId) {
@@ -391,6 +371,7 @@ export class BattleService {
         ? (playerOnRoom.stats.currentHp = playerOnRoom.stats.maxHp)
         : (playerOnRoom.stats.currentHp = newHp);
     });
+
     await this.roomClient.updateRoom(roomId, room);
   }
 

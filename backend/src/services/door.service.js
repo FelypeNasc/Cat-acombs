@@ -27,7 +27,7 @@ export class DoorService {
 
     switch (doorData.type) {
       case "rest":
-        this.restRoom(roomId);
+        this.restRoom(roomId, { floor, door });
         break;
       case "battle":
         this.battleRoom(doorData, roomId, floor, door);
@@ -35,8 +35,11 @@ export class DoorService {
     }
   }
 
-  async restRoom(roomId) {
+  async restRoom(roomId, roomData) {
     const room = await this.roomClient.getRoom(roomId);
+    const currentDoor = room.doors[roomData.floor][roomData.door];
+
+    if (currentDoor.used) return;
 
     room.players.forEach((player) => {
       player.character.currentHp = player.character.maxHp;
@@ -46,10 +49,19 @@ export class DoorService {
       type: "restRoom",
     };
 
+    currentDoor.used = true;
+    
     await this.roomClient.updateRoom(roomId, room);
     sendMessageToRoom(roomId, response);
-    this.roomService.unlockNextRoom(roomId);
-    this.roomService.roomUpdated(roomId);
+    this.roomService.unlockNextRoom(roomId, roomData);
+
+    const doorData = floorsAndDoors[roomData.floor][roomData.door];
+
+    this.roomService.roomUpdated(roomId, true, doorData.storyText);
+
+    setTimeout(() => {
+      this.roomService.roomUpdated(roomId);
+    }, 10000);
   }
 
   async battleRoom(doorData, roomId, floor, door) {
@@ -76,7 +88,7 @@ export class DoorService {
     setTimeout(() => {
       sendMessageToRoom(roomId, response);
       this.roomService.roomUpdated(roomId);
-    }, 5000);
+    }, 10000);
 
     setTimeout(() => {
       this.battleService.battleUpdated(roomId);

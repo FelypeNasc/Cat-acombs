@@ -11,11 +11,9 @@ const redis = new Redis({
 class RoomClient {
   async getAllRooms() {
     const ids = await redis.lrange("rooms", 0, -1);
-    console.log("ids", ids);
     const rooms = [];
     for (let i = 0; i < ids.length; i++) {
       const room = await this.getRoomForAllRooms(ids[i]);
-      console.log("room", room);
       rooms.push(room);
     }
     return rooms;
@@ -27,18 +25,24 @@ class RoomClient {
       const room = await this.deleteRoom(ids[i]);
     }
   }
+
   async clearRedis() {
     await redis.flushall();
   }
+
   async getRoom(id) {
     const key = `room:${id}`;
     const result = await redis.hgetall(key);
+
+    if (Object.keys(result).length === 0) return;
+
     return JSON.parse(result.data);
   }
 
   async getRoomForAllRooms(id) {
     const key = `${id}`;
     const result = await redis.hgetall(key);
+
     return JSON.parse(result.data);
   }
   /* na hora de criar a sala o valor data da chave é uma string, tem que usar o parse pra recuperar os dados */
@@ -67,8 +71,6 @@ class RoomClient {
       ...current,
       ...data,
     });
-    /* console.log("stringdata", stringdata);
-    console.log("data.string", { data: stringdata }); */
     await redis.hmset(key, {
       data: stringdata,
     });

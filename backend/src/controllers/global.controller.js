@@ -18,6 +18,7 @@ export class GlobalController {
   async redirect(client, msg) {
     // ("room/getRooms");
     const msgSplit = msg.type.split("/");
+    
     const primaryRoute = msgSplit[0];
     const secondaryRoute = msgSplit[1];
 

@@ -9,7 +9,6 @@ export const getRoomList = () => {
 
 export const createRoom = (roomData) => {
   const { name, password } = roomData;
-  console.log(roomData);
   const msg = {
     type: "room/createRoom",
     data: { roomName: name, roomPassword: password },
@@ -22,8 +21,6 @@ export const enterRoom = (roomData) => {
     type: "room/enterRoom",
     data: { roomId: roomData.id, roomPassword: roomData.password },
   };
-  console.log(roomData);
-  console.log("ENTER ROOM", msg);
   sendMessage(msg);
 };
 
