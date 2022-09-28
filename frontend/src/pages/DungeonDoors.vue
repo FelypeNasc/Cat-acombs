@@ -3,7 +3,7 @@
     <div
       class="header flex flex-row text-white text-xl justify-between font-chainwhacks"
     >
-      <img class="logo w-48" src="../assets/images/logo.svg" />
+      <img class="logo w-48" src="../assets/images/logo.png" />
       <div
         class="floor flex flex-row text-center align-middle text-7xl font-squirk"
       >
@@ -36,7 +36,7 @@
           :class="`door1 ${
             item.access === 'enabled' ? 'pointer' : 'not-allowed'
           } hover:brightness-125 duration-200`"
-          :src="`../src/assets/images/${floor}-floor-door-${item.access}.svg`"
+          :src="`../src/assets/images/${floor}-floor-door-${item.access}.png`"
           @click="startBattle(item)"
         />
 

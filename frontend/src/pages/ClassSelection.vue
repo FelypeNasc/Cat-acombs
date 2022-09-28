@@ -89,10 +89,10 @@ export default {
       roomName: "",
       classList: [
         [
-          { class: "warrior", route: "../assets/images/warrior-class.svg" },
-          { class: "bard", route: "../assets/images/bard-class.svg" },
-          { class: "mage", route: "../assets/images/mage-class.svg" },
-          { class: "ranger", route: "../assets/images/ranger-class.svg" },
+          { class: "warrior", route: "../assets/images/warrior-class.png" },
+          { class: "bard", route: "../assets/images/bard-class.png" },
+          { class: "mage", route: "../assets/images/mage-class.png" },
+          { class: "ranger", route: "../assets/images/ranger-class.png" },
         ],
       ],
       selectedClassList: {},

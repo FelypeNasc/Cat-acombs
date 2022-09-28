@@ -19,22 +19,22 @@
         <img
           v-if="item.class === 'warrior'"
           class="class"
-          src="../assets/images/warrior-class.svg"
+          src="../assets/images/warrior-class.png"
         />
         <img
           v-if="item.class === 'bard'"
           class="class"
-          src="../assets/images/bard-class.svg"
+          src="../assets/images/bard-class.png"
         />
         <img
           v-if="item.class === 'mage'"
           class="class"
-          src="../assets/images/mage-class.svg"
+          src="../assets/images/mage-class.png"
         />
         <img
           v-if="item.class === 'ranger'"
           class="class"
-          src="../assets/images/ranger-class.svg"
+          src="../assets/images/ranger-class.png"
         />
 
         <label

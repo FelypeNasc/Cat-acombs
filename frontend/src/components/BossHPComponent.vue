@@ -31,7 +31,7 @@
       <div>
         <img
           class="w-full"
-          :src="`../src/assets/images/boss-${bossStatus.id}.svg`"
+          :src="`../src/assets/images/boss-${bossStatus.id}.png`"
         />
       </div>
     </div>
