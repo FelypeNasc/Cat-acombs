@@ -1,5 +1,5 @@
 <template>
-  <div class="main bg-cover">
+  <div class="main bg-cover h-screen flex flex-col justify-between">
     <div
       class="header flex flex-row text-white text-xl justify-between font-chainwhacks"
     >
@@ -8,13 +8,13 @@
         class="floor flex flex-row text-center align-middle text-7xl font-squirk"
       >
         <img
-          class="pointer w-10 mr-6"
+          class="pointer w-10 mr-6 hover:drop-shadow-md duration-200"
           src="../assets/images/arrowLeft.svg"
           @click="changeLevel('-')"
         />
         <h3>Level {{ floor }}</h3>
         <img
-          class="pointer w-10 ml-6"
+          class="pointer w-10 ml-6 hover:drop-shadow-md duration-200"
           src="../assets/images/arrowRight.svg"
           @click="changeLevel('+')"
         />
@@ -23,7 +23,9 @@
         <img src="../assets/icons/settings-icon.svg" alt="settings icon"
       /></MiniButtonComponent>
     </div>
-    <div class="doors flex flex-row justify-end gap-5 my-20">
+    <div
+      class="doors h-full flex flex-row justify-center items-center gap-5 my-20"
+    >
       <div
         v-for="(item, index) in levels[`${floor}`]"
         :key="index"
@@ -33,7 +35,7 @@
           :disabled="item.access === 'locked'"
           :class="`door1 ${
             item.access === 'enabled' ? 'pointer' : 'not-allowed'
-          }`"
+          } hover:brightness-125 duration-200`"
           :src="`../src/assets/images/${floor}-floor-door-${item.access}.svg`"
           @click="startBattle(item)"
         />
@@ -72,7 +74,6 @@ export default {
   created() {
     wsConnection.addEventListener("message", (msg) => {
       msg = JSON.parse(msg.data);
-      console.log(msg.data);
 
       switch (msg.type) {
         case "restRoom":
@@ -86,6 +87,8 @@ export default {
       }
     });
     this.getRoomUpdated(this.$route.params.id);
+    document.querySelector("body").style.backgroundImage =
+      "url(../src/assets/images/backgroundblue.png)";
   },
   methods: {
     changeLevel(event) {
@@ -107,14 +110,7 @@ export default {
     toogleMenu() {
       this.showMenu = !this.showMenu;
     },
-    getLevels() {
-      console.log("requisição dos levels disponíveis");
-    },
-    getSession() {
-      console.log("requisição dos dados da sessão");
-    },
     startBattle(item) {
-      console.log(item.access);
       /* const userId = sessionStorage.getItem("userId"); */
       item.access === "enabled"
         ? this.enterDoor({
@@ -132,9 +128,6 @@ export default {
 };
 </script>
 <style scoped>
-/* .main {
-  background-image: url("src/assets/images/backgroundblue.png");
-} */
 .pointer {
   cursor: pointer;
 }

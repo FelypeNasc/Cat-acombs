@@ -131,11 +131,9 @@ export default {
           this.rooms = msg.data;
           break;
         case "roomCreated":
-          console.log(msg.data);
           this.$router.push({ path: `/play/${msg.data.id}` });
           break;
         case "enterRoom":
-          console.log(msg.data);
           this.$router.push({ path: `/play/${msg.data.id}` });
           break;
         case "disconnectedFromRoom":
@@ -205,7 +203,6 @@ export default {
       this.toogleCardPassword();
     },
     confirmPassword(roomData) {
-      console.log("confirmacao", roomData);
       enterRoom(roomData);
     },
   },

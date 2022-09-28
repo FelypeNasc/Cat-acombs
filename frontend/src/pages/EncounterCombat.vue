@@ -79,7 +79,6 @@ export default {
     this.setBackground();
     wsConnection.addEventListener("message", (msg) => {
       msg = JSON.parse(msg.data);
-      console.log(msg);
 
       switch (msg.type) {
         case "startBattle":
@@ -91,7 +90,6 @@ export default {
   },
   methods: {
     playerAction(action) {
-      console.log(action);
       if (action.actionType === "attack")
         this.attack(this.$route.params.id, action);
       if (action.actionType === "skill")

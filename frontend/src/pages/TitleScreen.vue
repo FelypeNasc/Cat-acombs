@@ -50,7 +50,6 @@ export default {
         msg = JSON.parse(msg.data);
 
         if (msg.type === "connected") {
-          console.log(msg);
           this.$router.push({ path: "/lobby" });
         }
         if (msg.type === "userConnected") {

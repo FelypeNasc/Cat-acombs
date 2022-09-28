@@ -5,7 +5,7 @@
         <h3
           class="font-squirk lg:text-4xl md:text-2xl sm:text-xl stroke-black lobby-text"
         >
-          Os brabos apenas
+          {{ roomName }}
         </h3>
       </div>
       <div class="flex justify-center w-7/12 mb-5">
@@ -73,6 +73,7 @@ import CardMenu from "../components/CardMenu.vue";
 import ButtonComponent from "../components/ButtonComponent.vue";
 import { wsConnection } from "../connection/connections";
 import { selectClass, ready } from "../connection/classSelection.methods";
+import { getRoomUpdated } from "../connection/room.methods";
 
 export default {
   components: {
@@ -84,6 +85,8 @@ export default {
   },
   data() {
     return {
+      getRoomUpdated,
+      roomName: "",
       classList: [
         [
           { class: "warrior", route: "../assets/images/warrior-class.svg" },
@@ -102,7 +105,6 @@ export default {
   created() {
     wsConnection.addEventListener("message", (msg) => {
       msg = JSON.parse(msg.data);
-      console.log(msg);
 
       switch (msg.type) {
         case "getRooms":
@@ -111,27 +113,21 @@ export default {
         case "roomCreated":
           this.$router.push({ path: `/play/${msg.data.id}` });
           break;
-        case "enterRoom":
-          this.$router.push({ path: `/play/${msg.data.id}` });
-          break;
-        case "roomFull":
-          break;
-        case "wrongPassword":
+        case "roomUpdated":
+          this.roomName = msg.data.roomName;
           break;
         case "classSelected":
           this.selectedClassList = msg.data;
-          console.log(msg.data);
           break;
         case "ready":
           this.selectedClassList = msg.data;
-          console.log(msg.data);
           break;
         case "allReady":
-          console.log("allready");
           this.$router.push({ path: `/play/encounter` });
           break;
       }
     });
+    this.getRoomUpdated(this.$route.params.id);
     this.getCharactersSelected();
   },
   methods: {
@@ -163,7 +159,6 @@ export default {
         const roomData = {
           roomId,
         };
-        console.log(roomData);
         this.ready(roomData);
       }
     },

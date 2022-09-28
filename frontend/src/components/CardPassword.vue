@@ -35,7 +35,6 @@ export default {
   methods: {
     confirm() {
       const password = this.password;
-      console.log("component: ", this.roomData);
       this.$emit("confirm", { ...this.roomData, password });
     },
     close() {

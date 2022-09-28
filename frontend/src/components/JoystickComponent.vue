@@ -96,7 +96,6 @@ export default {
       this.$emit("emitAction", item);
     },
     showPlayer() {
-      console.log(this.playerStatus.actions.skills[0].cooldownCount);
     },
   },
 };

@@ -47,7 +47,6 @@ export default {
   created() {
     wsConnection.addEventListener("message", (msg) => {
       msg = JSON.parse(msg.data);
-      console.log(msg);
 
       switch (msg.type) {
         case "chatMessage":
