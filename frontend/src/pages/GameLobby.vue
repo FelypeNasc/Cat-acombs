@@ -2,7 +2,7 @@
   <div class="main noselect flex flex-col">
     <header class="header flex justify-center mt-4 mb-10 noselect">
       <div class="w-1/3 flex justify-start items-center">
-        <img class="w-44" src="src/assets/images/logo.svg" />
+        <img class="w-44" src="../assets/images/logo.svg" />
       </div>
       <div class="w-1/3 flex justify-center items-center">
         <h2 class="font-squirk text-6xl stroke-black lobby-text">GAME LOBBY</h2>
