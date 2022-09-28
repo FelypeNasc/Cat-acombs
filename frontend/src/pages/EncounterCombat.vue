@@ -36,6 +36,7 @@
       </div>
       <div class="33">
         <div class="showTurn mt-10 bg-blend-darken font-squirk text-xl">
+          <h2 class="text-black text-border">Turnos</h2>
           <h1 v-for="n in 5" :key="n">
             <div v-if="battleData.turnIndex === n - 1">
               <h1 class="opacity-100">
@@ -136,5 +137,9 @@ export default {
   .big-screen {
     margin-top: 15%;
   }
+}
+.text-border {
+  text-shadow: 2px 0 #fff, -2px 0 #fff, 0 2px #fff, 0 -2px #fff, 1px 1px #fff,
+    -1px -1px #fff, 1px -1px #fff, -1px 1px #fff;
 }
 </style>
