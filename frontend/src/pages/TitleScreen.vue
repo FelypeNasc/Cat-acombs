@@ -58,7 +58,7 @@ export default {
       });
     },
     playSound() {
-      const audio = new Audio("../src/assets/music/Medieval_music.mp3");
+      const audio = new Audio("../assets/music/Medieval_music.mp3");
       audio.play();
       audio.loop = true;
       audio.volume = 0.15;

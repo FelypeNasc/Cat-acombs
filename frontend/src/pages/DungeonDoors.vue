@@ -36,7 +36,7 @@
           :class="`door1 ${
             item.access === 'enabled' ? 'pointer' : 'not-allowed'
           } hover:brightness-125 duration-200`"
-          :src="`../src/assets/images/${floor}-floor-door-${item.access}.png`"
+          :src="`../assets/images/${floor}-floor-door-${item.access}.png`"
           @click="startBattle(item)"
         />
 
@@ -88,7 +88,7 @@ export default {
     });
     this.getRoomUpdated(this.$route.params.id);
     document.querySelector("body").style.backgroundImage =
-      "url(../src/assets/images/backgroundblue.png)";
+      "url(../assets/images/backgroundblue.png)";
   },
   methods: {
     changeLevel(event) {

@@ -162,7 +162,7 @@ export default {
     setBackground() {
       document.querySelector(
         "body"
-      ).style.backgroundImage = `url(../src/assets/images/backgroundblue.png)`;
+      ).style.backgroundImage = `url(../assets/images/backgroundblue.png)`;
     },
     changePageNumber(operation) {
       const increasePageNumber = () => {

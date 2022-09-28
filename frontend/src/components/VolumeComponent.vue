@@ -39,12 +39,12 @@ export default {
     },
   },
   mounted() {
-    this.audio = new Audio("../src/assets/music/Medieval_music.mp3");
+    this.audio = new Audio("../assets/music/Medieval_music.mp3");
     this.audio.volume = 0.25;
   },
   methods: {
     playSound() {
-      const audio = new Audio("../src/assets/music/Medieval_music.mp3");
+      const audio = new Audio("../assets/music/Medieval_music.mp3");
       audio.loop = true;
       audio.volume = 0.25;
     },
