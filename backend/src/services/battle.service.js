@@ -133,6 +133,7 @@ export class BattleService {
 
     const sortAttack = Math.round(randomNumber(0, 1));
     let attackOrSkill = sortAttack === 0 ? "attack" : "skill";
+    attackOrSkill = "attack";
 
     const allSkillsOnCooldown = enemy.actions.skills.every((e) => e.onCooldown);
 
@@ -350,7 +351,7 @@ export class BattleService {
       p.character.level++;
       p.character.maxHp =
         stats.baseHp + (p.character.level - 1) * stats.hpPerLevel;
-      p.character.currentHp += stats.hpPerLevel
+      p.character.currentHp += stats.hpPerLevel;
     });
 
     await this.roomClient.updateRoom(roomId, room);

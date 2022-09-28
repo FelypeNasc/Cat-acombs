@@ -6,7 +6,7 @@ export const classes = {
       "Resistente e robusto, um guerreiro que faria de tudo por um sachê",
     stats: {
       baseHp: 100,
-      baseAttack: 100, //TODO: DADO ORIGINAL: 10
+      baseAttack: 10,
       hpPerLevel: 10,
       attackPerLevel: 2,
     },
@@ -77,7 +77,7 @@ export const classes = {
           type: "attack",
           multiplier: 1.2,
           critRate: 50,
-          critMultiplier: 1.5,
+          critMultiplier: 2.2,
           cooldownCount: 0,
           onCooldown: false,
         },

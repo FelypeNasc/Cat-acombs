@@ -30,16 +30,16 @@
     </div>
     <div class="flex justify-center m-6">
       <div v-if="playerStatus.class == 'Warrior'">
-        <img src="../assets/images/warrior-full.svg" class="warrior catImage" />
+        <img src="../assets/images/warrior-full.png" class="warrior catImage" />
       </div>
       <div v-else-if="playerStatus.class == 'Mage'">
-        <img src="../assets/images/mage-full.svg" class="mage catImage" />
+        <img src="../assets/images/mage-full.png" class="mage catImage" />
       </div>
       <div v-else-if="playerStatus.class == 'Ranger'">
-        <img src="../assets/images/ranger-full.svg" class="ranger catImage" />
+        <img src="../assets/images/ranger-full.png" class="ranger catImage" />
       </div>
       <div v-else-if="playerStatus.class == 'Bard'">
-        <img src="../assets/images/bard-full.svg" class="bard catImage" />
+        <img src="../assets/images/bard-full.png" class="bard catImage" />
       </div>
     </div>
   </div>
@@ -112,7 +112,6 @@ export default {
   transition: 0.5s;
 }
 .catImage {
-  height: 100px;
-  width: 100px;
+  height: 130px;
 }
 </style>
